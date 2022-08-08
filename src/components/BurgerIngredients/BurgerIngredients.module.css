@@ -1,0 +1,24 @@
+.scrollBox {
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
+}
+
+/* width */
+.scrollBox::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+.scrollBox::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+
+/* Handle */
+.scrollBox::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}
+
+/* Handle on hover */
+.scrollBox::-webkit-scrollbar-thumb:hover {
+  background: #8585ad;
+}

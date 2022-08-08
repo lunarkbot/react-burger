@@ -1,0 +1,67 @@
+.listWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.list {
+  list-style-type: none;
+  margin: 0;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  width: 100%;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  column-gap: 5px;
+}
+
+.edgeElement {
+  max-width: 536px;
+  width: 100%;
+  display: flex;
+  justify-content: stretch;
+}
+
+.priceWrap {
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 40px;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+}
+
+.scrollBox {
+  max-height: 440px;
+  overflow-y: auto;
+}
+
+/* width */
+.scrollBox::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+.scrollBox::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+
+/* Handle */
+.scrollBox::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}
+
+/* Handle on hover */
+.scrollBox::-webkit-scrollbar-thumb:hover {
+  background: #8585ad;
+}
