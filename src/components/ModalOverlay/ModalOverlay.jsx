@@ -8,9 +8,7 @@ export default function ModalOverlay({onClose, children}) {
   }
 
   return (
-    <>
-      <div className={styles.overlay} id="popup" onClick={handleClick}>{children}</div>
-    </>
+    <div className={styles.overlay} id="popup" onClick={handleClick}>{children}</div>
   );
 }
 
