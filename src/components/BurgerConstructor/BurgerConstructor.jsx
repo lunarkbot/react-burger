@@ -1,10 +1,11 @@
 import React from 'react';
 import styles from './BurgerConstructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { data } from '../../utils/data';
+import {FoodDataContext} from '../../contexts/foodDataContext';
 
 export default function BurgerIngredients() {
-  const bun = data.filter(item => item.type === 'bun')[0];
+  const foodData = React.useContext(FoodDataContext);
+  const bun = foodData.filter(item => item.type === 'bun')[0];
 
   return(
     <section>
@@ -19,7 +20,7 @@ export default function BurgerIngredients() {
           />
         </div>
         <ul className={`${styles.list} ${styles.scrollBox}`}>
-          {data.map(item => {
+          {foodData.map(item => {
             if (item.type !== 'bun') {
               return (
                 <li key={item._id} className={styles.listItem}>

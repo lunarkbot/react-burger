@@ -3,7 +3,7 @@ import styles from './BurgerIngredients.module.css';
 import Tabs from '../Tabs/Tabs';
 import IngredientList from '../IngredientList/IngredientList';
 
-export default function BurgerIngredients() {
+export default function BurgerIngredients(props) {
 
   return(
     <section>
