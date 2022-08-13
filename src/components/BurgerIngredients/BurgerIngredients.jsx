@@ -47,9 +47,7 @@ export default function BurgerIngredients(props) {
 
       {selectedIngredient.isPopupVisible &&
         <Modal heading="Детали ингредиента" onClose={handleClickClose}>
-          <IngredientDetails
-            ingredientInfo={selectedIngredient.value}
-            onClose={handleClickClose} />
+          <IngredientDetails ingredientInfo={selectedIngredient.value} />
         </Modal>
       }
     </>

@@ -3,7 +3,7 @@ import styles from './IngredientDetails.module.css';
 import PropTypes from 'prop-types';
 import {ingredientsTypes} from '../../utils/constants';
 
-export default function IngredientDetails({ingredientInfo, onClose}) {
+export default function IngredientDetails({ingredientInfo}) {
 
   return (
     <>
@@ -34,6 +34,5 @@ export default function IngredientDetails({ingredientInfo, onClose}) {
 }
 
 IngredientDetails.propTypes = {
-  ingredientInfo: PropTypes.shape(ingredientsTypes).isRequired,
-  onClose: PropTypes.func.isRequired
+  ingredientInfo: PropTypes.shape(ingredientsTypes).isRequired
 }

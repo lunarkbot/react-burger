@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './OrderDetails.module.css';
-import PropTypes from 'prop-types';
 
 export default function OrderDetails() {
   return (
@@ -20,8 +19,4 @@ export default function OrderDetails() {
       </p>
     </>
   );
-}
-
-OrderDetails.propTypes = {
-  onClose: PropTypes.func
 }
