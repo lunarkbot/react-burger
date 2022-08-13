@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './OrderDetails.module.css';
 import Modal from '../Modal/Modal';
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function OrderDetails(props) {
   return (

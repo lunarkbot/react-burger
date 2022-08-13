@@ -13,9 +13,8 @@ export default function IngredientList(props) {
            return (
              <IngredientCard
                key={item._id}
-               src={item.image}
-               text={item.name}
-               price={item.price}
+               info={item}
+               showIngredientDetail={props.showIngredientDetail}
              />
            )
          }

@@ -12,7 +12,7 @@ function Modal(props) {
     <ModalOverlay onClose={props.onClose}>
       <div className={`
           ${styles.modal}
-          ${props.heading ? 'pt-10' : 'pt-30'} 
+          ${props.heading ? 'pt-10 pb-15' : 'pt-30 pb-30'} 
         `}>
         <button className={`${styles.button} mt-15 mr-10`} onClick={props.onClose}>
           <CloseIcon type="primary" />
