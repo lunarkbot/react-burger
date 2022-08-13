@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import styles from './App.module.css';
 import {FoodDataContext} from '../../contexts/foodDataContext';
 import AppHeader from '../AppHeader/AppHeader';
@@ -7,10 +7,9 @@ import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
 function App() {
   const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
-  const [foodData, setFoodData] = useState([]);
+  const [foodData, setFoodData] = React.useState(null);
 
-
-  useEffect(() => {
+  React.useEffect(() => {
     fetch(API_URL)
       .then(res => res.json())
       .then(res => setFoodData(res.data))
@@ -24,8 +23,12 @@ function App() {
         <main className={styles.main}>
           <h1 className="mb-5 text text_type_main-large">Соберите бургер</h1>
           <div className={styles.twoColumns}>
-            <BurgerIngredients />
-            <BurgerConstructor />
+            {foodData && (
+              <>
+                <BurgerIngredients />
+                <BurgerConstructor />
+              </>
+            )}
           </div>
         </main>
       </FoodDataContext.Provider>
