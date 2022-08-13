@@ -1,10 +1,11 @@
 import React from 'react';
 import styles from './OrderDetails.module.css';
 import Modal from '../Modal/Modal';
+import PropTypes from 'prop-types';
 
-function OrderDetails(props) {
+export default function OrderDetails({onClose}) {
   return (
-    <Modal onClose={props.onClose}>
+    <Modal onClose={onClose}>
       <p className="text text_type_digits-large mb-8">
         034536
       </p>
@@ -22,4 +23,6 @@ function OrderDetails(props) {
   );
 }
 
-export default OrderDetails;
+OrderDetails.propTypes = {
+  onClose: PropTypes.func
+}

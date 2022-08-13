@@ -1,8 +1,10 @@
 import React from 'react';
 import styles from './IngredientDetails.module.css';
 import Modal from '../Modal/Modal';
+import PropTypes from 'prop-types';
+import {ingredientsTypes} from '../../utils/constants';
 
-function OrderDetails({ingredientInfo, onClose}) {
+export default function IngredientDetails({ingredientInfo, onClose}) {
 
   return (
     <Modal heading="Детали ингредиента" onClose={onClose}>
@@ -32,4 +34,7 @@ function OrderDetails({ingredientInfo, onClose}) {
   );
 }
 
-export default OrderDetails;
+IngredientDetails.propTypes = {
+  ingredientInfo: PropTypes.shape(ingredientsTypes).isRequired,
+  onClose: PropTypes.func.isRequired
+}

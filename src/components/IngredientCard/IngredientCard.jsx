@@ -1,6 +1,8 @@
 import { useState} from 'react';
 import styles from './IngredientCard.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
+import {ingredientsTypes} from '../../utils/constants';
 
 export default function IngredientCard ({info, showIngredientDetail}) {
 
@@ -21,4 +23,9 @@ export default function IngredientCard ({info, showIngredientDetail}) {
       <div className={`${styles.text} text text_type_main-default`}>{info.text}</div>
     </li>
   );
+}
+
+IngredientCard.propTypes = {
+  info: PropTypes.shape(ingredientsTypes).isRequired,
+  showIngredientDetail: PropTypes.func.isRequired
 }

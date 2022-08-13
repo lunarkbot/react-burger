@@ -4,10 +4,12 @@ import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktiku
 import {FoodDataContext} from '../../contexts/foodDataContext';
 import OrderDetails from '../OrderDetails/OrderDetails';
 
-export default function BurgerIngredients() {
+export default function BurgerConstructor() {
   const foodData = React.useContext(FoodDataContext);
   const bun = foodData.filter(item => item.type === 'bun')[0];
   const [isPopupVisible, setIsPopupVisible] = React.useState(false);
+
+
 
   const handleClickOrderButton = () => {
     setIsPopupVisible(true);

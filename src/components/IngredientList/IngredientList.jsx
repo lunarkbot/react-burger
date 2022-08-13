@@ -2,6 +2,7 @@ import React from 'react';
 import IngredientCard from '../IngredientCard/IngredientCard';
 import styles from './IngredientList.module.css';
 import {FoodDataContext} from '../../contexts/foodDataContext';
+import PropTypes from 'prop-types';
 
 export default function IngredientList(props) {
   const foodData = React.useContext(FoodDataContext);
@@ -21,4 +22,11 @@ export default function IngredientList(props) {
        })}
      </ul>
   )
+}
+
+IngredientList.propTypes = {
+  props: PropTypes.shape({
+    showIngredientDetail: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired,
+  }),
 }

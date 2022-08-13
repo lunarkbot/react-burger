@@ -31,17 +31,14 @@ export default function BurgerIngredients(props) {
         <div className={styles.scrollBox}>
           <div className="text text_type_main-medium mb-6">Булки</div>
           <IngredientList
-            onShowDetail={showIngredientDetail}
             showIngredientDetail={showIngredientDetail}
             type="bun" />
           <div className="text text_type_main-medium mb-6">Соусы</div>
           <IngredientList
-            onShowDetail={showIngredientDetail}
             showIngredientDetail={showIngredientDetail}
             type="sauce" />
           <div className="text text_type_main-medium mb-6">Начинки</div>
           <IngredientList
-            onShowDetail={showIngredientDetail}
             showIngredientDetail={showIngredientDetail}
             type="main" />
         </div>

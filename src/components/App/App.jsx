@@ -4,9 +4,10 @@ import {FoodDataContext} from '../../contexts/foodDataContext';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
+import {API_URL} from '../../utils/constants';
 
 function App() {
-  const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
+
   const [foodData, setFoodData] = React.useState(null);
 
   React.useEffect(() => {
