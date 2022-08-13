@@ -9,6 +9,18 @@ const modalRoot = document.getElementById("react-modals");
 
 export default function Modal({heading, onClose, children}) {
 
+  const handleEscPress = (evt) => {
+    if (evt.key === 'Escape') onClose();
+  }
+
+  React.useEffect(() => {
+    document.addEventListener('keydown', handleEscPress);
+
+    return () => {
+      document.removeEventListener('keydown', handleEscPress);
+    }
+  }, [])
+
   return ReactDOM.createPortal(
     <ModalOverlay onClose={onClose}>
       <div className={`
