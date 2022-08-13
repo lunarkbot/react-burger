@@ -1,13 +1,12 @@
 import React from 'react';
 import styles from './IngredientDetails.module.css';
-import Modal from '../Modal/Modal';
 import PropTypes from 'prop-types';
 import {ingredientsTypes} from '../../utils/constants';
 
 export default function IngredientDetails({ingredientInfo, onClose}) {
 
   return (
-    <Modal heading="Детали ингредиента" onClose={onClose}>
+    <>
       <img src={ingredientInfo.image_large} alt={ingredientInfo.text} className="mb-4" />
       <p className="text text_type_main-medium mb-8">
         {ingredientInfo.name}
@@ -30,7 +29,7 @@ export default function IngredientDetails({ingredientInfo, onClose}) {
         <p className="text text_type_digits-default text_color_inactive">{ingredientInfo.fat}</p>
         <p className="text text_type_digits-default text_color_inactive">{ingredientInfo.carbohydrates}</p>
       </div>
-    </Modal>
+    </>
   );
 }
 

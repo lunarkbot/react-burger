@@ -3,6 +3,7 @@ import styles from './BurgerConstructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import {FoodDataContext} from '../../contexts/foodDataContext';
 import OrderDetails from '../OrderDetails/OrderDetails';
+import Modal from '../Modal/Modal';
 
 export default function BurgerConstructor() {
   const foodData = React.useContext(FoodDataContext);
@@ -70,7 +71,11 @@ export default function BurgerConstructor() {
         </div>
       </section>
 
-      {isPopupVisible && <OrderDetails onClose={handleClickClose} />}
+      {isPopupVisible &&
+        <Modal onClose={handleClickClose}>
+          <OrderDetails />
+        </Modal>
+      }
 
     </>
 

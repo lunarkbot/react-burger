@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './BurgerIngredients.module.css';
 import Tabs from '../Tabs/Tabs';
 import IngredientList from '../IngredientList/IngredientList';
+import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 export default function BurgerIngredients(props) {
@@ -45,9 +46,12 @@ export default function BurgerIngredients(props) {
       </section>
 
       {selectedIngredient.isPopupVisible &&
-        <IngredientDetails
-          ingredientInfo={selectedIngredient.value}
-          onClose={handleClickClose} />}
+        <Modal heading="Детали ингредиента" onClose={handleClickClose}>
+          <IngredientDetails
+            ingredientInfo={selectedIngredient.value}
+            onClose={handleClickClose} />
+        </Modal>
+      }
     </>
   )
 }

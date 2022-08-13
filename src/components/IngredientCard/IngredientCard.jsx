@@ -15,12 +15,12 @@ export default function IngredientCard ({info, showIngredientDetail}) {
   return(
     <li className={styles.card} onClick={handleClick}>
       {count && <Counter count={0} size="default" />}
-      <img className={styles.image} src={info.image} alt={info.text} />
+      <img className={styles.image} src={info.image} alt={info.name} />
       <div className={`${styles.price} text text_type_digits-default mb-1`}>
         {info.price}
         <CurrencyIcon type="primary" />
       </div>
-      <div className={`${styles.text} text text_type_main-default`}>{info.text}</div>
+      <div className={`${styles.text} text text_type_main-default`}>{info.name}</div>
     </li>
   );
 }
