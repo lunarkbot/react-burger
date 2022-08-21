@@ -5,12 +5,39 @@ import {FoodDataContext} from '../../contexts/foodDataContext';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 
+const totalPrice = { price: 0 };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'set':
+      let wasBun = false;
+      let totalPrice = 0;
+      action.data.forEach(item => {
+        if (!wasBun && item.type === 'bun') {
+          totalPrice += item.price * 2;
+          wasBun = true;
+        } else if (item.type !== 'bun') {
+          totalPrice += item.price;
+        }
+      })
+
+      return { price: totalPrice };
+    case 'reset':
+      return { price: 0 }
+    default:
+      throw new Error(`Wrong type of action ${action.type}`);
+  }
+}
+
 export default function BurgerConstructor() {
   const foodData = React.useContext(FoodDataContext);
   const bun = foodData.filter(item => item.type === 'bun')[0];
   const [isPopupVisible, setIsPopupVisible] = React.useState(false);
+  const [totalPriceState, totalPriceDispatcher] = React.useReducer(reducer, totalPrice,undefined);
 
-
+  React.useEffect(() => {
+    totalPriceDispatcher( {type: 'set', data: foodData });
+  }, [foodData]);
 
   const handleClickOrderButton = () => {
     setIsPopupVisible(true);
@@ -62,7 +89,7 @@ export default function BurgerConstructor() {
 
         <div className={styles.priceWrap}>
           <div className={`text text_type_digits-medium ${styles.price}`}>
-            610
+            {totalPriceState.price.toLocaleString()}
             <CurrencyIcon type="primary" />
           </div>
           <Button type="primary" size="large" onClick={handleClickOrderButton}>
