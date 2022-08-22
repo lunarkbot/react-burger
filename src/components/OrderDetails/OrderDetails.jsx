@@ -1,8 +1,6 @@
 import React from 'react';
 import styles from './OrderDetails.module.css';
 import PropTypes from 'prop-types';
-import {ingredientsTypes} from '../../utils/constants';
-import Bun from '../Bun/Bun';
 
 export default function OrderDetails({ details }) {
   return (
