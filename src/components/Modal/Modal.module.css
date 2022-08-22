@@ -1,6 +1,7 @@
 .modal {
   position: relative;
-  min-width: 720px;
+  max-width: 720px;
+  width: 100%;
   min-height: 300px;
   box-sizing: border-box;
   display: flex;

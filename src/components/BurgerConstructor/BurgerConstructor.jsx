@@ -4,23 +4,19 @@ import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktiku
 import {FoodDataContext} from '../../contexts/foodDataContext';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
+import Bun from '../Bun/Bun';
+import Api from '../../utils/api';
 
 const totalPrice = { price: 0 };
 
-function reducer(state, action) {
+function totalPriceReducer(state, action) {
   switch (action.type) {
     case 'set':
-      let wasBun = false;
-      let totalPrice = 0;
-      action.data.forEach(item => {
-        if (!wasBun && item.type === 'bun') {
-          totalPrice += item.price * 2;
-          wasBun = true;
-        } else if (item.type !== 'bun') {
-          totalPrice += item.price;
-        }
+      let totalPrice = state.price;
+      action.ingredients.forEach(item => {
+        totalPrice += item.price;
       })
-
+      totalPrice += action.bun ? action.bun.price * 2 : 0;
       return { price: totalPrice };
     case 'reset':
       return { price: 0 }
@@ -29,18 +25,81 @@ function reducer(state, action) {
   }
 }
 
+const orderedIngredients = {
+  ingredients: [],
+  bun: null
+};
+
+function orderedIngredientsReducer (state, action) {
+  switch (action.type) {
+    case 'add':
+      if (action.item.type === 'bun') {
+        return {
+          ...state,
+          bun: action.item
+        }
+      } else {
+        return {
+          ...state,
+          ingredients: [
+            ...state.ingredients,
+            action.item
+          ]
+        }
+      }
+    case 'reset':
+      return { ingredients: [], bun: null }
+    default:
+      throw new Error(`Wrong type of action ${action.type}`);
+  }
+}
+
 export default function BurgerConstructor() {
   const foodData = React.useContext(FoodDataContext);
-  const bun = foodData.filter(item => item.type === 'bun')[0];
   const [isPopupVisible, setIsPopupVisible] = React.useState(false);
-  const [totalPriceState, totalPriceDispatcher] = React.useReducer(reducer, totalPrice,undefined);
+  const [orderedIngredientsState, orderedIngredientsDispatcher] = React.useReducer(
+    orderedIngredientsReducer,
+    orderedIngredients,
+    undefined
+  )
+  const [totalPriceState, totalPriceDispatcher] = React.useReducer(totalPriceReducer, totalPrice,undefined);
+  const [orderDetail, setOrderDetail] = React.useState(null);
 
   React.useEffect(() => {
-    totalPriceDispatcher( {type: 'set', data: foodData });
-  }, [foodData]);
+    orderedIngredientsDispatcher({
+      type: 'reset'
+    });
+
+    foodData.forEach(item => {
+      orderedIngredientsDispatcher(
+        {
+          type: 'add',
+          item
+        }
+      )
+    });
+
+  }, [foodData])
+
+  React.useEffect(() => {
+    totalPriceDispatcher( {type: 'reset' });
+    totalPriceDispatcher( {
+      type: 'set',
+      ingredients: orderedIngredientsState.ingredients,
+      bun: orderedIngredientsState.bun
+    });
+  }, [orderedIngredientsState]);
+
 
   const handleClickOrderButton = () => {
-    setIsPopupVisible(true);
+    Api.sendOrder(orderedIngredientsState)
+      .then(data => {
+        setOrderDetail({
+          ...data
+        });
+        setIsPopupVisible(true);
+      })
+      .catch(err => console.log(err));
   }
 
   const handleClickClose = () => {
@@ -51,17 +110,9 @@ export default function BurgerConstructor() {
     <>
       <section>
         <div className={`${styles.listWrap} mb-10`}>
-          <div className={`${styles.edgeElement} pl-8`}>
-            <ConstructorElement
-              type="top"
-              isLocked={true}
-              text={`${bun?.name} (верх)`}
-              price={bun?.price}
-              thumbnail={bun?.image}
-            />
-          </div>
+          {orderedIngredientsState.bun && <Bun item={orderedIngredientsState.bun} type="top" />}
           <ul className={`${styles.list} ${styles.scrollBox}`}>
-            {foodData.map(item => {
+            {orderedIngredientsState.ingredients.map(item => {
               if (item.type !== 'bun') {
                 return (
                   <li key={item._id} className={styles.listItem}>
@@ -76,15 +127,7 @@ export default function BurgerConstructor() {
               }
             })}
           </ul>
-          <div className={`${styles.edgeElement} pl-8`}>
-            <ConstructorElement
-              type="bottom"
-              isLocked={true}
-              text={`${bun.name} (низ)`}
-              price={bun.price}
-              thumbnail={bun.image}
-            />
-          </div>
+          {orderedIngredientsState.bun && <Bun item={orderedIngredientsState.bun} type="bottom" />}
         </div>
 
         <div className={styles.priceWrap}>
@@ -100,7 +143,7 @@ export default function BurgerConstructor() {
 
       {isPopupVisible &&
         <Modal onClose={handleClickClose}>
-          <OrderDetails />
+          <OrderDetails details={orderDetail} />
         </Modal>
       }
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './OrderDetails.module.css';
 
-export default function OrderDetails() {
+export default function OrderDetails({ details }) {
   return (
     <>
       <p className="text text_type_digits-large mb-8">
-        034536
+        {details.order.number}
       </p>
       <p className="text text_type_main-medium mb-15">
         идентификатор заказа
@@ -20,3 +20,4 @@ export default function OrderDetails() {
     </>
   );
 }
+
