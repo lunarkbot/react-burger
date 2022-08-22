@@ -23,8 +23,6 @@ class Api {
     orderedIngredients.push(data.bun._id);
     orderedIngredients.push(data.bun._id);
 
-    console.log(orderedIngredients)
-
     return fetch(`${this._baseUrl}/orders`, {
       headers: this._headers,
       method: 'POST',
