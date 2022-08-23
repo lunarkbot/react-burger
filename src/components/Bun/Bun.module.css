@@ -1,0 +1,6 @@
+.edgeElement {
+  max-width: 536px;
+  width: 100%;
+  display: flex;
+  justify-content: stretch;
+}

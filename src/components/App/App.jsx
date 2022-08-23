@@ -4,21 +4,15 @@ import {FoodDataContext} from '../../contexts/foodDataContext';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
-import {API_URL} from '../../utils/constants';
+import Api from '../../utils/api';
+
 
 function App() {
 
   const [foodData, setFoodData] = React.useState(null);
 
   React.useEffect(() => {
-    fetch(API_URL)
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+    Api.getIngredients()
       .then(res => setFoodData(res.data))
       .catch(err => console.log(err));
   }, [])

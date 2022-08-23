@@ -1,11 +1,12 @@
 import React from 'react';
 import styles from './OrderDetails.module.css';
+import PropTypes from 'prop-types';
 
-export default function OrderDetails() {
+export default function OrderDetails({ details }) {
   return (
     <>
       <p className="text text_type_digits-large mb-8">
-        034536
+        {details.order.number}
       </p>
       <p className="text text_type_main-medium mb-15">
         идентификатор заказа
@@ -19,4 +20,11 @@ export default function OrderDetails() {
       </p>
     </>
   );
+}
+
+OrderDetails.propTypes = {
+  details: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    order: PropTypes.object.isRequired,
+  }).isRequired,
 }
