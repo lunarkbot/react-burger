@@ -1,5 +1,6 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {addSelectedItem, resetSelectedItems, resetTotalPrice, setTotalPrice} from '../../store/ingredientsSlice';
 import styles from './BurgerConstructor.module.css';
 import {
   ConstructorElement,
@@ -12,92 +13,40 @@ import Modal from '../Modal/Modal';
 import Bun from '../Bun/Bun';
 import Api from '../../utils/api';
 
-const totalPrice = { price: 0 };
-
-function totalPriceReducer(state, action) {
-  switch (action.type) {
-    case 'set':
-      let totalPrice = state.price;
-      action.ingredients.forEach(item => {
-        totalPrice += item.price;
-      })
-      totalPrice += action.bun ? action.bun.price * 2 : 0;
-      return { price: totalPrice };
-    case 'reset':
-      return { price: 0 }
-    default:
-      throw new Error(`Wrong type of action ${action.type}`);
-  }
-}
-
-const orderedIngredients = {
-  ingredients: [],
-  bun: null
-};
-
-function orderedIngredientsReducer (state, action) {
-  switch (action.type) {
-    case 'add':
-      if (action.item.type === 'bun') {
-        return {
-          ...state,
-          bun: action.item
-        }
-      } else {
-        return {
-          ...state,
-          ingredients: [
-            ...state.ingredients,
-            action.item
-          ]
-        }
-      }
-    case 'reset':
-      return { ingredients: [], bun: null }
-    default:
-      throw new Error(`Wrong type of action ${action.type}`);
-  }
-}
-
 export default function BurgerConstructor() {
-  const ingredients = useSelector(state => state.ingredients.items);
+  const {
+    ingredients,
+    totalPrice,
+    selectedIngredients,
+  } = useSelector(state => ({
+    ingredients: state.ingredients.items,
+    totalPrice: state.ingredients.totalPrice,
+    selectedIngredients: state.ingredients.selectedItems,
+  }));
+
+  const dispatch = useDispatch();
+
   const [isPopupVisible, setIsPopupVisible] = React.useState(false);
-  const [orderedIngredientsState, orderedIngredientsDispatcher] = React.useReducer(
-    orderedIngredientsReducer,
-    orderedIngredients,
-    undefined
-  )
-  const [totalPriceState, totalPriceDispatcher] = React.useReducer(totalPriceReducer, totalPrice,undefined);
+
+
   const [orderDetail, setOrderDetail] = React.useState(null);
 
   React.useEffect(() => {
-    orderedIngredientsDispatcher({
-      type: 'reset'
-    });
+    dispatch(resetSelectedItems());
 
     ingredients.forEach(item => {
-      orderedIngredientsDispatcher(
-        {
-          type: 'add',
-          item
-        }
-      )
-    });
-
+      dispatch(addSelectedItem(item))
+    })
   }, [ingredients])
 
   React.useEffect(() => {
-    totalPriceDispatcher( {type: 'reset' });
-    totalPriceDispatcher( {
-      type: 'set',
-      ingredients: orderedIngredientsState.ingredients,
-      bun: orderedIngredientsState.bun
-    });
-  }, [orderedIngredientsState]);
+    dispatch(resetTotalPrice());
+    dispatch(setTotalPrice());
+  }, [selectedIngredients]);
 
 
   const handleClickOrderButton = () => {
-    Api.sendOrder(orderedIngredientsState)
+    Api.sendOrder(selectedIngredients)
       .then(data => {
         setOrderDetail({
           ...data
@@ -115,9 +64,9 @@ export default function BurgerConstructor() {
     <>
       <section>
         <div className={`${styles.listWrap} mb-10`}>
-          {orderedIngredientsState.bun && <Bun item={orderedIngredientsState.bun} type="top" />}
+          {selectedIngredients.bun && <Bun item={selectedIngredients.bun} type="top" />}
           <ul className={`${styles.list} ${styles.scrollBox}`}>
-            {orderedIngredientsState.ingredients.map(item => {
+            {selectedIngredients.items.map(item => {
               if (item.type !== 'bun') {
                 return (
                   <li key={item._id} className={styles.listItem}>
@@ -132,12 +81,12 @@ export default function BurgerConstructor() {
               }
             })}
           </ul>
-          {orderedIngredientsState.bun && <Bun item={orderedIngredientsState.bun} type="bottom" />}
+          {selectedIngredients.bun && <Bun item={selectedIngredients.bun} type="bottom" />}
         </div>
 
         <div className={styles.priceWrap}>
           <div className={`text text_type_digits-medium ${styles.price}`}>
-            {totalPriceState.price.toLocaleString()}
+            {totalPrice.toLocaleString()}
             <CurrencyIcon type="primary" />
           </div>
           <Button type="primary" size="large" onClick={handleClickOrderButton}>

@@ -22,11 +22,35 @@ const ingredientsSlice = createSlice({
       items: [],
       bun: null
     },
+
+    totalPrice: 0,
   },
   reducers: {
-    addSelectedItem: (state, action) => {
+    addSelectedItem(state, action) {
+      if (!action.payload) return;
 
+      if (action.payload.type === 'bun') {
+        state.selectedItems.bun = action.payload;
+      } else {
+        state.selectedItems.items.push(action.payload);
+      }
     },
+    resetSelectedItems(state) {
+      state.selectedItems.bun = null;
+      state.selectedItems.items = [];
+    },
+    setTotalPrice(state) {
+      let totalPrice = state.totalPrice;
+      state.selectedItems.items.forEach(item => {
+        totalPrice += item.price;
+      })
+      totalPrice += state.selectedItems.bun ? state.selectedItems.bun.price * 2 : 0;
+
+      state.totalPrice = totalPrice;
+    },
+    resetTotalPrice(state) {
+      state.totalPrice = 0;
+    }
   },
   extraReducers: {
     [getIngredients.pending]: (state) => {
@@ -44,5 +68,12 @@ const ingredientsSlice = createSlice({
     },
   }
 })
+
+export const {
+  addSelectedItem,
+  resetSelectedItems,
+  setTotalPrice,
+  resetTotalPrice,
+} = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;

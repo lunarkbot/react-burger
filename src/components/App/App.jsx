@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styles from './App.module.css';
-import {getIngredients} from '../../store/ingredientsSlice';
+import {addSelectedItem, getIngredients} from '../../store/ingredientsSlice';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
@@ -9,6 +9,11 @@ import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 function App() {
   const dispatch = useDispatch();
   const ingredients = useSelector(state => state.ingredients.items);
+
+  useEffect(() => {
+    dispatch(addSelectedItem(ingredients[0]));
+  }, [ingredients])
+
 
   useEffect(() => {
     dispatch(getIngredients())
