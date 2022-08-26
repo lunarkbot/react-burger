@@ -16,7 +16,7 @@ class Api {
   sendOrder(data) {
     const orderedIngredients = [];
 
-    data.ingredients.forEach(item => {
+    data.items.forEach(item => {
       orderedIngredients.push(item._id);
     });
 

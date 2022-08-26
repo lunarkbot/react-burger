@@ -6,7 +6,6 @@ export const getIngredients = createAsyncThunk(
   'ingredients/getIngredients',
   function(_, {rejectWithValue}) {
       return api.getIngredients()
-        .then(data => data)
         .catch(err => rejectWithValue(err));
   }
 );
@@ -58,11 +57,11 @@ const ingredientsSlice = createSlice({
     },
     [getIngredients.fulfilled]: (state, action) => {
       state.items = action.payload.data;
-      state.itemsFailed = true;
+      state.itemsFailed = false;
       state.itemsRequest = false;
     },
     [getIngredients.rejected]: (state, action) => {
-      state.itemsFailed = false;
+      state.itemsFailed = true;
       state.itemsRequest = false;
       consoleError(action.payload)
     },
