@@ -11,25 +11,24 @@ import {
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 import Bun from '../Bun/Bun';
-import Api from '../../utils/api';
+import {hideOrderDetails, sendOrder} from '../../store/ordersSlice';
 
 export default function BurgerConstructor() {
   const {
     ingredients,
     totalPrice,
     selectedIngredients,
+    orderDetail,
+    isOrderDetailsShow
   } = useSelector(state => ({
     ingredients: state.ingredients.items,
     totalPrice: state.ingredients.totalPrice,
     selectedIngredients: state.ingredients.selectedItems,
+    orderDetail: state.orders.orderDetail,
+    isOrderDetailsShow: state.orders.isOrderDetailsShow,
   }));
 
   const dispatch = useDispatch();
-
-  const [isPopupVisible, setIsPopupVisible] = React.useState(false);
-
-
-  const [orderDetail, setOrderDetail] = React.useState(null);
 
   React.useEffect(() => {
     dispatch(resetSelectedItems());
@@ -46,18 +45,13 @@ export default function BurgerConstructor() {
 
 
   const handleClickOrderButton = () => {
-    Api.sendOrder(selectedIngredients)
-      .then(data => {
-        setOrderDetail({
-          ...data
-        });
-        setIsPopupVisible(true);
-      })
-      .catch(err => console.log(err));
+    dispatch(sendOrder({
+      ingredients: selectedIngredients,
+    }))
   }
 
   const handleClickClose = () => {
-    setIsPopupVisible(false);
+    dispatch(hideOrderDetails());
   }
 
   return(
@@ -95,7 +89,7 @@ export default function BurgerConstructor() {
         </div>
       </section>
 
-      {isPopupVisible &&
+      {isOrderDetailsShow &&
         <Modal onClose={handleClickClose}>
           <OrderDetails details={orderDetail} />
         </Modal>
