@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './BurgerIngredients.module.css';
 import Tabs from '../Tabs/Tabs';
 import IngredientList from '../IngredientList/IngredientList';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
-export default function BurgerIngredients(props) {
-  const [selectedIngredient, setSelectedIngredient] = React.useState({
+export default function BurgerIngredients() {
+  const [selectedIngredient, setSelectedIngredient] = useState({
     isPopupVisible: false,
     value: false
   })

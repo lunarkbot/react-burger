@@ -1,7 +1,12 @@
-import React, {useMemo} from 'react';
+import React from 'react';
+import {useSelector} from 'react-redux';
 import styles from './BurgerConstructor.module.css';
-import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import {FoodDataContext} from '../../contexts/foodDataContext';
+import {
+  ConstructorElement,
+  DragIcon,
+  CurrencyIcon,
+  Button
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 import Bun from '../Bun/Bun';
@@ -55,7 +60,7 @@ function orderedIngredientsReducer (state, action) {
 }
 
 export default function BurgerConstructor() {
-  const foodData = React.useContext(FoodDataContext);
+  const ingredients = useSelector(state => state.ingredients.items);
   const [isPopupVisible, setIsPopupVisible] = React.useState(false);
   const [orderedIngredientsState, orderedIngredientsDispatcher] = React.useReducer(
     orderedIngredientsReducer,
@@ -70,7 +75,7 @@ export default function BurgerConstructor() {
       type: 'reset'
     });
 
-    foodData.forEach(item => {
+    ingredients.forEach(item => {
       orderedIngredientsDispatcher(
         {
           type: 'add',
@@ -79,7 +84,7 @@ export default function BurgerConstructor() {
       )
     });
 
-  }, [foodData])
+  }, [ingredients])
 
   React.useEffect(() => {
     totalPriceDispatcher( {type: 'reset' });

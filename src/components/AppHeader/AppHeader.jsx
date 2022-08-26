@@ -1,8 +1,13 @@
 import React from 'react';
 import styles from './AppHeader.module.css';
-import { BurgerIcon, ListIcon, Logo, ProfileIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  BurgerIcon,
+  ListIcon,
+  Logo,
+  ProfileIcon
+} from '@ya.praktikum/react-developer-burger-ui-components';
 
-export default function AppHeader(props) {
+export default function AppHeader() {
   return (
     <header className={`${styles.header} mb-10`}>
       <div className={styles.container}>
