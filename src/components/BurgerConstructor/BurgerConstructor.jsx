@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {addSelectedItem, resetSelectedItems, resetTotalPrice, setTotalPrice} from '../../store/ingredientsSlice';
+import {addSelectedItem, resetSelectedItems, resetTotalPrice, setTotalPrice} from '../../services/ingredientsSlice';
 import styles from './BurgerConstructor.module.css';
 import {
   ConstructorElement,
@@ -11,7 +11,7 @@ import {
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 import Bun from '../Bun/Bun';
-import {hideOrderDetails, sendOrder} from '../../store/ordersSlice';
+import {hideOrderDetails, sendOrder} from '../../services/ordersSlice';
 
 export default function BurgerConstructor() {
   const {

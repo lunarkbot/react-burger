@@ -1,15 +1,16 @@
 import React from 'react';
 import styles from './IngredientDetails.module.css';
-import PropTypes from 'prop-types';
-import {ingredientsTypes} from '../../utils/constants';
+import {useSelector} from 'react-redux';
 
-export default function IngredientDetails({ingredientInfo}) {
+export default function IngredientDetails() {
+
+  const ingredientDetails = useSelector(state => state.ingredients.ingredientDetails);
 
   return (
     <>
-      <img src={ingredientInfo.image_large} alt={ingredientInfo.text} className="mb-4" />
+      <img src={ingredientDetails.image_large} alt={ingredientDetails.text} className="mb-4" />
       <p className="text text_type_main-medium mb-8">
-        {ingredientInfo.name}
+        {ingredientDetails.name}
       </p>
       <div className={styles.table}>
         <p className="text text_type_main-default text_color_inactive">
@@ -24,15 +25,11 @@ export default function IngredientDetails({ingredientInfo}) {
         <p className="text text_type_main-default text_color_inactive">
           Углеводы, г
         </p>
-        <p className="text text_type_digits-default text_color_inactive">{ingredientInfo.calories}</p>
-        <p className="text text_type_digits-default text_color_inactive">{ingredientInfo.proteins}</p>
-        <p className="text text_type_digits-default text_color_inactive">{ingredientInfo.fat}</p>
-        <p className="text text_type_digits-default text_color_inactive">{ingredientInfo.carbohydrates}</p>
+        <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.calories}</p>
+        <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.proteins}</p>
+        <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.fat}</p>
+        <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.carbohydrates}</p>
       </div>
     </>
   );
-}
-
-IngredientDetails.propTypes = {
-  ingredientInfo: PropTypes.shape(ingredientsTypes).isRequired
 }

@@ -14,12 +14,8 @@ function App() {
       <main className={styles.main}>
         <h1 className="mb-5 text text_type_main-large">Соберите бургер</h1>
         <div className={styles.twoColumns}>
-          {ingredients.length && (
-            <>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </>
-          )}
+          <BurgerIngredients />
+          <BurgerConstructor />
         </div>
       </main>
     </>

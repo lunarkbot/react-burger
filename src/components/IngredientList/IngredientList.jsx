@@ -4,7 +4,7 @@ import styles from './IngredientList.module.css';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 
-export default function IngredientList({type, showIngredientDetail}) {
+export default function IngredientList({ type }) {
   const ingredients = useSelector(state => state.ingredients.items);
 
   return(
@@ -14,8 +14,7 @@ export default function IngredientList({type, showIngredientDetail}) {
            return (
              <IngredientCard
                key={item._id}
-               info={item}
-               showIngredientDetail={showIngredientDetail}
+               item={item}
              />
            )
          }
@@ -25,6 +24,5 @@ export default function IngredientList({type, showIngredientDetail}) {
 }
 
 IngredientList.propTypes = {
-  showIngredientDetail: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
 }

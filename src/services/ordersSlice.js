@@ -10,7 +10,7 @@ export const sendOrder = createAsyncThunk(
         rejectWithValue(err);
       })
   }
-)
+);
 
 const ordersSlice = createSlice({
   name: 'orders',

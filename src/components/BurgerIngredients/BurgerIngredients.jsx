@@ -5,11 +5,16 @@ import IngredientList from '../IngredientList/IngredientList';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import {useDispatch, useSelector} from 'react-redux';
-import {addSelectedItem, getIngredients} from '../../store/ingredientsSlice';
+import {addSelectedItem, getIngredients, resetIngredientDetails} from '../../services/ingredientsSlice';
 
 export default function BurgerIngredients() {
   const dispatch = useDispatch();
-  const ingredients = useSelector(state => state.ingredients.items);
+  const { ingredients, ingredientDetails } = useSelector(state => ({
+    ingredients: state.ingredients.items,
+    ingredientDetails: state.ingredients.ingredientDetails,
+  }));
+
+
 
   useEffect(() => {
     dispatch(getIngredients())
@@ -19,23 +24,8 @@ export default function BurgerIngredients() {
     dispatch(addSelectedItem(ingredients[0]));
   }, [ingredients])
 
-  const [selectedIngredient, setSelectedIngredient] = useState({
-    isPopupVisible: false,
-    value: false
-  })
-
-  const showIngredientDetail = (info) => {
-    setSelectedIngredient({
-      value: info,
-      isPopupVisible: true
-    })
-  }
-
   const handleClickClose = () => {
-    setSelectedIngredient({
-      ...selectedIngredient,
-      isPopupVisible: false
-    })
+    dispatch(resetIngredientDetails())
   }
 
   return(
@@ -45,22 +35,19 @@ export default function BurgerIngredients() {
         <div className={styles.scrollBox}>
           <div className="text text_type_main-medium mb-6">Булки</div>
           <IngredientList
-            showIngredientDetail={showIngredientDetail}
             type="bun" />
           <div className="text text_type_main-medium mb-6">Соусы</div>
           <IngredientList
-            showIngredientDetail={showIngredientDetail}
             type="sauce" />
           <div className="text text_type_main-medium mb-6">Начинки</div>
           <IngredientList
-            showIngredientDetail={showIngredientDetail}
             type="main" />
         </div>
       </section>
 
-      {selectedIngredient.isPopupVisible &&
+      {ingredientDetails &&
         <Modal heading="Детали ингредиента" onClose={handleClickClose}>
-          <IngredientDetails ingredientInfo={selectedIngredient.value} />
+          <IngredientDetails />
         </Modal>
       }
     </>
