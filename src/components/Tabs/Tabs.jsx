@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCurrentTab, setVisibility} from '../../services/tabsSlice';
 
-export default function Tabs({handleClickTabs, tabsRef, scrollBoxRef }) {
+export default function Tabs({tabsRef, scrollBoxRef }) {
   const dispatch = useDispatch();
   const current = useSelector(state => state.tabs.currentTab);
   const isTabVisible = useSelector(state => state.tabs.isVisible);
@@ -53,17 +53,17 @@ export default function Tabs({handleClickTabs, tabsRef, scrollBoxRef }) {
 
   return(
     <div className={`mb-10 ${styles.tabs}`}>
-      <div onClick={() => handleClickTabs('bun')}>
+      <div onClick={() => handleClick('bun')}>
         <Tab value="bun" active={current === 'bun'} onClick={handleClick}>
         Булки
         </Tab>
       </div>
-      <div onClick={() => handleClickTabs('sauce')}>
+      <div onClick={() => handleClick('sauce')}>
         <Tab value="sauce" active={current === 'sauce'} onClick={handleClick}>
           Соусы
         </Tab>
       </div>
-      <div onClick={() => handleClickTabs('main')}>
+      <div onClick={() => handleClick('main')}>
         <Tab value="main" active={current === 'main'} onClick={handleClick}>
           Начинки
         </Tab>
@@ -73,7 +73,6 @@ export default function Tabs({handleClickTabs, tabsRef, scrollBoxRef }) {
 }
 
 Tabs.propTypes = {
-  handleClickTabs: PropTypes.func.isRequired,
   tabsRef: PropTypes.object.isRequired,
   scrollBoxRef: PropTypes.object.isRequired,
 }

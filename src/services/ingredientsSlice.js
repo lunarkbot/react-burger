@@ -29,12 +29,19 @@ const ingredientsSlice = createSlice({
   reducers: {
     addSelectedItem(state, action) {
       if (!action.payload) return;
+      const item = {
+        ...action.payload,
+        uid: action.payload._id + Math.random(),
+      };
 
-      if (action.payload.type === 'bun') {
-        state.selectedItems.bun = action.payload;
+      if (item.type === 'bun') {
+        state.selectedItems.bun = item;
       } else {
-        state.selectedItems.items.push(action.payload);
+        state.selectedItems.items.push(item);
       }
+    },
+    deleteSelectedItem(state, action) {
+      state.selectedItems.items = action.payload.items.filter(item => item.uid !== action.payload.uid);
     },
     resetSelectedItems(state) {
       state.selectedItems.bun = null;
@@ -60,8 +67,19 @@ const ingredientsSlice = createSlice({
     },
     addQuantity(state, action) {
       state.items = state.items.map(item => {
-        return item._id === action.payload
+        return action.payload.type === 'bun' && item._id === action.payload.id
+          ? {...item, quantity: 1}
+          : action.payload.type === 'bun' && item._id !== action.payload.id
+          ? {...item, quantity: 0}
+          : item._id === action.payload.id
           ? {...item, quantity: item.quantity + 1}
+          : item;
+      });
+    },
+    decreaseQuantity(state, action) {
+      state.items = state.items.map(item => {
+        return item._id === action.payload
+          ? {...item, quantity: item.quantity > 0 ? item.quantity - 1 : 0}
           : item;
       });
     },
@@ -71,7 +89,11 @@ const ingredientsSlice = createSlice({
           ? {...item, quantity: 0}
           : item;
       });
-    }
+      console.log('reset')
+    },
+    dropIngredient(state, action) {
+      console.log(action.payload)
+    },
   },
   extraReducers: {
     [getIngredients.pending]: (state) => {
@@ -80,7 +102,8 @@ const ingredientsSlice = createSlice({
     [getIngredients.fulfilled]: (state, action) => {
       state.items = action.payload.data.map(item => ({
         ...item,
-        quantity: 0
+        quantity: 0,
+        uid: null,
       }));
       state.itemsFailed = false;
       state.itemsRequest = false;
@@ -95,13 +118,16 @@ const ingredientsSlice = createSlice({
 
 export const {
   addSelectedItem,
+  deleteSelectedItem,
   resetSelectedItems,
   setTotalPrice,
   resetTotalPrice,
   setIngredientDetails,
   resetIngredientDetails,
   addQuantity,
+  decreaseQuantity,
   resetQuantity,
+  dropIngredient,
 } = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;

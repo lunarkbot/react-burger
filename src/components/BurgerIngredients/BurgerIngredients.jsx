@@ -18,10 +18,6 @@ export default function BurgerIngredients() {
     dispatch(getIngredients())
   },[dispatch])
 
-  useEffect(() => {
-    dispatch(addSelectedItem(ingredients[0]));
-  }, [ingredients])
-
   const handleClickClose = () => {
     dispatch(resetIngredientDetails())
   }

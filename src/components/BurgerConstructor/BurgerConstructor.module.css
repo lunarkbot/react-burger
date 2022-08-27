@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
+  min-height: 260px;
 }
 
 .list {
@@ -13,13 +14,6 @@
   flex-direction: column;
   row-gap: 10px;
   width: 100%;
-}
-
-.listItem {
-  display: flex;
-  align-items: center;
-  justify-content: stretch;
-  column-gap: 5px;
 }
 
 .edgeElement {

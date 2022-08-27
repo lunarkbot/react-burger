@@ -1,12 +1,13 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
 import styles from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
-  const ingredients = useSelector(state => state.ingredients.items);
+
 
   return (
     <>
@@ -14,8 +15,10 @@ function App() {
       <main className={styles.main}>
         <h1 className="mb-5 text text_type_main-large">Соберите бургер</h1>
         <div className={styles.twoColumns}>
-          <BurgerIngredients />
-          <BurgerConstructor />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </DndProvider>
         </div>
       </main>
     </>
