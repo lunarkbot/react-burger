@@ -40,6 +40,9 @@ const ingredientsSlice = createSlice({
         state.selectedItems.items.push(item);
       }
     },
+    updateSelectedList(state, action) {
+      state.selectedItems.items = action.payload;
+    },
     deleteSelectedItem(state, action) {
       state.selectedItems.items = action.payload.items.filter(item => item.uid !== action.payload.uid);
     },
@@ -120,6 +123,7 @@ export const {
   addSelectedItem,
   deleteSelectedItem,
   resetSelectedItems,
+  updateSelectedList,
   setTotalPrice,
   resetTotalPrice,
   setIngredientDetails,

@@ -5,14 +5,11 @@ import IngredientList from '../IngredientList/IngredientList';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import {useDispatch, useSelector} from 'react-redux';
-import {addSelectedItem, getIngredients, resetIngredientDetails} from '../../services/ingredientsSlice';
+import {getIngredients, resetIngredientDetails} from '../../services/ingredientsSlice';
 
 export default function BurgerIngredients() {
   const dispatch = useDispatch();
-  const { ingredients, ingredientDetails } = useSelector(state => ({
-    ingredients: state.ingredients.items,
-    ingredientDetails: state.ingredients.ingredientDetails,
-  }));
+  const ingredientDetails = useSelector(state => state.ingredients.ingredientDetails);
 
   useEffect(() => {
     dispatch(getIngredients())

@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   addQuantity,
   addSelectedItem,
   resetTotalPrice,
-  setTotalPrice
+  setTotalPrice,
+  updateSelectedList,
 } from '../../services/ingredientsSlice';
 import styles from './BurgerConstructor.module.css';
 import {
@@ -35,11 +36,11 @@ export default function BurgerConstructor() {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  /*useEffect(() => {
     ingredients.forEach(item => {
       dispatch(addSelectedItem(item))
     })
-  }, [ingredients])
+  }, [ingredients])*/
 
   React.useEffect(() => {
     dispatch(resetTotalPrice());
@@ -57,8 +58,11 @@ export default function BurgerConstructor() {
     dispatch(hideOrderDetails());
   }
 
-  const [, dropTarget] = useDrop({
+  const [{isHover}, dropTarget] = useDrop({
     accept: ['bun', 'sauce', 'main'],
+    collect: monitor => ({
+      isHover: monitor.isOver(),
+    }),
     drop(source) {
       dispatch(addSelectedItem(source.item));
       dispatch(addQuantity({
@@ -68,20 +72,44 @@ export default function BurgerConstructor() {
     }
   })
 
+  const moveCard = useCallback((dragIndex, hoverIndex) => {
+    // Получаем перетаскиваемый ингредиент
+    const dragCard = selectedIngredients.items[dragIndex];
+    const newCards = [...selectedIngredients.items]
+    // Удаляем перетаскиваемый элемент из массива
+    newCards.splice(dragIndex, 1)
+    // Вставляем элемент на место того элемента,
+    // над которым мы навели мышку с "перетаскиванием"
+    // Тут просто создается новый массив, в котором изменен порядок наших элементов
+    newCards.splice(hoverIndex, 0, dragCard)
+    // В примере react-dnd используется библиотека immutability-helper
+    // Которая позволяет описывать такую имутабельную логику более декларативно
+    // Но для лучше понимания обновления массива,
+    // Советую использовать стандартный splice
+
+    dispatch(updateSelectedList(newCards));
+  }, [selectedIngredients, dispatch]);
+
   return(
     <>
       <section>
-        <div className={`${styles.listWrap} mb-10`} ref={dropTarget}>
+        <div className={`${styles.listWrap} ${isHover && styles.onHover} mb-10`} ref={dropTarget}>
           {selectedIngredients.bun && <Bun item={selectedIngredients.bun} type="top" />}
-          <ul className={`${styles.list} ${styles.scrollBox}`}>
+          {(selectedIngredients.bun || Boolean(selectedIngredients.items.length)) &&
+            <ul className={`${styles.list} ${styles.scrollBox}`}>
             {selectedIngredients.items.map((item, index) => {
               if (item && item.type !== 'bun') {
                 return (
-                  <ConstructorItem item={item} key={item.uid} />
+                  <ConstructorItem
+                    item={item}
+                    index={index}
+                    key={item.uid}
+                    moveCard={moveCard}
+                  />
                 )
               }
             })}
-          </ul>
+          </ul>}
           {selectedIngredients.bun && <Bun item={selectedIngredients.bun} type="bottom" />}
         </div>
 

@@ -4,7 +4,7 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 import PropTypes from 'prop-types';
 import {ingredientsTypes} from '../../utils/constants';
 import {useDispatch} from 'react-redux';
-import {addQuantity, setIngredientDetails} from '../../services/ingredientsSlice';
+import {setIngredientDetails} from '../../services/ingredientsSlice';
 import {useDrag} from 'react-dnd';
 
 export default function IngredientCard ({ item }) {
@@ -14,17 +14,20 @@ export default function IngredientCard ({ item }) {
     dispatch(setIngredientDetails(item))
   }
 
-  const [,dragRef] = useDrag({
+  const [{opacity},dragRef] = useDrag({
     type: item.type,
     item: {
       id: item._id,
       type: item.type,
       item
     },
+    collect: monitor => ({
+      opacity: monitor.isDragging() ? 0.2 : 1
+    })
   })
 
   return(
-    <li className={styles.card} onClick={handleClick} ref={dragRef}>
+    <li className={styles.card} onClick={handleClick} ref={dragRef} style={{opacity}}>
       {item.quantity !== 0 && <Counter count={item.quantity} size="default" />}
       <img className={styles.image} src={item.image} alt={item.name} />
       <div className={`${styles.price} text text_type_digits-default mb-1`}>
