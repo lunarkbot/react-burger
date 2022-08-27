@@ -14,13 +14,6 @@ export default function BurgerIngredients() {
     ingredientDetails: state.ingredients.ingredientDetails,
   }));
 
-  const tabRefs = {
-    bun: useRef(),
-    sauce: useRef(),
-    main: useRef()
-  }
-
-
   useEffect(() => {
     dispatch(getIngredients())
   },[dispatch])
@@ -33,22 +26,29 @@ export default function BurgerIngredients() {
     dispatch(resetIngredientDetails())
   }
 
-  const handleClickTabs = (tabName) => {
-    tabRefs[tabName].current.scrollIntoView({block: "start", behavior: "smooth"});
+  const tabsRef = {
+    bun: useRef(),
+    sauce: useRef(),
+    main: useRef(),
   }
+
+  const scrollBoxRef = useRef();
 
   return(
     <>
       <section>
-        <Tabs handleClickTabs={handleClickTabs} />
-        <div className={styles.scrollBox}>
-          <div className="text text_type_main-medium mb-6" ref={tabRefs.bun}>Булки</div>
+        <Tabs
+          tabsRef={tabsRef}
+          scrollBoxRef={scrollBoxRef}
+        />
+        <div className={styles.scrollBox} ref={scrollBoxRef}>
+          <div id="bun" className="text text_type_main-medium mb-6" ref={tabsRef.bun}>Булки</div>
           <IngredientList
             type="bun" />
-          <div className="text text_type_main-medium mb-6" ref={tabRefs.sauce}>Соусы</div>
+          <div id="sauce" className="text text_type_main-medium mb-6" ref={tabsRef.sauce}>Соусы</div>
           <IngredientList
             type="sauce" />
-          <div className="text text_type_main-medium mb-6" ref={tabRefs.main}>Начинки</div>
+          <div id="main" className="text text_type_main-medium mb-6" ref={tabsRef.main}>Начинки</div>
           <IngredientList
             type="main" />
         </div>
