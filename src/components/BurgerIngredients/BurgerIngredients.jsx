@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import styles from './BurgerIngredients.module.css';
 import Tabs from '../Tabs/Tabs';
 import IngredientList from '../IngredientList/IngredientList';
@@ -14,6 +14,11 @@ export default function BurgerIngredients() {
     ingredientDetails: state.ingredients.ingredientDetails,
   }));
 
+  const tabRefs = {
+    bun: useRef(),
+    sauce: useRef(),
+    main: useRef()
+  }
 
 
   useEffect(() => {
@@ -28,18 +33,22 @@ export default function BurgerIngredients() {
     dispatch(resetIngredientDetails())
   }
 
+  const handleClickTabs = (tabName) => {
+    tabRefs[tabName].current.scrollIntoView({block: "start", behavior: "smooth"});
+  }
+
   return(
     <>
       <section>
-        <Tabs />
+        <Tabs handleClickTabs={handleClickTabs} />
         <div className={styles.scrollBox}>
-          <div className="text text_type_main-medium mb-6">Булки</div>
+          <div className="text text_type_main-medium mb-6" ref={tabRefs.bun}>Булки</div>
           <IngredientList
             type="bun" />
-          <div className="text text_type_main-medium mb-6">Соусы</div>
+          <div className="text text_type_main-medium mb-6" ref={tabRefs.sauce}>Соусы</div>
           <IngredientList
             type="sauce" />
-          <div className="text text_type_main-medium mb-6">Начинки</div>
+          <div className="text text_type_main-medium mb-6" ref={tabRefs.main}>Начинки</div>
           <IngredientList
             type="main" />
         </div>
