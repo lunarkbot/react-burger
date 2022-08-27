@@ -33,7 +33,8 @@
   padding-left: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  position: relative;
+  left: 10px;
   row-gap: 10px;
   width: 100%;
 }

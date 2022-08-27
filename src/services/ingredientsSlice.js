@@ -46,10 +46,6 @@ const ingredientsSlice = createSlice({
     deleteSelectedItem(state, action) {
       state.selectedItems.items = action.payload.items.filter(item => item.uid !== action.payload.uid);
     },
-    resetSelectedItems(state) {
-      state.selectedItems.bun = null;
-      state.selectedItems.items = [];
-    },
     setTotalPrice(state) {
       let totalPrice = state.totalPrice;
       state.selectedItems.items.forEach(item => {
@@ -72,7 +68,7 @@ const ingredientsSlice = createSlice({
       state.items = state.items.map(item => {
         return action.payload.type === 'bun' && item._id === action.payload.id
           ? {...item, quantity: 1}
-          : action.payload.type === 'bun' && item._id !== action.payload.id
+          : item.type === 'bun' && action.payload.type === 'bun' && item._id !== action.payload.id
           ? {...item, quantity: 0}
           : item._id === action.payload.id
           ? {...item, quantity: item.quantity + 1}
@@ -85,17 +81,6 @@ const ingredientsSlice = createSlice({
           ? {...item, quantity: item.quantity > 0 ? item.quantity - 1 : 0}
           : item;
       });
-    },
-    resetQuantity(state, action) {
-      state.items = state.items.map(item => {
-        return item._id === action.payload
-          ? {...item, quantity: 0}
-          : item;
-      });
-      console.log('reset')
-    },
-    dropIngredient(state, action) {
-      console.log(action.payload)
     },
   },
   extraReducers: {
@@ -122,7 +107,6 @@ const ingredientsSlice = createSlice({
 export const {
   addSelectedItem,
   deleteSelectedItem,
-  resetSelectedItems,
   updateSelectedList,
   setTotalPrice,
   resetTotalPrice,
@@ -130,8 +114,6 @@ export const {
   resetIngredientDetails,
   addQuantity,
   decreaseQuantity,
-  resetQuantity,
-  dropIngredient,
 } = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   addQuantity,
@@ -21,13 +21,11 @@ import ConstructorItem from '../ConstructorItem/ConstructorItem';
 
 export default function BurgerConstructor() {
   const {
-    ingredients,
     totalPrice,
     selectedIngredients,
     orderDetail,
     isOrderDetailsShow
   } = useSelector(state => ({
-    ingredients: state.ingredients.items,
     totalPrice: state.ingredients.totalPrice,
     selectedIngredients: state.ingredients.selectedItems,
     orderDetail: state.orders.orderDetail,
@@ -35,12 +33,6 @@ export default function BurgerConstructor() {
   }));
 
   const dispatch = useDispatch();
-
-  /*useEffect(() => {
-    ingredients.forEach(item => {
-      dispatch(addSelectedItem(item))
-    })
-  }, [ingredients])*/
 
   React.useEffect(() => {
     dispatch(resetTotalPrice());
@@ -73,19 +65,11 @@ export default function BurgerConstructor() {
   })
 
   const moveCard = useCallback((dragIndex, hoverIndex) => {
-    // Получаем перетаскиваемый ингредиент
     const dragCard = selectedIngredients.items[dragIndex];
     const newCards = [...selectedIngredients.items]
-    // Удаляем перетаскиваемый элемент из массива
+
     newCards.splice(dragIndex, 1)
-    // Вставляем элемент на место того элемента,
-    // над которым мы навели мышку с "перетаскиванием"
-    // Тут просто создается новый массив, в котором изменен порядок наших элементов
     newCards.splice(hoverIndex, 0, dragCard)
-    // В примере react-dnd используется библиотека immutability-helper
-    // Которая позволяет описывать такую имутабельную логику более декларативно
-    // Но для лучше понимания обновления массива,
-    // Советую использовать стандартный splice
 
     dispatch(updateSelectedList(newCards));
   }, [selectedIngredients, dispatch]);
