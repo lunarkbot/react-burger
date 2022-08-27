@@ -4,7 +4,7 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 import PropTypes from 'prop-types';
 import {ingredientsTypes} from '../../utils/constants';
 import {useDispatch} from 'react-redux';
-import {setIngredientDetails} from '../../services/ingredientsSlice';
+import {addQuantity, setIngredientDetails} from '../../services/ingredientsSlice';
 
 export default function IngredientCard ({ item }) {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ export default function IngredientCard ({ item }) {
 
   return(
     <li className={styles.card} onClick={handleClick}>
-      {item.amount !== 0 && <Counter count={item.amount} size="default" />}
+      {item.quantity !== 0 && <Counter count={item.quantity} size="default" />}
       <img className={styles.image} src={item.image} alt={item.name} />
       <div className={`${styles.price} text text_type_digits-default mb-1`}>
         {item.price}

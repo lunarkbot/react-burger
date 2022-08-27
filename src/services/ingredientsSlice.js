@@ -57,6 +57,20 @@ const ingredientsSlice = createSlice({
     },
     resetIngredientDetails(state) {
       state.ingredientDetails = null;
+    },
+    addQuantity(state, action) {
+      state.items = state.items.map(item => {
+        return item._id === action.payload
+          ? {...item, quantity: item.quantity + 1}
+          : item;
+      });
+    },
+    resetQuantity(state, action) {
+      state.items = state.items.map(item => {
+        return item._id === action.payload
+          ? {...item, quantity: 0}
+          : item;
+      });
     }
   },
   extraReducers: {
@@ -66,7 +80,7 @@ const ingredientsSlice = createSlice({
     [getIngredients.fulfilled]: (state, action) => {
       state.items = action.payload.data.map(item => ({
         ...item,
-        amount: 0
+        quantity: 0
       }));
       state.itemsFailed = false;
       state.itemsRequest = false;
@@ -86,6 +100,8 @@ export const {
   resetTotalPrice,
   setIngredientDetails,
   resetIngredientDetails,
+  addQuantity,
+  resetQuantity,
 } = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;
