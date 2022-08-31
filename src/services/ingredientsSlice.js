@@ -40,6 +40,13 @@ const ingredientsSlice = createSlice({
         state.selectedItems.items.push(item);
       }
     },
+    resetSelectedItem(state) {
+      state.selectedItems.items = [];
+      state.selectedItems.bun = null;
+      state.items.forEach(item => {
+        item.quantity = 0;
+      });
+    },
     updateSelectedList(state, action) {
       state.selectedItems.items = action.payload;
     },
@@ -114,6 +121,7 @@ export const {
   resetIngredientDetails,
   addQuantity,
   decreaseQuantity,
+  resetSelectedItem,
 } = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;
