@@ -64,6 +64,11 @@
   overflow-y: auto;
 }
 
+.submitButton {
+  opacity: .3;
+  pointer-events: none;
+}
+
 /* width */
 .scrollBox::-webkit-scrollbar {
   width: 8px;

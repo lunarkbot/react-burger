@@ -102,9 +102,11 @@ export default function BurgerConstructor() {
             {totalPrice ? totalPrice.toLocaleString() : 0}
             <CurrencyIcon type="primary" />
           </div>
-          <Button type="primary" size="large" onClick={handleClickOrderButton}>
-            Оформить заказ
-          </Button>
+          <div className={!selectedIngredients.bun && styles.submitButton}>
+            <Button type="primary" size="large" onClick={handleClickOrderButton}>
+              Оформить заказ
+            </Button>
+          </div>
         </div>
       </section>
 
