@@ -6,7 +6,7 @@ export default function OrderDetails({ details }) {
   return (
     <>
       <p className="text text_type_digits-large mb-8">
-        {details.order.number}
+        {details?.order?.number}
       </p>
       <p className="text text_type_main-medium mb-15">
         идентификатор заказа
