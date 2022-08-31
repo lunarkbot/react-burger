@@ -1,8 +1,30 @@
 .listWrap {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   gap: 10px;
+  min-height: 260px;
+  padding: 10px;
+  border: 1px dashed #131316;
+}
+
+.listWrap:empty {
+  border: 1px dashed #2f2f37;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.listWrap:empty::before {
+  content: "Перенесите сюда ингредиенты из меню слева.";
+  display: inline-block;
+  color: #2f2f37;
+}
+
+.onHover {
+  transform: scale(1.05);
+  transition: all 200ms;
+  border-color: #2f2f37;
 }
 
 .list {
@@ -11,15 +33,10 @@
   padding-left: 0;
   display: flex;
   flex-direction: column;
+  position: relative;
+  left: 10px;
   row-gap: 10px;
   width: 100%;
-}
-
-.listItem {
-  display: flex;
-  align-items: center;
-  justify-content: stretch;
-  column-gap: 5px;
 }
 
 .edgeElement {
@@ -43,6 +60,7 @@
 
 .scrollBox {
   max-height: 440px;
+  min-height: 80px;
   overflow-y: auto;
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './Modal.module.css';
 import ReactDOM from 'react-dom';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
@@ -9,7 +9,7 @@ const modalRoot = document.getElementById("react-modals");
 
 export default function Modal({heading, onClose, children}) {
 
-  React.useEffect(() => {
+  useEffect(() => {
     function closeByEscape(evt) {
       if(evt.key === 'Escape') {
         onClose();

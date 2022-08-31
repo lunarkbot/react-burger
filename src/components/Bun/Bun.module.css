@@ -1,5 +1,6 @@
 .edgeElement {
   max-width: 536px;
+  min-height: 80px;
   width: 100%;
   display: flex;
   justify-content: stretch;
