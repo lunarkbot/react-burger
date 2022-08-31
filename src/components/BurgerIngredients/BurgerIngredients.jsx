@@ -1,53 +1,55 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import styles from './BurgerIngredients.module.css';
 import Tabs from '../Tabs/Tabs';
 import IngredientList from '../IngredientList/IngredientList';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import {useDispatch, useSelector} from 'react-redux';
+import {getIngredients, resetIngredientDetails} from '../../services/ingredientsSlice';
 
-export default function BurgerIngredients(props) {
-  const [selectedIngredient, setSelectedIngredient] = React.useState({
-    isPopupVisible: false,
-    value: false
-  })
+export default function BurgerIngredients() {
+  const dispatch = useDispatch();
+  const ingredientDetails = useSelector(state => state.ingredients.ingredientDetails);
 
-  const showIngredientDetail = (info) => {
-    setSelectedIngredient({
-      value: info,
-      isPopupVisible: true
-    })
-  }
+  useEffect(() => {
+    dispatch(getIngredients())
+  },[dispatch])
 
   const handleClickClose = () => {
-    setSelectedIngredient({
-      ...selectedIngredient,
-      isPopupVisible: false
-    })
+    dispatch(resetIngredientDetails())
   }
+
+  const tabsRef = {
+    bun: useRef(),
+    sauce: useRef(),
+    main: useRef(),
+  }
+
+  const scrollBoxRef = useRef();
 
   return(
     <>
       <section>
-        <Tabs />
-        <div className={styles.scrollBox}>
-          <div className="text text_type_main-medium mb-6">Булки</div>
+        <Tabs
+          tabsRef={tabsRef}
+          scrollBoxRef={scrollBoxRef}
+        />
+        <div className={styles.scrollBox} ref={scrollBoxRef}>
+          <div id="bun" className="text text_type_main-medium mb-6" ref={tabsRef.bun}>Булки</div>
           <IngredientList
-            showIngredientDetail={showIngredientDetail}
             type="bun" />
-          <div className="text text_type_main-medium mb-6">Соусы</div>
+          <div id="sauce" className="text text_type_main-medium mb-6" ref={tabsRef.sauce}>Соусы</div>
           <IngredientList
-            showIngredientDetail={showIngredientDetail}
             type="sauce" />
-          <div className="text text_type_main-medium mb-6">Начинки</div>
+          <div id="main" className="text text_type_main-medium mb-6" ref={tabsRef.main}>Начинки</div>
           <IngredientList
-            showIngredientDetail={showIngredientDetail}
             type="main" />
         </div>
       </section>
 
-      {selectedIngredient.isPopupVisible &&
+      {ingredientDetails &&
         <Modal heading="Детали ингредиента" onClose={handleClickClose}>
-          <IngredientDetails ingredientInfo={selectedIngredient.value} />
+          <IngredientDetails />
         </Modal>
       }
     </>

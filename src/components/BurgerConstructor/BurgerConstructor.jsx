@@ -1,138 +1,105 @@
-import React, {useMemo} from 'react';
+import React, {useCallback} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  addQuantity,
+  addSelectedItem,
+  resetTotalPrice,
+  setTotalPrice,
+  updateSelectedList,
+} from '../../services/ingredientsSlice';
 import styles from './BurgerConstructor.module.css';
-import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import {FoodDataContext} from '../../contexts/foodDataContext';
+import {
+  CurrencyIcon,
+  Button
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 import Bun from '../Bun/Bun';
-import Api from '../../utils/api';
-
-const totalPrice = { price: 0 };
-
-function totalPriceReducer(state, action) {
-  switch (action.type) {
-    case 'set':
-      let totalPrice = state.price;
-      action.ingredients.forEach(item => {
-        totalPrice += item.price;
-      })
-      totalPrice += action.bun ? action.bun.price * 2 : 0;
-      return { price: totalPrice };
-    case 'reset':
-      return { price: 0 }
-    default:
-      throw new Error(`Wrong type of action ${action.type}`);
-  }
-}
-
-const orderedIngredients = {
-  ingredients: [],
-  bun: null
-};
-
-function orderedIngredientsReducer (state, action) {
-  switch (action.type) {
-    case 'add':
-      if (action.item.type === 'bun') {
-        return {
-          ...state,
-          bun: action.item
-        }
-      } else {
-        return {
-          ...state,
-          ingredients: [
-            ...state.ingredients,
-            action.item
-          ]
-        }
-      }
-    case 'reset':
-      return { ingredients: [], bun: null }
-    default:
-      throw new Error(`Wrong type of action ${action.type}`);
-  }
-}
+import {hideOrderDetails, sendOrder} from '../../services/ordersSlice';
+import {useDrop} from 'react-dnd';
+import ConstructorItem from '../ConstructorItem/ConstructorItem';
 
 export default function BurgerConstructor() {
-  const foodData = React.useContext(FoodDataContext);
-  const [isPopupVisible, setIsPopupVisible] = React.useState(false);
-  const [orderedIngredientsState, orderedIngredientsDispatcher] = React.useReducer(
-    orderedIngredientsReducer,
-    orderedIngredients,
-    undefined
-  )
-  const [totalPriceState, totalPriceDispatcher] = React.useReducer(totalPriceReducer, totalPrice,undefined);
-  const [orderDetail, setOrderDetail] = React.useState(null);
+  const {
+    totalPrice,
+    selectedIngredients,
+    orderDetail,
+    isOrderDetailsShow
+  } = useSelector(state => ({
+    totalPrice: state.ingredients.totalPrice,
+    selectedIngredients: state.ingredients.selectedItems,
+    orderDetail: state.orders.orderDetail,
+    isOrderDetailsShow: state.orders.isOrderDetailsShow,
+  }));
+
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
-    orderedIngredientsDispatcher({
-      type: 'reset'
-    });
-
-    foodData.forEach(item => {
-      orderedIngredientsDispatcher(
-        {
-          type: 'add',
-          item
-        }
-      )
-    });
-
-  }, [foodData])
-
-  React.useEffect(() => {
-    totalPriceDispatcher( {type: 'reset' });
-    totalPriceDispatcher( {
-      type: 'set',
-      ingredients: orderedIngredientsState.ingredients,
-      bun: orderedIngredientsState.bun
-    });
-  }, [orderedIngredientsState]);
+    dispatch(resetTotalPrice());
+    dispatch(setTotalPrice());
+  }, [selectedIngredients]);
 
 
   const handleClickOrderButton = () => {
-    Api.sendOrder(orderedIngredientsState)
-      .then(data => {
-        setOrderDetail({
-          ...data
-        });
-        setIsPopupVisible(true);
-      })
-      .catch(err => console.log(err));
+    dispatch(sendOrder({
+      ingredients: selectedIngredients,
+    }))
   }
 
   const handleClickClose = () => {
-    setIsPopupVisible(false);
+    dispatch(hideOrderDetails());
   }
+
+  const [{isHover}, dropTarget] = useDrop({
+    accept: ['bun', 'sauce', 'main'],
+    collect: monitor => ({
+      isHover: monitor.isOver(),
+    }),
+    drop(source) {
+      dispatch(addSelectedItem(source.item));
+      dispatch(addQuantity({
+        type: source.type,
+        id: source.id
+      }))
+    }
+  })
+
+  const moveCard = useCallback((dragIndex, hoverIndex) => {
+    const dragCard = selectedIngredients.items[dragIndex];
+    const newCards = [...selectedIngredients.items]
+
+    newCards.splice(dragIndex, 1)
+    newCards.splice(hoverIndex, 0, dragCard)
+
+    dispatch(updateSelectedList(newCards));
+  }, [selectedIngredients, dispatch]);
 
   return(
     <>
       <section>
-        <div className={`${styles.listWrap} mb-10`}>
-          {orderedIngredientsState.bun && <Bun item={orderedIngredientsState.bun} type="top" />}
-          <ul className={`${styles.list} ${styles.scrollBox}`}>
-            {orderedIngredientsState.ingredients.map(item => {
-              if (item.type !== 'bun') {
+        <div className={`${styles.listWrap} ${isHover && styles.onHover} mb-10`} ref={dropTarget}>
+          {selectedIngredients.bun && <Bun item={selectedIngredients.bun} type="top" />}
+          {(selectedIngredients.bun || Boolean(selectedIngredients.items.length)) &&
+            <ul className={`${styles.list} ${styles.scrollBox}`}>
+            {selectedIngredients.items.map((item, index) => {
+              if (item && item.type !== 'bun') {
                 return (
-                  <li key={item._id} className={styles.listItem}>
-                    <DragIcon type="primary" />
-                    <ConstructorElement
-                      text={item.name}
-                      price={item.price}
-                      thumbnail={item.image}
-                    />
-                  </li>
+                  <ConstructorItem
+                    item={item}
+                    index={index}
+                    key={item.uid}
+                    moveCard={moveCard}
+                  />
                 )
               }
             })}
-          </ul>
-          {orderedIngredientsState.bun && <Bun item={orderedIngredientsState.bun} type="bottom" />}
+          </ul>}
+          {selectedIngredients.bun && <Bun item={selectedIngredients.bun} type="bottom" />}
         </div>
 
         <div className={styles.priceWrap}>
           <div className={`text text_type_digits-medium ${styles.price}`}>
-            {totalPriceState.price.toLocaleString()}
+            {totalPrice ? totalPrice.toLocaleString() : 0}
             <CurrencyIcon type="primary" />
           </div>
           <Button type="primary" size="large" onClick={handleClickOrderButton}>
@@ -141,7 +108,7 @@ export default function BurgerConstructor() {
         </div>
       </section>
 
-      {isPopupVisible &&
+      {isOrderDetailsShow &&
         <Modal onClose={handleClickClose}>
           <OrderDetails details={orderDetail} />
         </Modal>
