@@ -1,6 +1,6 @@
 import React from 'react';
 import AppHeader from '../AppHeader/AppHeader';
-import {LoginPage, MainPage, NotFound404} from '../../pages';
+import {LoginPage, MainPage, NotFound404, RegisterPage} from '../../pages';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 function App() {
@@ -13,6 +13,9 @@ function App() {
         </Route>
         <Route path='/login'>
           <LoginPage />
+        </Route>
+        <Route path='/register'>
+          <RegisterPage />
         </Route>
         <Route>
           <NotFound404 />

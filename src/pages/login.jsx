@@ -1,22 +1,15 @@
 import React, {useState} from 'react';
 import styles from './login.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useDispatch, useSelector} from 'react-redux';
-import {updateInput} from '../services/usersSlice';
+import {useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
+import { useInputValue } from '../hooks/useInputValue';
 
 export function LoginPage() {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
-  const dispatch = useDispatch();
   const { email, password } = useSelector(state => state.users.form);
 
-  console.log(email)
-
-  const handleChange = (e) => {
-    dispatch(updateInput({
-      name: e.target.name,
-      value: e.target.value
-    }))
-  }
+  const handleChange = useInputValue();
 
   return (
     <main className={styles.main}>
@@ -24,28 +17,28 @@ export function LoginPage() {
         <p className="text text_type_main-medium mb-6">Вход</p>
         <div className="mb-6">
           <Input
-            type={'text'}
-            placeholder={'E-Mail'}
+            type="text"
+            placeholder="E-Mail"
             onChange={handleChange}
             value={email}
-            name={'email'}
+            name="email"
             error={false}
-            errorText={'Ошибка'}
-            size={'default'}
+            errorText="Ошибка"
+            size="default"
           />
         </div>
         <div className="mb-6">
           <Input
             type={isPasswordShow ? 'text' : 'password'}
-            placeholder={'Пароль'}
+            placeholder="Пароль"
             onChange={handleChange}
             value={password}
-            name={'password'}
+            name="password"
             error={false}
             icon={isPasswordShow ? 'HideIcon' : 'ShowIcon'}
             onIconClick={() => setIsPasswordShow(!isPasswordShow)}
-            errorText={'Ошибка'}
-            size={'default'}
+            errorText="Ошибка"
+            size="default"
           />
         </div>
 
@@ -55,22 +48,22 @@ export function LoginPage() {
           </Button>
         </div>
 
-        <div className="text text_type_main-default text_color_inactive mb-4">
+        <p className="text text_type_main-default text_color_inactive mb-4">
           Вы &mdash; новый пользователь?
-          <div className={styles.secondButton}>
+          <Link to="/register" className={styles.secondButton}>
             <Button type="secondary" size="">
               Зарегистрироваться
             </Button>
-          </div>
-        </div>
-        <div className="text text_type_main-default text_color_inactive">
+          </Link>
+        </p>
+        <p className="text text_type_main-default text_color_inactive">
           Забыли пароль?
-          <div className={styles.secondButton}>
+          <Link to="/forgot-password" className={styles.secondButton}>
             <Button type="secondary" size="">
               Восстановить пароль
             </Button>
-          </div>
-        </div>
+          </Link>
+        </p>
       </div>
     </main>
   );

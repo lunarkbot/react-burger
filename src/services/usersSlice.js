@@ -6,6 +6,7 @@ const usersSlice = createSlice({
     form: {
       email: '',
       password: '',
+      name: '',
     }
   },
   reducers: {
