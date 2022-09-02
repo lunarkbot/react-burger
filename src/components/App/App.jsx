@@ -1,6 +1,6 @@
 import React from 'react';
 import AppHeader from '../AppHeader/AppHeader';
-import { MainPage } from '../../pages';
+import {MainPage, NotFound404} from '../../pages';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 function App() {
@@ -11,7 +11,9 @@ function App() {
         <Route exact={true} path='/'>
           <MainPage />
         </Route>
-
+        <Route>
+          <NotFound404 />
+        </Route>
       </Switch>
     </BrowserRouter>
   );
