@@ -12,3 +12,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+div.input_type_text,
+div.input_type_email,
+div.input_type_password {
+  width: 480px;
+}
