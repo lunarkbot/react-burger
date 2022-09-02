@@ -11,6 +11,7 @@ function App() {
         <Route exact={true} path='/'>
           <MainPage />
         </Route>
+
       </Switch>
     </BrowserRouter>
   );
