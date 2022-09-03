@@ -1,10 +1,11 @@
 import React from 'react';
 import styles from './not-found.module.css';
+import indexStyles from './index.module.css';
 
 export function NotFound404() {
   const message = 'Error 404: Page not found'.split('');
   return (
-    <main className={styles.main}>
+    <main className={`${indexStyles.main} ${styles.main}`}>
       <div>
         {message.map((letter, index) => {
           return (

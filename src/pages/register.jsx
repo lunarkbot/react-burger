@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styles from './register.module.css';
+import indexStyles from './index.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
@@ -12,10 +12,10 @@ export function RegisterPage() {
   const handleChange = useInputValue();
 
   return (
-    <main className={styles.main}>
-      <div className={styles.form}>
+    <main className={indexStyles.main}>
+      <div className={indexStyles.form}>
         <p className="text text_type_main-medium mb-6">Регистрация</p>
-        <div className="mb-6">
+        <div className={`mb-6 ${indexStyles.inputWrap}`}>
           <Input
             type={isPasswordShow ? 'text' : 'password'}
             placeholder="Имя"
@@ -29,7 +29,7 @@ export function RegisterPage() {
             size="default"
           />
         </div>
-        <div className="mb-6">
+        <div className={`mb-6 ${indexStyles.inputWrap}`}>
           <Input
             type="text"
             placeholder="E-Mail"
@@ -41,7 +41,7 @@ export function RegisterPage() {
             size="default"
           />
         </div>
-        <div className="mb-6">
+        <div className={`mb-6 ${indexStyles.inputWrap}`}>
           <Input
             type={isPasswordShow ? 'text' : 'password'}
             placeholder="Пароль"
@@ -64,9 +64,9 @@ export function RegisterPage() {
 
         <p className="text text_type_main-default text_color_inactive mb-4">
           Уже зарегистрированы?
-          <Link to="/login" className={styles.secondButton}>
+          <Link to="/login" className={indexStyles.secondButton}>
             <Button type="secondary" size="">
-              войти
+              Войти
             </Button>
           </Link>
         </p>

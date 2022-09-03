@@ -7,11 +7,16 @@ const usersSlice = createSlice({
       email: '',
       password: '',
       name: '',
+      verificationCode: '',
+    },
+    user: {
+      email: 'mail@stellar.burgers',
+      password: 'password',
+      name: 'Марк',
     }
   },
   reducers: {
     updateInput(state, action) {
-      console.log()
       state.form[action.payload.name] = action.payload.value;
     }
   }

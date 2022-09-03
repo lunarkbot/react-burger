@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styles from './login.module.css';
+import indexStyles from './index.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
@@ -12,10 +12,10 @@ export function LoginPage() {
   const handleChange = useInputValue();
 
   return (
-    <main className={styles.main}>
-      <div className={styles.form}>
+    <main className={indexStyles.main}>
+      <div className={indexStyles.form}>
         <p className="text text_type_main-medium mb-6">Вход</p>
-        <div className="mb-6">
+        <div className={`mb-6 ${indexStyles.inputWrap}`}>
           <Input
             type="text"
             placeholder="E-Mail"
@@ -27,7 +27,7 @@ export function LoginPage() {
             size="default"
           />
         </div>
-        <div className="mb-6">
+        <div className={`mb-6 ${indexStyles.inputWrap}`}>
           <Input
             type={isPasswordShow ? 'text' : 'password'}
             placeholder="Пароль"
@@ -50,7 +50,7 @@ export function LoginPage() {
 
         <p className="text text_type_main-default text_color_inactive mb-4">
           Вы &mdash; новый пользователь?
-          <Link to="/register" className={styles.secondButton}>
+          <Link to="/register" className={indexStyles.secondButton}>
             <Button type="secondary" size="">
               Зарегистрироваться
             </Button>
@@ -58,7 +58,7 @@ export function LoginPage() {
         </p>
         <p className="text text_type_main-default text_color_inactive">
           Забыли пароль?
-          <Link to="/forgot-password" className={styles.secondButton}>
+          <Link to="/forgot-password" className={indexStyles.secondButton}>
             <Button type="secondary" size="">
               Восстановить пароль
             </Button>

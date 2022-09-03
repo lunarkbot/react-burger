@@ -1,0 +1,29 @@
+.main {
+  width: min(100%, 1240px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  padding-top: 80px;
+  column-gap: 60px;
+}
+
+.list {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.list li {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.link {
+  text-decoration: none;
+  color: #8585ad;
+}
+
+.activeLink {
+  color: #fff;
+}

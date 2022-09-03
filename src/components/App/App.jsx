@@ -1,6 +1,14 @@
 import React from 'react';
 import AppHeader from '../AppHeader/AppHeader';
-import {LoginPage, MainPage, NotFound404, RegisterPage} from '../../pages';
+import {
+  ForgotPasswordPage,
+  LoginPage,
+  MainPage,
+  NotFound404,
+  ProfilePage,
+  RegisterPage,
+  ResetPasswordPage
+} from '../../pages';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 function App() {
@@ -16,6 +24,15 @@ function App() {
         </Route>
         <Route path='/register'>
           <RegisterPage />
+        </Route>
+        <Route path='/forgot-password'>
+          <ForgotPasswordPage />
+        </Route>
+        <Route path='/reset-password'>
+          <ResetPasswordPage />
+        </Route>
+        <Route path='/profile'>
+          <ProfilePage />
         </Route>
         <Route>
           <NotFound404 />
