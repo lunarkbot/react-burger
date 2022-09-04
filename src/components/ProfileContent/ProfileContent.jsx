@@ -3,7 +3,7 @@ import styles from './ProfileContent.module.css';
 import {NavLink} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function ProfileContent({children}) {
+function ProfileContent({children, className}) {
   return (
     <main className={styles.profile}>
       <aside>
@@ -12,6 +12,7 @@ function ProfileContent({children}) {
             <li>
               <NavLink
                 to="/profile"
+                exact={true}
                 className={`text text_type_main-medium ${styles.profile__link}`}
                 activeClassName={styles.activeLink}
               >
@@ -43,7 +44,7 @@ function ProfileContent({children}) {
           изменить свои персональные данные
         </p>
       </aside>
-      <div>
+      <div className={className}>
         {children}
       </div>
     </main>
@@ -53,5 +54,8 @@ function ProfileContent({children}) {
 export default ProfileContent;
 
 ProfileContent.propTypes = {
-  children: PropTypes.array.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array
+  ]).isRequired,
 }

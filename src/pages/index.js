@@ -6,6 +6,8 @@ import { ResetPasswordPage } from './reset-password';
 import { ProfilePage } from './profile';
 import { IngredientsPage } from './ingredients';
 import { NotFound404 } from './not-found';
+import { OrdersPage } from './orders';
+import { OrderDetailsPage } from './order-details';
 
 export {
   MainPage,
@@ -16,4 +18,6 @@ export {
   ProfilePage,
   IngredientsPage,
   NotFound404,
+  OrdersPage,
+  OrderDetailsPage
 };

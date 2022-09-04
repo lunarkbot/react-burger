@@ -7,7 +7,9 @@ import {
   NotFound404,
   ProfilePage,
   RegisterPage,
-  ResetPasswordPage
+  ResetPasswordPage,
+  OrdersPage,
+  OrderDetailsPage
 } from '../../pages';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
@@ -31,8 +33,14 @@ function App() {
         <Route path='/reset-password'>
           <ResetPasswordPage />
         </Route>
-        <Route path='/profile'>
+        <Route path='/profile' exact={true}>
           <ProfilePage />
+        </Route>
+        <Route path='/profile/orders' exact={true}>
+          <OrdersPage />
+        </Route>
+        <Route path='/profile/orders/:orderNumber'>
+          <OrderDetailsPage />
         </Route>
         <Route>
           <NotFound404 />
