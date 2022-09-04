@@ -4,6 +4,7 @@ import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {useInputValue} from '../hooks/useInputValue';
+import PasswordInput from '../components/PasswordInput/PasswordInput';
 
 export function RegisterPage() {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
@@ -17,14 +18,12 @@ export function RegisterPage() {
         <p className="text text_type_main-medium mb-6">Регистрация</p>
         <div className={`mb-6 ${indexStyles.inputWrap}`}>
           <Input
-            type={isPasswordShow ? 'text' : 'password'}
+            type="text"
             placeholder="Имя"
             onChange={handleChange}
             value={name}
             name="name"
             error={false}
-            icon={isPasswordShow ? 'HideIcon' : 'ShowIcon'}
-            onIconClick={() => setIsPasswordShow(!isPasswordShow)}
             errorText="Ошибка"
             size="default"
           />
@@ -42,17 +41,12 @@ export function RegisterPage() {
           />
         </div>
         <div className={`mb-6 ${indexStyles.inputWrap}`}>
-          <Input
-            type={isPasswordShow ? 'text' : 'password'}
+          <PasswordInput
             placeholder="Пароль"
-            onChange={handleChange}
             value={password}
-            name="password"
+            onChange={handleChange}
             error={false}
-            icon={isPasswordShow ? 'HideIcon' : 'ShowIcon'}
-            onIconClick={() => setIsPasswordShow(!isPasswordShow)}
             errorText="Ошибка"
-            size="default"
           />
         </div>
 

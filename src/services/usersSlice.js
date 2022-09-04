@@ -16,12 +16,18 @@ const usersSlice = createSlice({
     }
   },
   reducers: {
-    updateInput(state, action) {
+    updateFormInput(state, action) {
       state.form[action.payload.name] = action.payload.value;
+    },
+    updateProfile(state, action) {
+      state.user[action.payload.name] = action.payload.value;
     }
   }
 })
 
-export const { updateInput } = usersSlice.actions;
+export const {
+  updateFormInput,
+  updateProfile,
+} = usersSlice.actions;
 
 export default usersSlice.reducer;

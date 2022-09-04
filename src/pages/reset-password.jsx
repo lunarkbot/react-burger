@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux';
 import {useInputValue} from '../hooks/useInputValue';
 import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import {Link} from 'react-router-dom';
+import PasswordInput from '../components/PasswordInput/PasswordInput';
 
 export function ResetPasswordPage() {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
@@ -16,17 +17,12 @@ export function ResetPasswordPage() {
       <div className={indexStyles.form}>
         <p className="text text_type_main-medium mb-6">Восстановление пароля</p>
         <div className={`mb-6 ${indexStyles.inputWrap}`}>
-          <Input
-            type={isPasswordShow ? 'text' : 'password'}
+          <PasswordInput
             placeholder="Введите новый пароль"
-            onChange={handleChange}
             value={password}
-            name="password"
+            onChange={handleChange}
             error={false}
-            icon={isPasswordShow ? 'HideIcon' : 'ShowIcon'}
-            onIconClick={() => setIsPasswordShow(!isPasswordShow)}
             errorText="Ошибка"
-            size="default"
           />
         </div>
         <div className={`mb-6 ${indexStyles.inputWrap}`}>

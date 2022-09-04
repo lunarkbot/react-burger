@@ -4,9 +4,10 @@ import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import { useInputValue } from '../hooks/useInputValue';
+import PasswordInput from '../components/PasswordInput/PasswordInput';
 
 export function LoginPage() {
-  const [isPasswordShow, setIsPasswordShow] = useState(false);
+
   const { email, password } = useSelector(state => state.users.form);
 
   const handleChange = useInputValue();
@@ -28,17 +29,12 @@ export function LoginPage() {
           />
         </div>
         <div className={`mb-6 ${indexStyles.inputWrap}`}>
-          <Input
-            type={isPasswordShow ? 'text' : 'password'}
+          <PasswordInput
             placeholder="Пароль"
-            onChange={handleChange}
             value={password}
-            name="password"
+            onChange={handleChange}
             error={false}
-            icon={isPasswordShow ? 'HideIcon' : 'ShowIcon'}
-            onIconClick={() => setIsPasswordShow(!isPasswordShow)}
             errorText="Ошибка"
-            size="default"
           />
         </div>
 

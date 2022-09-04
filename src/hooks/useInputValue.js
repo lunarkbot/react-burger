@@ -1,13 +1,21 @@
 import {useDispatch} from 'react-redux';
-import {updateInput} from '../services/usersSlice';
+import {updateProfile, updateFormInput} from '../services/usersSlice';
 
-export function useInputValue() {
+export function useInputValue(type) {
   const dispatch = useDispatch();
 
   return (e) => {
-    dispatch(updateInput({
+    const data = {
       name: e.target.name,
       value: e.target.value
-    }))
+    }
+
+    switch (type) {
+      case 'profile':
+        dispatch(updateProfile(data))
+        break;
+      default:
+        dispatch(updateFormInput(data))
+    }
   }
 }
