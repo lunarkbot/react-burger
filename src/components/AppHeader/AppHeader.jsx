@@ -6,6 +6,7 @@ import {
   Logo,
   ProfileIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import {Link} from 'react-router-dom';
 
 export default function AppHeader() {
   return (
@@ -15,7 +16,12 @@ export default function AppHeader() {
           <ul className={styles.list}>
             <li className={styles.listItem}>
               <BurgerIcon type="primary" />
-              <span className="text text_type_main-default ml-2">Конструктор</span>
+              <Link
+                to="/"
+                className={`text text_type_main-default ml-2 ${styles.navLink}`}
+              >
+                Конструктор
+              </Link>
             </li>
             <li className={styles.listItem}>
               <ListIcon type="secondary"/>
@@ -29,7 +35,12 @@ export default function AppHeader() {
         <div className={styles.loginColumn}>
           <button className={styles.login}>
             <ProfileIcon type="secondary" />
-            <span className="text text_type_main-default text_color_inactive ml-2">Личный кабинет</span>
+            <Link
+              to="/profile"
+              className={`text text_type_main-default text_color_inactive ml-2 ${styles.link}`}
+            >
+              Личный кабинет
+            </Link>
           </button>
         </div>
       </div>
