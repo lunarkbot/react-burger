@@ -31,6 +31,24 @@ class Api {
       })
     }).then(this._checker);
   }
+
+  signUp(data) {
+    return fetch(`${this._baseUrl}/auth/register`,{
+      headers: this._headers,
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+      .then(this._checker);
+  }
+
+  signIn(data) {
+    return fetch(`${this._baseUrl}/auth/login`, {
+      headers: this._headers,
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+      .then(this._headers);
+  }
 }
 
 export default new Api({
