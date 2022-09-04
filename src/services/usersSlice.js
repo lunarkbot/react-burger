@@ -13,6 +13,8 @@ const usersSlice = createSlice({
       email: 'mail@stellar.burgers',
       password: 'password',
       name: 'Марк',
+      accessToken: null,
+      refreshToken: null,
     }
   },
   reducers: {
