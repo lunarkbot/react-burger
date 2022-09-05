@@ -4,8 +4,15 @@ import { showError, hideError } from '../services/errorsSlice';
 function hasInputError(name, value) {
   switch (name) {
     case 'email':
-        return value.length < 4 && value.indexOf('@') === -1
+        const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        return !reg.test(value)
           ? 'Введите корректный email' : false;
+    case 'password':
+        return value.length < 8
+          ? 'Пароль не может быть короче 8 символов' : false;
+    case 'token':
+        return value.length < 36
+          ? 'Код не может быть меньше 36 символов' : false;
     default:
         return value.length < 2
           ? 'Значение не может быть короче 2 символов' : false;

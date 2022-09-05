@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import api from '../utils/api';
+import consoleError from '../utils/consoleError';
 
 export const signUp = createAsyncThunk(
   'users/signUp',
@@ -7,7 +8,18 @@ export const signUp = createAsyncThunk(
     try {
       return await api.signUp(data);
     } catch(err) {
-      //return rejectWithValue(err);
+      return rejectWithValue(err);
+    }
+  }
+)
+
+export const signIn = createAsyncThunk(
+  'users/signIn',
+  async function (data, {rejectWithValue}) {
+    try {
+      return await api.signIn(data)
+    } catch (err) {
+      return rejectWithValue(err);
     }
   }
 )
@@ -19,7 +31,7 @@ const usersSlice = createSlice({
       email: '',
       password: '',
       name: '',
-      verificationCode: '',
+      token: '',
     },
     profile: {
       email: '',
@@ -37,14 +49,40 @@ const usersSlice = createSlice({
     registration: {
       isFailed: false,
       isSuccess: false
+    },
+    login: {
+      isFailed: false,
+      isSuccess: false
     }
   },
   reducers: {
     updateFormInput(state, action) {
       state.form[action.payload.name] = action.payload.value;
     },
+    resetFormInput(state) {
+      state.form.email = '';
+      state.form.password = '';
+      state.form.name = '';
+      state.form.token = '';
+    },
     updateProfile(state, action) {
       state.profile[action.payload.name] = action.payload.value;
+    },
+    resetProfile(state) {
+      state.profile.email = '';
+      state.profile.password = '';
+      state.profile.name = '';
+    },
+    setUserData(state, action) {
+      state.user.email = action.payload.user.email;
+      state.user.name = action.payload.user.name;
+      state.user.accessToken = action.payload.accessToken;
+      state.user.refreshToken = action.payload.refreshToken;
+
+      state.profile.email = action.payload.user.email;
+      state.profile.name = action.payload.user.name;
+
+      localStorage.setItem('refreshToken', action.payload.refreshToken);
     }
   },
   extraReducers: {
@@ -56,26 +94,35 @@ const usersSlice = createSlice({
       console.log(action.payload)
       state.registration.isSuccess = true;
 
-      state.user.email = action.payload.user.email;
-      state.user.name = action.payload.user.name;
-      state.user.accessToken = action.payload.accessToken;
-      state.user.refreshToken = action.payload.refreshToken;
-
-      state.profile.email = action.payload.user.email;
-      state.profile.name = action.payload.user.name;
-
-      localStorage.setItem('accessToken', action.payload.accessToken);
-      localStorage.setItem('refreshToken', action.payload.refreshToken);
+      usersSlice.caseReducers.setUserData(state, action);
     },
     [signUp.rejected]: (state, action) => {
       state.registration.isFailed = true;
-    }
+      consoleError(action.payload);
+    },
+    [signIn.pending]: (state) => {
+      state.login.isFailed = false;
+      state.login.isSuccess = false;
+    },
+    [signIn.fulfilled]: (state, action) => {
+      console.log(action.payload)
+      state.login.isSuccess = true;
+
+      usersSlice.caseReducers.setUserData(state, action);
+    },
+    [signIn.rejected]: (state, action) => {
+      state.login.isFailed = true;
+      consoleError(action.payload);
+    },
+
   }
 })
 
 export const {
   updateFormInput,
+  resetFormInput,
   updateProfile,
+  resetProfile,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

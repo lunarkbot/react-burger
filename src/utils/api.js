@@ -47,7 +47,25 @@ class Api {
       method: 'POST',
       body: JSON.stringify(data)
     })
-      .then(this._headers);
+      .then(this._checker);
+  }
+
+  forgotPassword(data) {
+    return fetch(`${this._baseUrl}/password-reset`, {
+      headers: this._headers,
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+      .then(this._checker);
+  }
+
+  resetPassword(data) {
+    return fetch(`${this._baseUrl}/password-reset/reset`, {
+      headers: this._headers,
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+      .then(this._checker);
   }
 }
 

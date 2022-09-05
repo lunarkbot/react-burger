@@ -15,7 +15,7 @@ const errorSlice = createSlice({
       isShow: false,
       text: ''
     },
-    verificationCode: {
+    token: {
       isShow: false,
       text: ''
     },
@@ -38,8 +38,8 @@ const errorSlice = createSlice({
       state.name.text = '';
       state.email.isShow = false;
       state.email.text = '';
-      state.verificationCode.isShow = false;
-      state.verificationCode.text = '';
+      state.token.isShow = false;
+      state.token.text = '';
       state.password.isShow = false;
       state.password.text = '';
     }

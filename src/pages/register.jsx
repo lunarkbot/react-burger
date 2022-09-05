@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 import indexStyles from './index.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {useInputValue} from '../hooks/useInputValue';
 import PasswordInput from '../components/PasswordInput/PasswordInput';
-import {signUp} from '../services/usersSlice';
+import {resetFormInput, signUp} from '../services/usersSlice';
 import {useCheckInputs} from '../hooks/useCheckInputs';
 
 export function RegisterPage() {
   const { email, password, name } = useSelector(state => state.users.form);
-  const inputErrors = useSelector(state => state.errors);
+  const inputsError = useSelector(state => state.errors);
 
   const dispatch = useDispatch();
   const setInputValue = useInputValue();
@@ -30,7 +30,10 @@ export function RegisterPage() {
     }
 
     const hasError = checkInputs(inputs);
-    if (!hasError) dispatch(signUp(inputs));
+    if (!hasError) {
+      dispatch(signUp(inputs));
+      dispatch(resetFormInput());
+    }
   }
 
   return (
@@ -45,8 +48,8 @@ export function RegisterPage() {
               onChange={handleChange}
               value={name}
               name="name"
-              error={inputErrors.name.isShow}
-              errorText={inputErrors.name.text}
+              error={inputsError.name.isShow}
+              errorText={inputsError.name.text}
               size="default"
             />
           </div>
@@ -57,8 +60,8 @@ export function RegisterPage() {
               onChange={handleChange}
               value={email}
               name="email"
-              error={inputErrors.email.isShow}
-              errorText={inputErrors.email.text}
+              error={inputsError.email.isShow}
+              errorText={inputsError.email.text}
               size="default"
             />
           </div>
@@ -67,8 +70,8 @@ export function RegisterPage() {
               placeholder="Пароль"
               value={password}
               onChange={handleChange}
-              error={inputErrors.password.isShow}
-              errorText={inputErrors.password.text}
+              error={inputsError.password.isShow}
+              errorText={inputsError.password.text}
             />
           </div>
 

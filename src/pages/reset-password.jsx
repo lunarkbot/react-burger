@@ -1,48 +1,84 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import indexStyles from './index.module.css';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useInputValue} from '../hooks/useInputValue';
 import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import PasswordInput from '../components/PasswordInput/PasswordInput';
+import {useCheckInputs} from '../hooks/useCheckInputs';
+import {resetPassword, resetPasswordData} from '../services/passwordSlice';
+import {resetFormInput} from '../services/usersSlice';
+import Spinner from '../components/Spinner/Spinner';
 
 export function ResetPasswordPage() {
-  const [isPasswordShow, setIsPasswordShow] = useState(false);
-  const { verificationCode, password } = useSelector(state => state.users.form);
+  const { token, password } = useSelector(state => state.users.form);
+  const inputsError = useSelector(state => state.errors);
+  const { isPasswordReset, isButtonDisabled } = useSelector(state => state.password);
+  const dispatch = useDispatch();
+  const setInputValue = useInputValue();
+  const checkInputs = useCheckInputs();
+  const history = useHistory();
 
-  const handleChange = useInputValue();
+  useEffect(() => {
+    if (isPasswordReset) {
+      dispatch(resetPasswordData());
+      dispatch(resetFormInput());
+      history.push('/login');
+    }
+  }, [isPasswordReset, history, dispatch])
+
+  const handleChange = (e) => {
+    setInputValue(e);
+    checkInputs({[e.target.name]: e.target.value});
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const inputs = {
+      token,
+      password,
+    }
+
+    const hasError = checkInputs(inputs);
+    if (!hasError) {
+      dispatch(resetPassword(inputs));
+    }
+  }
 
   return (
     <main className={indexStyles.main}>
       <div className={indexStyles.form}>
         <p className="text text_type_main-medium mb-6">Восстановление пароля</p>
-        <div className={`mb-6 ${indexStyles.inputWrap}`}>
-          <PasswordInput
-            placeholder="Введите новый пароль"
-            value={password}
-            onChange={handleChange}
-            error={false}
-            errorText="Ошибка"
-          />
-        </div>
-        <div className={`mb-6 ${indexStyles.inputWrap}`}>
-          <Input
-            type="text"
-            placeholder="Введите код из письма"
-            onChange={handleChange}
-            value={verificationCode}
-            name="verificationCode"
-            error={false}
-            errorText="Ошибка"
-            size="default"
-          />
-        </div>
+        <form onSubmit={handleSubmit} className={indexStyles.form}>
+          <div className={`mb-6 ${indexStyles.inputWrap}`}>
+            <PasswordInput
+              placeholder="Введите новый пароль"
+              value={password}
+              onChange={handleChange}
+              error={inputsError.password.isShow}
+              errorText={inputsError.password.text}
+            />
+          </div>
+          <div className={`mb-6 ${indexStyles.inputWrap}`}>
+            <Input
+              type="text"
+              placeholder="Введите код из письма"
+              onChange={handleChange}
+              value={token}
+              name="token"
+              error={inputsError.token.isShow}
+              errorText={inputsError.token.text}
+              size="default"
+            />
+          </div>
 
-        <div className="mb-20">
-          <Button type="primary" size="medium">
-            Сохранить
-          </Button>
-        </div>
+          <div className="mb-20">
+            <Button type="primary" disabled={isButtonDisabled} size="medium">
+              Сохранить {isButtonDisabled && <Spinner />}
+            </Button>
+          </div>
+        </form>
 
         <p className="text text_type_main-default text_color_inactive mb-4">
           Вспомнили пароль?
