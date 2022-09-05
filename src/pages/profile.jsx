@@ -7,13 +7,18 @@ import ProfileContent from '../components/ProfileContent/ProfileContent';
 import EditableInput from '../components/EditableInput/EditableInput';
 
 export function ProfilePage() {
-  const { name, email, password } = useSelector(state => state.users.profile);
+  const { user, profile } = useSelector(state => state.users);
 
   const [isDisabledInput, setIsDisabledInput] = useState({
     name: true,
     email: true,
     password: true
   })
+
+  const isSaveEnable = !isDisabledInput.email || !isDisabledInput.name || !isDisabledInput.password;
+  const isSaveVisible = user.name !== profile.name
+                        || user.email !== profile.email
+                        || user.password !== profile.password;
 
   const handleIconClick = (name) => {
     setIsDisabledInput({
@@ -47,8 +52,10 @@ export function ProfilePage() {
             onIconClick={handleIconClick}
           />
         </div>
-        {(!isDisabledInput.email || !isDisabledInput.name || !isDisabledInput.password)
-          && <Button type={'primary'}>Сохранить</Button>}
+        {(isSaveEnable
+          && <div className={`${styles.submit} ${isSaveVisible ? styles.submitVisible : ''}`}>
+                <Button type={'primary'}>Сохранить</Button>
+             </div>)}
       </form>
     </ProfileContent>
   );

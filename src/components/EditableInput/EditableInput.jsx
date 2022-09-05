@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 import {useInputValue} from '../../hooks/useInputValue';
@@ -32,6 +32,10 @@ function EditableInput(
         element: inputRef.current,
         value: inputDefaultValue
       });
+    } else {
+      setTimeout(() => {
+        inputRef.current.focus();
+      }, 0);
     }
 
     setIsDisabled(!isDisabled);
