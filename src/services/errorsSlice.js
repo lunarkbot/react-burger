@@ -32,13 +32,24 @@ const errorSlice = createSlice({
 
       state[name].isShow = false;
       state[name].text = '';
+    },
+    resetError(state) {
+      state.name.isShow = false;
+      state.name.text = '';
+      state.email.isShow = false;
+      state.email.text = '';
+      state.verificationCode.isShow = false;
+      state.verificationCode.text = '';
+      state.password.isShow = false;
+      state.password.text = '';
     }
   }
 })
 
 export const {
   showError,
-  hideError
+  hideError,
+  resetError
 } = errorSlice.actions;
 
 export default errorSlice.reducer;
