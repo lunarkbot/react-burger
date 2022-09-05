@@ -7,7 +7,7 @@ export const signUp = createAsyncThunk(
     try {
       return await api.signUp(data);
     } catch(err) {
-      return rejectWithValue(err);
+      //return rejectWithValue(err);
     }
   }
 )
@@ -63,6 +63,9 @@ const usersSlice = createSlice({
 
       state.profile.email = action.payload.user.email;
       state.profile.name = action.payload.user.name;
+
+      localStorage.setItem('accessToken', action.payload.accessToken);
+      localStorage.setItem('refreshToken', action.payload.refreshToken);
     },
     [signUp.rejected]: (state, action) => {
       state.registration.isFailed = true;

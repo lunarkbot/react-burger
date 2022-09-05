@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import indexStyles from './index.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDispatch, useSelector} from 'react-redux';
@@ -6,20 +6,31 @@ import {Link} from 'react-router-dom';
 import {useInputValue} from '../hooks/useInputValue';
 import PasswordInput from '../components/PasswordInput/PasswordInput';
 import {signUp} from '../services/usersSlice';
+import {useCheckInputs} from '../hooks/useCheckInputs';
 
 export function RegisterPage() {
   const { email, password, name } = useSelector(state => state.users.form);
-  const dispatch = useDispatch();
+  const inputErrors = useSelector(state => state.errors);
 
-  const handleChange = useInputValue();
+  const dispatch = useDispatch();
+  const setInputValue = useInputValue();
+  const checkInputs = useCheckInputs();
+
+  const handleChange = (e) => {
+    setInputValue(e);
+    checkInputs({[e.target.name]: e.target.value});
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signUp({
+    const inputs = {
       email,
       password,
       name
-    }));
+    }
+
+    const hasError = checkInputs(inputs);
+    if (!hasError) dispatch(signUp(inputs));
   }
 
   return (
@@ -34,8 +45,8 @@ export function RegisterPage() {
               onChange={handleChange}
               value={name}
               name="name"
-              error={false}
-              errorText="Ошибка"
+              error={inputErrors.name.isShow}
+              errorText={inputErrors.name.text}
               size="default"
             />
           </div>
@@ -46,8 +57,8 @@ export function RegisterPage() {
               onChange={handleChange}
               value={email}
               name="email"
-              error={false}
-              errorText="Ошибка"
+              error={inputErrors.email.isShow}
+              errorText={inputErrors.email.text}
               size="default"
             />
           </div>
@@ -56,8 +67,8 @@ export function RegisterPage() {
               placeholder="Пароль"
               value={password}
               onChange={handleChange}
-              error={false}
-              errorText="Ошибка"
+              error={inputErrors.password.isShow}
+              errorText={inputErrors.password.text}
             />
           </div>
 

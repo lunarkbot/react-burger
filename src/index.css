@@ -18,3 +18,8 @@ div.input_type_email,
 div.input_type_password {
   width: 480px;
 }
+
+.input__error {
+  position: absolute;
+  transform: translateY(-3px);
+}

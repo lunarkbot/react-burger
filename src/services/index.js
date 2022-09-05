@@ -3,6 +3,7 @@ import ingredientsReducer from './ingredientsSlice';
 import ordersReducer from './ordersSlice';
 import tabsReducer from './tabsSlice';
 import usersSlice from './usersSlice';
+import errorsSlice from './errorsSlice';
 
 export default configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export default configureStore({
     orders: ordersReducer,
     tabs: tabsReducer,
     users: usersSlice,
+    errors: errorsSlice,
   }
 })
