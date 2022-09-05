@@ -5,9 +5,11 @@ export function useInputValue(type) {
   const dispatch = useDispatch();
 
   return (e) => {
+    const element = e.isElement ? e.element : e.target;
+
     const data = {
-      name: e.target.name,
-      value: e.target.value
+      name: element.name,
+      value: e.isElement ? e.value : element.value,
     }
 
     switch (type) {

@@ -1,4 +1,16 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import api from '../utils/api';
+
+export const signUp = createAsyncThunk(
+  'users/signUp',
+  async function(data, {rejectWithValue}) {
+    try {
+      return await api.signUp(data);
+    } catch(err) {
+      return rejectWithValue(err);
+    }
+  }
+)
 
 const usersSlice = createSlice({
   name: 'users',
@@ -9,12 +21,22 @@ const usersSlice = createSlice({
       name: '',
       verificationCode: '',
     },
+    profile: {
+      email: '',
+      password: '',
+      name: '',
+    },
     user: {
-      email: 'mail@stellar.burgers',
-      password: 'password',
-      name: 'Марк',
+      email: '',
+      password: '',
+      name: '',
       accessToken: null,
       refreshToken: null,
+      isAuth: false,
+    },
+    registration: {
+      isFailed: false,
+      isSuccess: false
     }
   },
   reducers: {
@@ -22,7 +44,28 @@ const usersSlice = createSlice({
       state.form[action.payload.name] = action.payload.value;
     },
     updateProfile(state, action) {
-      state.user[action.payload.name] = action.payload.value;
+      state.profile[action.payload.name] = action.payload.value;
+    }
+  },
+  extraReducers: {
+    [signUp.pending]: (state) => {
+      state.registration.isFailed = false;
+      state.registration.isSuccess = false;
+    },
+    [signUp.fulfilled]: (state, action) => {
+      console.log(action.payload)
+      state.registration.isSuccess = true;
+
+      state.user.email = action.payload.user.email;
+      state.user.name = action.payload.user.name;
+      state.user.accessToken = action.payload.accessToken;
+      state.user.refreshToken = action.payload.refreshToken;
+
+      state.profile.email = action.payload.user.email;
+      state.profile.name = action.payload.user.name;
+    },
+    [signUp.rejected]: (state, action) => {
+      state.registration.isFailed = true;
     }
   }
 })

@@ -6,6 +6,7 @@
   padding-top: 140px;
 }
 
+.formWrap,
 .form {
   width: 480px;
   display: flex;
