@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import AppHeader from '../AppHeader/AppHeader';
 import {
   ForgotPasswordPage,
@@ -12,8 +12,17 @@ import {
   OrderDetailsPage
 } from '../../pages';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {authUser} from '../../services/usersSlice';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(authUser(dispatch));
+  }, [dispatch, authUser])
+
+
   return (
     <BrowserRouter>
       <AppHeader />

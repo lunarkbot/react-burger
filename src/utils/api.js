@@ -50,6 +50,31 @@ class Api {
       .then(this._checker);
   }
 
+  authUser() {
+    return fetch(`${this._baseUrl}/auth/user`, {
+      method: "GET",
+      headers: {
+        authorization: localStorage.getItem('accessToken'),
+        ...this._headers
+      },
+    })
+      .then(this._checker);
+  }
+
+  refreshToken() {
+    console.log(localStorage.getItem('refreshToken'))
+    return fetch(`${this._baseUrl}/auth/token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: localStorage.getItem('refreshToken')
+      })
+    })
+      .then(this._checker);
+  }
+
   forgotPassword(data) {
     return fetch(`${this._baseUrl}/password-reset`, {
       headers: this._headers,
