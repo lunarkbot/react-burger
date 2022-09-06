@@ -1,20 +1,37 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import indexStyles from './index.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDispatch, useSelector} from 'react-redux';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import { useInputValue } from '../hooks/useInputValue';
 import PasswordInput from '../components/PasswordInput/PasswordInput';
 import {useCheckInputs} from '../hooks/useCheckInputs';
 import {resetFormInput, signIn} from '../services/usersSlice';
+import Spinner from '../components/Spinner/Spinner';
+import {resetError} from '../services/errorsSlice';
 
 export function LoginPage() {
   const { email, password } = useSelector(state => state.users.form);
   const inputsError = useSelector(state => state.errors);
-
+  const { isLoginSuccess, isSubmitDisabled } = useSelector(state => ({
+    isLoginSuccess: state.users.login.isSuccess,
+    isSubmitDisabled: state.users.isSubmitDisabled,
+  }));
+  const history = useHistory();
   const dispatch = useDispatch();
   const setInputValue = useInputValue();
   const checkInputs = useCheckInputs();
+
+  useEffect(() => {
+    dispatch(resetError());
+  }, [dispatch, resetError]);
+
+  useEffect(() => {
+    if (isLoginSuccess) {
+      dispatch(resetFormInput());
+      history.push('/');
+    }
+  }, [history, dispatch, isLoginSuccess]);
 
   const handleChange = (e) => {
     setInputValue(e);
@@ -29,10 +46,7 @@ export function LoginPage() {
     }
 
     const hasError = checkInputs(inputs);
-    if (!hasError) {
-      dispatch(signIn(inputs));
-      dispatch(resetFormInput());
-    }
+    if (!hasError) dispatch(signIn(inputs));
   }
 
   return (
@@ -63,8 +77,8 @@ export function LoginPage() {
           </div>
 
           <div className="mb-20">
-            <Button type="primary" size="medium">
-              Войти
+            <Button type="primary" disabled={isSubmitDisabled} size="medium">
+              Войти {isSubmitDisabled && <Spinner />}
             </Button>
           </div>
         </form>

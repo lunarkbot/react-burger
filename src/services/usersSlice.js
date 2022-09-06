@@ -53,7 +53,8 @@ const usersSlice = createSlice({
     login: {
       isFailed: false,
       isSuccess: false
-    }
+    },
+    isSubmitDisabled: false,
   },
   reducers: {
     updateFormInput(state, action) {
@@ -89,32 +90,41 @@ const usersSlice = createSlice({
     [signUp.pending]: (state) => {
       state.registration.isFailed = false;
       state.registration.isSuccess = false;
+      state.isSubmitDisabled = true;
     },
     [signUp.fulfilled]: (state, action) => {
-      console.log(action.payload)
-      state.registration.isSuccess = true;
-
-      usersSlice.caseReducers.setUserData(state, action);
+      if (action.payload.success) {
+        state.registration.isSuccess = true;
+        usersSlice.caseReducers.setUserData(state, action);
+      } else {
+        consoleError('Попробуйте повторить попытку позже...');
+      }
+      state.isSubmitDisabled = false;
     },
     [signUp.rejected]: (state, action) => {
       state.registration.isFailed = true;
+      state.isSubmitDisabled = false;
       consoleError(action.payload);
     },
     [signIn.pending]: (state) => {
       state.login.isFailed = false;
       state.login.isSuccess = false;
+      state.isSubmitDisabled = true;
     },
     [signIn.fulfilled]: (state, action) => {
-      console.log(action.payload)
-      state.login.isSuccess = true;
-
-      usersSlice.caseReducers.setUserData(state, action);
+      if (action.payload.success) {
+        state.login.isSuccess = true;
+        usersSlice.caseReducers.setUserData(state, action);
+      } else {
+        consoleError('Попробуйте повторить попытку позже...');
+      }
+      state.isSubmitDisabled = false;
     },
     [signIn.rejected]: (state, action) => {
       state.login.isFailed = true;
+      state.isSubmitDisabled = false;
       consoleError(action.payload);
     },
-
   }
 })
 
