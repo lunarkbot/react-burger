@@ -43,8 +43,12 @@ const passwordSlice = createSlice({
       state.isResetEmailSend = false;
       state.isButtonDisabled = true;
     },
-    [forgotPassword.fulfilled]: (state) => {
-      state.isResetEmailSend = true;
+    [forgotPassword.fulfilled]: (state, action) => {
+      if (action.payload.success) {
+        state.isResetEmailSend = true;
+      } else {
+        consoleError('Повторите попытку позже.');
+      }
       state.isButtonDisabled = false;
     },
     [forgotPassword.rejected]: (state) => {
@@ -55,8 +59,12 @@ const passwordSlice = createSlice({
       state.isPasswordReset = false;
       state.isButtonDisabled = true;
     },
-    [resetPassword.fulfilled]: (state) => {
-      state.isPasswordReset = true;
+    [resetPassword.fulfilled]: (state, action) => {
+      if (action.payload.success) {
+        state.isPasswordReset = true;
+      } else {
+        consoleError('Повторите попытку позже.');
+      }
       state.isButtonDisabled = false;
     },
     [resetPassword.rejected]: (state) => {
