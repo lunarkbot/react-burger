@@ -3,7 +3,7 @@ import indexStyles from './index.module.css';
 import {useDispatch, useSelector} from 'react-redux';
 import {useInputValue} from '../hooks/useInputValue';
 import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components';
-import {Link, useHistory} from 'react-router-dom';
+import {Link, Redirect, useHistory } from 'react-router-dom';
 import PasswordInput from '../components/PasswordInput/PasswordInput';
 import {useCheckInputs} from '../hooks/useCheckInputs';
 import {resetPassword, resetPasswordData} from '../services/passwordSlice';
@@ -12,8 +12,13 @@ import Spinner from '../components/Spinner/Spinner';
 
 export function ResetPasswordPage() {
   const { token, password } = useSelector(state => state.users.form);
+  const { isAuth, isPendingAuth } = useSelector(state => state.users.user);
   const inputsError = useSelector(state => state.errors);
-  const { isPasswordReset, isButtonDisabled } = useSelector(state => state.password);
+  const {
+    isPasswordReset,
+    isButtonDisabled,
+    isResetEmailSend
+  } = useSelector(state => state.password);
   const dispatch = useDispatch();
   const setInputValue = useInputValue();
   const checkInputs = useCheckInputs();
@@ -45,6 +50,21 @@ export function ResetPasswordPage() {
       dispatch(resetPassword(inputs));
     }
   }
+
+  if (isPendingAuth) return null;
+
+  if (isAuth) {
+    return (
+      <Redirect to='/' />
+    )
+  }
+
+  if (!isResetEmailSend) {
+    return (
+      <Redirect to='/forgot-password' />
+    )
+  }
+
 
   return (
     <main className={indexStyles.main}>

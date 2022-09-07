@@ -160,6 +160,7 @@ const usersSlice = createSlice({
         consoleError('Попробуйте повторить попытку позже...');
       }
       state.isSubmitDisabled = false;
+      usersSlice.caseReducers.resetFormInput(state);
     },
     [signUp.rejected]: (state, action) => {
       state.registration.isFailed = true;

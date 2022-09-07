@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import indexStyles from './index.module.css';
 import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components';
-import {Link, useHistory} from 'react-router-dom';
+import {Link, Redirect, useHistory} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {useInputValue} from '../hooks/useInputValue';
 import {useCheckInputs} from '../hooks/useCheckInputs';
@@ -12,6 +12,7 @@ import Spinner from '../components/Spinner/Spinner';
 export function ForgotPasswordPage() {
   const { email } = useSelector(state => state.users.form);
   const inputsError = useSelector(state => state.errors);
+  const { isAuth, isPendingAuth } = useSelector(state => state.users.user);
   const { isResetEmailSend, isButtonDisabled } = useSelector(state => state.password);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -20,7 +21,6 @@ export function ForgotPasswordPage() {
 
   useEffect(() => {
     if (isResetEmailSend) {
-      dispatch(resetPasswordData());
       dispatch(resetFormInput());
       history.push('/reset-password');
     }
@@ -42,6 +42,16 @@ export function ForgotPasswordPage() {
     if (!hasError) {
       dispatch(forgotPassword(inputs));
     }
+  }
+
+
+
+  if (isPendingAuth) return null;
+
+  if (isAuth) {
+    return (
+      <Redirect to='/' />
+    )
   }
 
   return (
