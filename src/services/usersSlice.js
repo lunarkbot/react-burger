@@ -226,7 +226,7 @@ const usersSlice = createSlice({
         state.user.isPendingAuth = false;
         consoleError('Пользователь не авторизован');
       } else {
-        consoleError(action.payload.error);
+        consoleError(action.payload);
       }
     },
     [updateUser.pending]: (state) => {
