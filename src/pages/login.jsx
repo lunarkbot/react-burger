@@ -9,6 +9,7 @@ import {useCheckInputs} from '../hooks/useCheckInputs';
 import {signIn} from '../services/usersSlice';
 import Spinner from '../components/Spinner/Spinner';
 import {resetErrors} from '../services/errorsSlice';
+import BigSpinner from '../components/BigSpinner/BigSpinner';
 
 export function LoginPage() {
   const location = useLocation();
@@ -48,7 +49,7 @@ export function LoginPage() {
     )
   }
 
-  if (isPendingAuth) return null;
+  if (isPendingAuth) return <BigSpinner />;
 
   return (
     <main className={indexStyles.main}>

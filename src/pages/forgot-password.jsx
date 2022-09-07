@@ -8,6 +8,7 @@ import {useCheckInputs} from '../hooks/useCheckInputs';
 import {forgotPassword, resetPasswordData} from '../services/passwordSlice';
 import {resetFormInput} from '../services/usersSlice';
 import Spinner from '../components/Spinner/Spinner';
+import BigSpinner from '../components/BigSpinner/BigSpinner';
 
 export function ForgotPasswordPage() {
   const { email } = useSelector(state => state.users.form);
@@ -46,7 +47,7 @@ export function ForgotPasswordPage() {
 
 
 
-  if (isPendingAuth) return null;
+  if (isPendingAuth) return <BigSpinner />;
 
   if (isAuth) {
     return (
