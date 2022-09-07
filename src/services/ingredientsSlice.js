@@ -5,6 +5,7 @@ import consoleError from '../utils/consoleError';
 export const getIngredients = createAsyncThunk(
   'ingredients/getIngredients',
   function(_, {rejectWithValue}) {
+    console.log('get')
       return api.getIngredients()
         .catch(err => rejectWithValue(err));
   }
@@ -68,6 +69,13 @@ const ingredientsSlice = createSlice({
     setIngredientDetails(state, action) {
       state.ingredientDetails = action.payload;
     },
+    getIngredientsDetails(state, action) {
+      const filteredItem = state.items.filter(item => {
+        if (item._id === action.payload) return item;
+      });
+
+      state.ingredientDetails = filteredItem.length > 0 ? filteredItem[0] : null;
+    },
     resetIngredientDetails(state) {
       state.ingredientDetails = null;
     },
@@ -118,6 +126,7 @@ export const {
   setTotalPrice,
   resetTotalPrice,
   setIngredientDetails,
+  getIngredientsDetails,
   resetIngredientDetails,
   addQuantity,
   decreaseQuantity,

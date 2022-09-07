@@ -5,3 +5,11 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 100px;
+}

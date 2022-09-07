@@ -5,6 +5,8 @@
   align-items: center;
   justify-content: flex-start;
   padding-right: 3px;
+  color: #fff;
+  text-decoration: none;
 }
 
 .image {

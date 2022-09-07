@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 export default function OrderDetails({ details }) {
   return (
-    <>
+    <div className={styles.content}>
       <p className="text text_type_digits-large mb-8">
         {details?.order?.number}
       </p>
@@ -18,7 +18,7 @@ export default function OrderDetails({ details }) {
       <p className="text text_type_main-default text_color_inactive">
         Дождитесь готовности на орбитальной станции
       </p>
-    </>
+    </div>
   );
 }
 

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 const modalRoot = document.getElementById("react-modals");
 
-export default function Modal({heading, onClose, children}) {
+export default function Modal({type, onClose, children}) {
 
   useEffect(() => {
     function closeByEscape(evt) {
@@ -27,17 +27,14 @@ export default function Modal({heading, onClose, children}) {
     <ModalOverlay onClose={onClose}>
       <div className={`
           ${styles.modal}
-          ${heading ? 'pt-10 pb-15' : 'pt-30 pb-30'} 
+          ${type === 'ingredient' ? 'pt-10 pb-15' : 'pt-30 pb-30'} 
         `}>
         <button className={`${styles.button} mt-15 mr-10`} onClick={onClose}>
           <CloseIcon type="primary" />
         </button>
-        {heading && <p className={`text text_type_main-large pt-3 pb-3 pl-10 pr-10 ${styles.heading}`}>
-          {heading}
-        </p>}
-        <div className={styles.content}>
+
           {children}
-        </div>
+
       </div>
     </ModalOverlay>,
     modalRoot
@@ -45,7 +42,7 @@ export default function Modal({heading, onClose, children}) {
 }
 
 Modal.propTypes = {
-  heading: PropTypes.string,
+  type: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   children: PropTypes.object.isRequired
 }
