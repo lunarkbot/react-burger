@@ -20,6 +20,7 @@ import {hideOrderDetails, sendOrder} from '../../services/ordersSlice';
 import {useDrop} from 'react-dnd';
 import ConstructorItem from '../ConstructorItem/ConstructorItem';
 import Spinner from '../Spinner/Spinner';
+import {Redirect, useHistory} from 'react-router-dom';
 
 export default function BurgerConstructor() {
   const {
@@ -36,6 +37,8 @@ export default function BurgerConstructor() {
     orderDetailRequest: state.orders.orderDetailRequest,
   }));
 
+  const { isAuth } = useSelector(state => state.users.user)
+  const history = useHistory();
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -45,9 +48,13 @@ export default function BurgerConstructor() {
 
 
   const handleClickOrderButton = () => {
+    if (isAuth) {
       dispatch(sendOrder({
         ingredients: selectedIngredients,
       }))
+    } else {
+      history.push('/login');
+    }
   }
 
   const handleClickClose = () => {
