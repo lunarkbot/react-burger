@@ -27,15 +27,11 @@ export const signIn = createAsyncThunk(
 export const authUser = createAsyncThunk(
   'users/authUser',
   async function (dispatch, {rejectWithValue}) {
-    if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) {
-      try {
-        return await api.authUser();
-      } catch (err) {
-        dispatch(getToken(dispatch));
-        return rejectWithValue(err);
-      }
-    } else {
-      return rejectWithValue(true)
+    try {
+      return await api.authUser();
+    } catch (err) {
+      dispatch(getToken(dispatch));
+      return rejectWithValue(err);
     }
   }
 )
@@ -220,14 +216,11 @@ const usersSlice = createSlice({
     },
     [authUser.rejected]: (state, action) => {
       if (state.user.isLoaded) {
-        state.user.isPendingAuth = false;
         state.user.isAuth = false;
-      } else if (action.payload === true) {
-        state.user.isPendingAuth = false;
-        consoleError('Пользователь не авторизован');
-      } else {
-        consoleError(action.payload);
       }
+
+      if (action.payload) consoleError(action.payload);
+      state.user.isPendingAuth = false;
     },
     [updateUser.pending]: (state) => {
       state.isSubmitDisabled = true;

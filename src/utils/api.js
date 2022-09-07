@@ -62,14 +62,18 @@ class Api {
   }
 
   authUser() {
-    return fetch(`${this._baseUrl}/auth/user`, {
-      method: "GET",
-      headers: {
-        authorization: localStorage.getItem('accessToken'),
-        ...this._headers
-      },
-    })
-      .then(this._checker);
+    if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) {
+      return fetch(`${this._baseUrl}/auth/user`, {
+        method: "GET",
+        headers: {
+          authorization: localStorage.getItem('accessToken'),
+          ...this._headers
+        },
+      })
+        .then(this._checker);
+    }
+
+    return Promise.reject('Пользователь не авторизован.')
   }
 
   updateUser(data) {

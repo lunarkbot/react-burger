@@ -16,7 +16,7 @@ export function LoginPage() {
   const { isAuth, isPendingAuth } = useSelector(state => state.users.user);
   const { email, password } = useSelector(state => state.users.form);
   const inputsError = useSelector(state => state.errors);
-  const { isSubmitDisabled } = useSelector(state => state.users.isSubmitDisabled);
+  const { isSubmitDisabled } = useSelector(state => state.users);
   const dispatch = useDispatch();
   const setInputValue = useInputValue();
   const checkInputs = useCheckInputs();

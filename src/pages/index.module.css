@@ -26,3 +26,14 @@
 .secondButton button {
   padding: 0 0 0 10px;
 }
+
+.submitButton {
+  display: grid;
+  width: 215px;
+  grid-template-columns: 1fr;
+}
+
+.submitButtonSpinner {
+  position: relative;
+  left: -10px;
+}

@@ -120,7 +120,7 @@ export default function BurgerConstructor() {
           </div>
           <div className={`${styles.submitButton} ${!selectedIngredients.bun ? styles.submitButtonDisabled : ''}`}>
             <Button type="primary" size="large" onClick={handleClickOrderButton}>
-              {!orderDetailRequest ? (
+              {orderDetailRequest ? (
                   <>Оформить заказ</>
                 )
                 : (
