@@ -5,7 +5,6 @@ import consoleError from '../utils/consoleError';
 export const getIngredients = createAsyncThunk(
   'ingredients/getIngredients',
   function(_, {rejectWithValue}) {
-    console.log('get')
       return api.getIngredients()
         .catch(err => rejectWithValue(err));
   }

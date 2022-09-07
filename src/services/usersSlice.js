@@ -29,15 +29,25 @@ export const authUser = createAsyncThunk(
   async function (dispatch, {rejectWithValue}) {
     if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) {
       try {
-        console.log('try');
         return await api.authUser();
       } catch (err) {
-        console.log('catch');
         dispatch(getToken(dispatch));
         return rejectWithValue(err);
       }
     } else {
       return rejectWithValue(true)
+    }
+  }
+)
+
+export const updateUser = createAsyncThunk(
+  'users/updateUser',
+  async function ({dispatch, data}, {rejectWithValue}) {
+    try {
+      return await api.updateUser(data);
+    } catch (err) {
+      dispatch(getToken(dispatch));
+      return rejectWithValue(err);
     }
   }
 )
@@ -200,7 +210,7 @@ const usersSlice = createSlice({
         state.profile.name = action.payload.user.name;
         state.user.email = action.payload.user.email;
         state.profile.email = action.payload.user.email;
-
+        state.user.isLoaded = false;
         state.registration.isSuccess = false;
         state.login.isSuccess = false;
       } else {
@@ -219,13 +229,32 @@ const usersSlice = createSlice({
         consoleError(action.payload.error);
       }
     },
+    [updateUser.pending]: (state) => {
+      state.isSubmitDisabled = true;
+    },
+    [updateUser.fulfilled]: (state, action) => {
+      if (action.payload.success) {
+        state.user.name = action.payload.user.name;
+        state.profile.name = action.payload.user.name;
+        state.user.email = action.payload.user.email;
+        state.profile.email = action.payload.user.email;
+        state.user.isLoaded = false;
+      } else {
+        consoleError('Попробуйте повторить попытку позже...');
+      }
+      state.isSubmitDisabled = false;
+    },
+    [updateUser.rejected]: (state, action) => {
+      if (state.user.isLoaded) {
+        consoleError(action.payload.error);
+      }
+      state.isSubmitDisabled = false;
+    },
 
     [getToken.pending]: (state) => {
-      console.log('getToken')
       state.user.isLoaded = true;
     },
     [getToken.rejected]: (state, action) => {
-      console.log('чет пошло не так при получении токена доступа')
       consoleError(action.payload);
     },
 

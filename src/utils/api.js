@@ -72,6 +72,18 @@ class Api {
       .then(this._checker);
   }
 
+  updateUser(data) {
+    return fetch(`${this._baseUrl}/auth/user`, {
+      method: 'PATCH',
+      headers: {
+        authorization: localStorage.getItem('accessToken'),
+        ...this._headers
+      },
+      body: JSON.stringify(data)
+    })
+      .then(this._checker);
+  }
+
   refreshToken() {
     return fetch(`${this._baseUrl}/auth/token`, {
       method: "POST",

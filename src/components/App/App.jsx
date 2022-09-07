@@ -12,7 +12,7 @@ import {
   OrderDetailsPage
 } from '../../pages';
 import {BrowserRouter, Route, Switch, useHistory, useLocation} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {authUser} from '../../services/usersSlice';
 import {ProtectedRoute} from '../ProtectedRoute/ProtectedRoute';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';

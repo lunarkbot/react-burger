@@ -8,7 +8,7 @@ import PasswordInput from '../components/PasswordInput/PasswordInput';
 import {resetFormInput, signUp} from '../services/usersSlice';
 import {useCheckInputs} from '../hooks/useCheckInputs';
 import Spinner from '../components/Spinner/Spinner';
-import {resetError} from '../services/errorsSlice';
+import {resetErrors} from '../services/errorsSlice';
 
 export function RegisterPage() {
   const { email, password, name } = useSelector(state => state.users.form);
@@ -25,8 +25,8 @@ export function RegisterPage() {
   const checkInputs = useCheckInputs();
 
   useEffect(() => {
-    dispatch(resetError());
-  }, [dispatch, resetError]);
+    dispatch(resetErrors());
+  }, [dispatch, resetErrors]);
 
   useEffect(() => {
     if (isRegistrationSuccess) {

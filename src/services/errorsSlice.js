@@ -33,7 +33,7 @@ const errorSlice = createSlice({
       state[name].isShow = false;
       state[name].text = '';
     },
-    resetError(state) {
+    resetErrors(state) {
       state.name.isShow = false;
       state.name.text = '';
       state.email.isShow = false;
@@ -42,13 +42,18 @@ const errorSlice = createSlice({
       state.token.text = '';
       state.password.isShow = false;
       state.password.text = '';
-    }
+    },
+    resetError(state, action) {
+      state[action.payload].isShow = false;
+      state[action.payload].text = '';
+    },
   }
 })
 
 export const {
   showError,
   hideError,
+  resetErrors,
   resetError
 } = errorSlice.actions;
 

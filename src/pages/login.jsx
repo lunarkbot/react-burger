@@ -8,7 +8,7 @@ import PasswordInput from '../components/PasswordInput/PasswordInput';
 import {useCheckInputs} from '../hooks/useCheckInputs';
 import {signIn} from '../services/usersSlice';
 import Spinner from '../components/Spinner/Spinner';
-import {resetError} from '../services/errorsSlice';
+import {resetErrors} from '../services/errorsSlice';
 
 export function LoginPage() {
   const location = useLocation();
@@ -21,8 +21,8 @@ export function LoginPage() {
   const checkInputs = useCheckInputs();
 
   useEffect(() => {
-    dispatch(resetError());
-  }, [dispatch, resetError]);
+    dispatch(resetErrors());
+  }, [dispatch, resetErrors]);
 
   const handleChange = (e) => {
     setInputValue(e);

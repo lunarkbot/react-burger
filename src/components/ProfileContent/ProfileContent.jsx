@@ -1,18 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styles from './ProfileContent.module.css';
-import {NavLink, useHistory} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
-import {resetUserData, signOut} from '../../services/usersSlice';
+import {useDispatch} from 'react-redux';
+import {signOut} from '../../services/usersSlice';
 
 function ProfileContent({children, className}) {
   const dispatch = useDispatch();
-  const history = useHistory();
-  const isAuth = useSelector(state => state.users.user.isAuth);
-
-  /*useEffect(() => {
-    if (!isAuth) history.push('/login');
-  }, [isAuth, history])*/
 
   const handleLogout = () => {
     dispatch(signOut());
