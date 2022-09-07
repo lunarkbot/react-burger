@@ -50,6 +50,17 @@ class Api {
       .then(this._checker);
   }
 
+  signOut() {
+    return fetch(`${this._baseUrl}/auth/logout`, {
+      headers: this._headers,
+      method: 'POST',
+      body: JSON.stringify({
+        token: localStorage.getItem('refreshToken')
+      })
+    })
+      .then(this._checker);
+  }
+
   authUser() {
     return fetch(`${this._baseUrl}/auth/user`, {
       method: "GET",
@@ -62,7 +73,6 @@ class Api {
   }
 
   refreshToken() {
-    console.log(localStorage.getItem('refreshToken'))
     return fetch(`${this._baseUrl}/auth/token`, {
       method: "POST",
       headers: {

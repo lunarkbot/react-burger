@@ -22,6 +22,7 @@
 .profile__link {
   text-decoration: none;
   color: #8585ad;
+  cursor: pointer;
 }
 
 .activeLink {

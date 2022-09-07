@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import api from '../utils/api';
 import consoleError from '../utils/consoleError';
-import {useDispatch} from 'react-redux';
 
 export const signUp = createAsyncThunk(
   'users/signUp',
@@ -28,12 +27,17 @@ export const signIn = createAsyncThunk(
 export const authUser = createAsyncThunk(
   'users/authUser',
   async function (dispatch, {rejectWithValue}) {
-    console.log('f-authUser')
-    try {
-      return await api.authUser();
-    } catch (err) {
-      dispatch(getToken(dispatch));
-      return rejectWithValue(err);
+    if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) {
+      try {
+        console.log('try');
+        return await api.authUser();
+      } catch (err) {
+        console.log('catch');
+        dispatch(getToken(dispatch));
+        return rejectWithValue(err);
+      }
+    } else {
+      return rejectWithValue(true)
     }
   }
 )
@@ -41,21 +45,29 @@ export const authUser = createAsyncThunk(
 export const getToken = createAsyncThunk(
   'users/getToken',
   async function (dispatch, {rejectWithValue}) {
-    console.log('f-getToken')
     try {
       return await api.refreshToken()
         .then(data => {
-          console.log(data)
           if (data.success) {
             localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('refreshToken', data.refreshToken);
-            console.log('новый токен доступа получен')
             dispatch(authUser());
           } else {
             consoleError('Попробуйте повторить попытку позже...');
           }
           return data;
         });
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+)
+
+export const signOut = createAsyncThunk(
+  'users/signOut',
+  async function (_, {rejectWithValue}) {
+    try {
+      return await api.signOut();
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -78,11 +90,10 @@ const usersSlice = createSlice({
     },
     user: {
       email: '',
-      password: '',
       name: '',
-      accessToken: null,
-      refreshToken: null,
       isAuth: false,
+      isLoaded: false,
+      isPendingAuth: true,
     },
     registration: {
       isFailed: false,
@@ -115,8 +126,7 @@ const usersSlice = createSlice({
     setUserData(state, action) {
       state.user.email = action.payload.user.email;
       state.user.name = action.payload.user.name;
-      state.user.accessToken = action.payload.accessToken;
-      state.user.refreshToken = action.payload.refreshToken;
+      state.user.isAuth = true;
 
       state.profile.email = action.payload.user.email;
       state.profile.name = action.payload.user.name;
@@ -124,6 +134,16 @@ const usersSlice = createSlice({
       localStorage.setItem('accessToken', action.payload.accessToken);
       localStorage.setItem('refreshToken', action.payload.refreshToken);
     },
+    resetUserData(state) {
+      state.user.email = '';
+      state.user.name = '';
+      state.user.isAuth = false;
+
+      usersSlice.caseReducers.resetProfile(state);
+
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+    }
   },
   extraReducers: {
     [signUp.pending]: (state) => {
@@ -134,6 +154,7 @@ const usersSlice = createSlice({
     [signUp.fulfilled]: (state, action) => {
       if (action.payload.success) {
         state.registration.isSuccess = true;
+        state.user.isAuth = true;
         usersSlice.caseReducers.setUserData(state, action);
       } else {
         consoleError('Попробуйте повторить попытку позже...');
@@ -154,11 +175,13 @@ const usersSlice = createSlice({
     [signIn.fulfilled]: (state, action) => {
       if (action.payload.success) {
         state.login.isSuccess = true;
+        state.user.isAuth = true;
         usersSlice.caseReducers.setUserData(state, action);
       } else {
         consoleError('Попробуйте повторить попытку позже...');
       }
       state.isSubmitDisabled = false;
+      usersSlice.caseReducers.resetFormInput(state);
     },
     [signIn.rejected]: (state, action) => {
       state.login.isFailed = true;
@@ -167,7 +190,7 @@ const usersSlice = createSlice({
     },
 
     [authUser.pending]: (state) => {
-      state.user.isAuth = false;
+      state.user.isPendingAuth = true;
     },
     [authUser.fulfilled]: (state, action) => {
       if (action.payload.success) {
@@ -176,17 +199,43 @@ const usersSlice = createSlice({
         state.profile.name = action.payload.user.name;
         state.user.email = action.payload.user.email;
         state.profile.email = action.payload.user.email;
+
+        state.registration.isSuccess = false;
+        state.login.isSuccess = false;
+      } else {
+        consoleError('Попробуйте повторить попытку позже...');
+      }
+      state.user.isPendingAuth = false;
+    },
+    [authUser.rejected]: (state, action) => {
+      if (state.user.isLoaded) {
+        state.user.isPendingAuth = false;
+        state.user.isAuth = false;
+      } else if (action.payload === true) {
+        state.user.isPendingAuth = false;
+        consoleError('Пользователь не авторизован');
+      } else {
+        consoleError(action.payload.error);
+      }
+    },
+
+    [getToken.pending]: (state) => {
+      console.log('getToken')
+      state.user.isLoaded = true;
+    },
+    [getToken.rejected]: (state, action) => {
+      console.log('чет пошло не так при получении токена доступа')
+      consoleError(action.payload);
+    },
+
+    [signOut.fulfilled]: (state, action) => {
+      if (action.payload.success) {
+        usersSlice.caseReducers.resetUserData(state);
       } else {
         consoleError('Попробуйте повторить попытку позже...');
       }
     },
-    [authUser.rejected]: (state, action) => {
-      state.user.isAuth = false;
-      consoleError(action.payload);
-    },
-
-    [getToken.rejected]: (state, action) => {
-      console.log('чет пошло не так при получении токена доступа')
+    [signOut.rejected]: (state, action) => {
       consoleError(action.payload);
     },
   }
@@ -197,6 +246,7 @@ export const {
   resetFormInput,
   updateProfile,
   resetProfile,
+  resetUserData,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

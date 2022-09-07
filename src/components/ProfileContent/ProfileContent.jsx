@@ -1,9 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './ProfileContent.module.css';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useHistory} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import {useDispatch, useSelector} from 'react-redux';
+import {resetUserData, signOut} from '../../services/usersSlice';
 
 function ProfileContent({children, className}) {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const isAuth = useSelector(state => state.users.user.isAuth);
+
+  /*useEffect(() => {
+    if (!isAuth) history.push('/login');
+  }, [isAuth, history])*/
+
+  const handleLogout = () => {
+    dispatch(signOut());
+  }
+
   return (
     <main className={styles.profile}>
       <aside>
@@ -29,13 +43,12 @@ function ProfileContent({children, className}) {
               </NavLink>
             </li>
             <li>
-              <NavLink
-                to="/logout"
+              <div
+                onClick={handleLogout}
                 className={`text text_type_main-medium ${styles.profile__link}`}
-                activeClassName={styles.activeLink}
               >
                 Выход
-              </NavLink>
+              </div>
             </li>
           </ul>
         </nav>

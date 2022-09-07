@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import indexStyles from './index.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDispatch, useSelector} from 'react-redux';
-import {Link, useHistory} from 'react-router-dom';
+import {Link, Redirect, useHistory, useLocation} from 'react-router-dom';
 import {useInputValue} from '../hooks/useInputValue';
 import PasswordInput from '../components/PasswordInput/PasswordInput';
 import {resetFormInput, signUp} from '../services/usersSlice';
@@ -12,12 +12,14 @@ import {resetError} from '../services/errorsSlice';
 
 export function RegisterPage() {
   const { email, password, name } = useSelector(state => state.users.form);
+  const { isAuth, isPendingAuth } = useSelector(state => state.users.user);
   const inputsError = useSelector(state => state.errors);
   const { isRegistrationSuccess, isSubmitDisabled } = useSelector(state => ({
     isRegistrationSuccess: state.users.registration.isSuccess,
     isSubmitDisabled: state.users.isSubmitDisabled,
   }));
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
   const setInputValue = useInputValue();
   const checkInputs = useCheckInputs();
@@ -49,6 +51,16 @@ export function RegisterPage() {
     const hasError = checkInputs(inputs);
     if (!hasError) dispatch(signUp(inputs));
   }
+
+  if (isAuth) {
+    return (
+      <Redirect
+        to={ location?.state?.from?.pathname || '/' }
+      />
+    )
+  }
+
+  if (isPendingAuth) return null;
 
   return (
     <main className={indexStyles.main}>

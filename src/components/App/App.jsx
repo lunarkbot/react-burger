@@ -12,16 +12,20 @@ import {
   OrderDetailsPage
 } from '../../pages';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {authUser} from '../../services/usersSlice';
+import {ProtectedRoute} from '../ProtectedRoute/ProtectedRoute';
 
 function App() {
   const dispatch = useDispatch();
 
+  //const { isAuth, isPendingAuth } = useSelector(state => state.users.user)
+
+  //console.log(`auth: ${isAuth}, pending: ${isPendingAuth}`)
+
   useEffect(() => {
     dispatch(authUser(dispatch));
   }, [dispatch, authUser])
-
 
   return (
     <BrowserRouter>
@@ -42,15 +46,15 @@ function App() {
         <Route path='/reset-password'>
           <ResetPasswordPage />
         </Route>
-        <Route path='/profile' exact={true}>
+        <ProtectedRoute path='/profile' exact={true}>
           <ProfilePage />
-        </Route>
-        <Route path='/profile/orders' exact={true}>
+        </ProtectedRoute>
+        <ProtectedRoute path='/profile/orders' exact={true}>
           <OrdersPage />
-        </Route>
-        <Route path='/profile/orders/:orderNumber'>
+        </ProtectedRoute>
+        <ProtectedRoute path='/profile/orders/:orderNumber'>
           <OrderDetailsPage />
-        </Route>
+        </ProtectedRoute>
         <Route>
           <NotFound404 />
         </Route>
