@@ -48,7 +48,7 @@ function EditableInput(
       type={type}
       placeholder={placeholder}
       onChange={updateInputValue}
-      value={inputValue}
+      value={type === 'password' ? 'password' : inputValue}
       name={name}
       disabled={isDisabled}
       error={error}
