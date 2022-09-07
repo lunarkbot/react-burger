@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './Spinner.module.css';
+import PropTypes from 'prop-types';
 
-function Spinner() {
+function Spinner( { className = '' } ) {
   return (
-    <div className={styles.spinner}>
+    <div className={`${styles.spinner} ${className}`}>
       <div></div>
       <div></div>
     </div>
@@ -11,3 +12,7 @@ function Spinner() {
 }
 
 export default Spinner;
+
+Spinner.propTypes = {
+  className: PropTypes.string,
+}
