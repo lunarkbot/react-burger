@@ -1,35 +1,57 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './IngredientDetails.module.css';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {useParams} from 'react-router-dom';
+import {getIngredientsDetails} from '../../services/ingredientsSlice';
+import BigSpinner from '../BigSpinner/BigSpinner';
+import PropTypes from 'prop-types';
 
-export default function IngredientDetails() {
+export default function IngredientDetails({ isModal }) {
+  const dispatch = useDispatch();
+  const { ingredientDetails, items } = useSelector(state => state.ingredients);
+  const { ingredientId } = useParams();
 
-  const ingredientDetails = useSelector(state => state.ingredients.ingredientDetails);
+  useEffect(() => {
+    dispatch(getIngredientsDetails(ingredientId))
+  }, [items, dispatch])
+
+  if (!ingredientDetails) {
+    return <BigSpinner />
+  }
 
   return (
-    <>
-      <img src={ingredientDetails.image_large} alt={ingredientDetails.text} className="mb-4" />
-      <p className="text text_type_main-medium mb-8">
-        {ingredientDetails.name}
+    <div className={isModal ? '' : styles.detailsPage}>
+      <p className={`text text_type_main-large pt-3 pb-3 pl-10 pr-10 ${styles.heading}`}>
+        Детали ингредиента
       </p>
-      <div className={styles.table}>
-        <p className="text text_type_main-default text_color_inactive">
-          Калории, ккал
+      <div className={styles.content}>
+        <img src={ingredientDetails.image_large} alt={ingredientDetails.text} className="mb-4" />
+        <p className="text text_type_main-medium mb-8">
+          {ingredientDetails.name}
         </p>
-        <p className="text text_type_main-default text_color_inactive">
-          Белки, г
-        </p>
-        <p className="text text_type_main-default text_color_inactive">
-          Жиры, г
-        </p>
-        <p className="text text_type_main-default text_color_inactive">
-          Углеводы, г
-        </p>
-        <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.calories}</p>
-        <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.proteins}</p>
-        <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.fat}</p>
-        <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.carbohydrates}</p>
+        <div className={styles.table}>
+          <p className="text text_type_main-default text_color_inactive">
+            Калории,ккал
+          </p>
+          <p className="text text_type_main-default text_color_inactive">
+            Белки, г
+          </p>
+          <p className="text text_type_main-default text_color_inactive">
+            Жиры, г
+          </p>
+          <p className="text text_type_main-default text_color_inactive">
+            Углеводы, г
+          </p>
+          <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.calories}</p>
+          <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.proteins}</p>
+          <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.fat}</p>
+          <p className="text text_type_digits-default text_color_inactive">{ingredientDetails.carbohydrates}</p>
+        </div>
       </div>
-    </>
+    </div>
   );
+}
+
+IngredientDetails.propTypes = {
+  isModal: PropTypes.bool.isRequired
 }

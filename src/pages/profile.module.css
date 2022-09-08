@@ -1,0 +1,15 @@
+.form {
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  align-items: center;
+}
+
+.submit {
+  opacity: 0;
+  transition: opacity 250ms;
+}
+
+.submitVisible {
+  opacity: 1;
+}

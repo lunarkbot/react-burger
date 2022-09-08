@@ -4,11 +4,12 @@ import consoleError from '../utils/consoleError';
 
 export const sendOrder = createAsyncThunk(
   'orders/sendOrder',
-  function (data, {rejectWithValue}) {
-    return api.sendOrder(data.ingredients)
-      .catch(err => {
-        rejectWithValue(err);
-      })
+  async function (data, {rejectWithValue}) {
+     try {
+       return await api.sendOrder(data.ingredients)
+     } catch(err) {
+       return rejectWithValue(err);
+     }
   }
 );
 

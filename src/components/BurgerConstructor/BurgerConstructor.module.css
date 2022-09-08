@@ -64,6 +64,22 @@
   overflow-y: auto;
 }
 
+.submitButton {
+  display: grid;
+  width: 215px;
+  grid-template-columns: 1fr;
+}
+
+.submitButtonSpinner {
+  position: relative;
+  left: -10px;
+}
+
+.submitButtonDisabled {
+  opacity: .3;
+  pointer-events: none;
+}
+
 /* width */
 .scrollBox::-webkit-scrollbar {
   width: 8px;

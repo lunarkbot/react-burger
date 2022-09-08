@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   addQuantity,
@@ -6,6 +6,7 @@ import {
   resetTotalPrice,
   setTotalPrice,
   updateSelectedList,
+  resetSelectedItem,
 } from '../../services/ingredientsSlice';
 import styles from './BurgerConstructor.module.css';
 import {
@@ -18,20 +19,26 @@ import Bun from '../Bun/Bun';
 import {hideOrderDetails, sendOrder} from '../../services/ordersSlice';
 import {useDrop} from 'react-dnd';
 import ConstructorItem from '../ConstructorItem/ConstructorItem';
+import Spinner from '../Spinner/Spinner';
+import {Redirect, useHistory} from 'react-router-dom';
 
 export default function BurgerConstructor() {
   const {
     totalPrice,
     selectedIngredients,
     orderDetail,
-    isOrderDetailsShow
+    isOrderDetailsShow,
+    orderDetailRequest,
   } = useSelector(state => ({
     totalPrice: state.ingredients.totalPrice,
     selectedIngredients: state.ingredients.selectedItems,
     orderDetail: state.orders.orderDetail,
     isOrderDetailsShow: state.orders.isOrderDetailsShow,
+    orderDetailRequest: state.orders.orderDetailRequest,
   }));
 
+  const { isAuth } = useSelector(state => state.users.user)
+  const history = useHistory();
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -41,9 +48,13 @@ export default function BurgerConstructor() {
 
 
   const handleClickOrderButton = () => {
-    dispatch(sendOrder({
-      ingredients: selectedIngredients,
-    }))
+    if (isAuth) {
+      dispatch(sendOrder({
+        ingredients: selectedIngredients,
+      }))
+    } else {
+      history.push('/login');
+    }
   }
 
   const handleClickClose = () => {
@@ -63,6 +74,11 @@ export default function BurgerConstructor() {
       }))
     }
   })
+
+  useEffect(() => {
+    if (isOrderDetailsShow) dispatch(resetSelectedItem());
+  }, [isOrderDetailsShow, resetSelectedItem])
+
 
   const moveCard = useCallback((dragIndex, hoverIndex) => {
     const dragCard = selectedIngredients.items[dragIndex];
@@ -102,9 +118,17 @@ export default function BurgerConstructor() {
             {totalPrice ? totalPrice.toLocaleString() : 0}
             <CurrencyIcon type="primary" />
           </div>
-          <Button type="primary" size="large" onClick={handleClickOrderButton}>
-            Оформить заказ
-          </Button>
+          <div className={`${styles.submitButton} ${!selectedIngredients.bun ? styles.submitButtonDisabled : ''}`}>
+            <Button type="primary" size="large" onClick={handleClickOrderButton}>
+              {!orderDetailRequest ? (
+                  <>Оформить заказ</>
+                )
+                : (
+                  <div className={styles.submitButtonSpinner}>Еще секунду <Spinner /></div>
+                )
+              }
+            </Button>
+          </div>
         </div>
       </section>
 

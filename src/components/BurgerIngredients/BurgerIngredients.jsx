@@ -2,22 +2,15 @@ import React, {useEffect, useRef} from 'react';
 import styles from './BurgerIngredients.module.css';
 import Tabs from '../Tabs/Tabs';
 import IngredientList from '../IngredientList/IngredientList';
-import Modal from '../Modal/Modal';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import {useDispatch, useSelector} from 'react-redux';
-import {getIngredients, resetIngredientDetails} from '../../services/ingredientsSlice';
+import {useDispatch} from 'react-redux';
+import {getIngredients} from '../../services/ingredientsSlice';
 
 export default function BurgerIngredients() {
   const dispatch = useDispatch();
-  const ingredientDetails = useSelector(state => state.ingredients.ingredientDetails);
 
   useEffect(() => {
     dispatch(getIngredients())
   },[dispatch])
-
-  const handleClickClose = () => {
-    dispatch(resetIngredientDetails())
-  }
 
   const tabsRef = {
     bun: useRef(),
@@ -46,12 +39,6 @@ export default function BurgerIngredients() {
             type="main" />
         </div>
       </section>
-
-      {ingredientDetails &&
-        <Modal heading="Детали ингредиента" onClose={handleClickClose}>
-          <IngredientDetails />
-        </Modal>
-      }
     </>
   )
 }

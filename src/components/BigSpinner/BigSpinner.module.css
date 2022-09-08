@@ -1,0 +1,12 @@
+.spinnerWrap {
+  display: flex;
+  width: 100%;
+  min-height: 50vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  width: 200px;
+  height: 200px;
+}

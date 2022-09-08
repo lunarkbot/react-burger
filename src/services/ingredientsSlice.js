@@ -40,6 +40,13 @@ const ingredientsSlice = createSlice({
         state.selectedItems.items.push(item);
       }
     },
+    resetSelectedItem(state) {
+      state.selectedItems.items = [];
+      state.selectedItems.bun = null;
+      state.items.forEach(item => {
+        item.quantity = 0;
+      });
+    },
     updateSelectedList(state, action) {
       state.selectedItems.items = action.payload;
     },
@@ -60,6 +67,13 @@ const ingredientsSlice = createSlice({
     },
     setIngredientDetails(state, action) {
       state.ingredientDetails = action.payload;
+    },
+    getIngredientsDetails(state, action) {
+      const filteredItem = state.items.filter(item => {
+        if (item._id === action.payload) return item;
+      });
+
+      state.ingredientDetails = filteredItem.length > 0 ? filteredItem[0] : null;
     },
     resetIngredientDetails(state) {
       state.ingredientDetails = null;
@@ -111,9 +125,11 @@ export const {
   setTotalPrice,
   resetTotalPrice,
   setIngredientDetails,
+  getIngredientsDetails,
   resetIngredientDetails,
   addQuantity,
   decreaseQuantity,
+  resetSelectedItem,
 } = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;
