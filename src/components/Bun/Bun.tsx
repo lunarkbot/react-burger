@@ -1,10 +1,17 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from './Bun.module.css';
 import {ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import {ingredientsTypes} from '../../utils/constants';
 
-function Bun({ item, type }) {
+interface IBunProps {
+  item: {
+    name: string;
+    price: number;
+    image: string;
+  };
+  type: 'top' | 'bottom';
+}
+
+const Bun: FC<IBunProps> = ({ item, type }) => {
   return (
     <div className={`${styles.edgeElement} pl-8`}>
       <ConstructorElement
@@ -19,8 +26,3 @@ function Bun({ item, type }) {
 }
 
 export default Bun;
-
-Bun.propTypes = {
-  item: PropTypes.shape(ingredientsTypes).isRequired,
-  type: PropTypes.string.isRequired
-}
