@@ -6,7 +6,7 @@ import usersSlice from './usersSlice';
 import errorsSlice from './errorsSlice';
 import passwordSlice from './passwordSlice';
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     ingredients: ingredientsReducer,
     orders: ordersReducer,
@@ -16,3 +16,8 @@ export default configureStore({
     password: passwordSlice,
   }
 })
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export default store;

@@ -1,8 +1,23 @@
-import React, {useState} from 'react';
+import React, {useState, FC} from 'react';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 
-function PasswordInput({onChange, value, placeholder, errorText = '', error = false}) {
+interface IPasswordInputProps {
+  onChange: any;
+  value: string;
+  placeholder: string;
+  errorText?: string;
+  error?: boolean;
+}
+
+const PasswordInput: FC<IPasswordInputProps> = (
+  {
+    onChange,
+    value,
+    placeholder,
+    errorText = '',
+    error = false,
+  }
+) => {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
 
   return (
@@ -22,11 +37,3 @@ function PasswordInput({onChange, value, placeholder, errorText = '', error = fa
 }
 
 export default PasswordInput;
-
-PasswordInput.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  errorText: PropTypes.string,
-  error: PropTypes.bool
-}

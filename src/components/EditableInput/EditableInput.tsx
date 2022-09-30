@@ -1,11 +1,26 @@
-import React, {useRef} from 'react';
+import React, {ChangeEvent, FC, useRef} from 'react';
 import {Input} from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import {useInputValue} from '../../hooks/useInputValue';
-import {useSelector} from 'react-redux';
 import {useCheckInputs} from '../../hooks/useCheckInputs';
+import {useAppSelector} from '../../hooks';
 
-function EditableInput(
+interface IEditableInputProps {
+  placeholder: string;
+  errorText?: string;
+  error?: boolean;
+  type?: 'text' | 'password';
+  onIconClick: Function;
+  disabled: boolean;
+  name: string;
+}
+
+type TInputValue = {
+  inputValue: string;
+  inputDefaultValue: string;
+  [key: string]: string;
+}
+
+const EditableInput: FC<IEditableInputProps> = (
     {
       placeholder,
       errorText = '',
@@ -15,14 +30,16 @@ function EditableInput(
       disabled,
       name
     }
-  ) {
+  ) => {
 
-  const {inputValue, inputDefaultValue} = useSelector(state => ({
+  const {inputValue, inputDefaultValue}: TInputValue = useAppSelector(state => ({
+    // @ts-ignore
     inputValue: state.users.profile[name],
+    // @ts-ignore
     inputDefaultValue: state.users.user[name],
-  }))
+  }));
   const updateInputValue = useInputValue('profile');
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
   const checkInputs = useCheckInputs();
 
   const handleIconClick = () => {
@@ -36,14 +53,14 @@ function EditableInput(
       });
     } else {
       setTimeout(() => {
-        inputRef.current.focus();
+        inputRef?.current?.focus();
       }, 0);
     }
 
     onIconClick(name);
   }
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     updateInputValue(e);
     checkInputs({[name]: e.target.value});
   }
@@ -67,13 +84,3 @@ function EditableInput(
 }
 
 export default EditableInput;
-
-EditableInput.propTypes = {
-  placeholder: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  disabled: PropTypes.bool.isRequired,
-  errorText: PropTypes.string,
-  error: PropTypes.bool,
-  type: PropTypes.string,
-  onIconClick: PropTypes.func,
-}

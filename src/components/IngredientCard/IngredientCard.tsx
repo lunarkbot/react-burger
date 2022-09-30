@@ -1,15 +1,17 @@
-import React  from 'react';
+import React, {FC} from 'react';
 import styles from './IngredientCard.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import {ingredientsTypes} from '../../utils/constants';
-import {useDispatch} from 'react-redux';
 import {setIngredientDetails} from '../../services/ingredientsSlice';
 import {useDrag} from 'react-dnd';
 import {Link, useLocation} from 'react-router-dom';
+import {useAppDispatch} from '../../hooks';
 
-export default function IngredientCard ({ item }) {
-  const dispatch = useDispatch();
+type TIngredientCardProps = {
+  item: IIngredientsItem;
+}
+
+const IngredientCard: FC<TIngredientCardProps> = ({ item }) => {
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const ingredientId = item['_id'];
 
@@ -51,6 +53,4 @@ export default function IngredientCard ({ item }) {
   );
 }
 
-IngredientCard.propTypes = {
-  item: PropTypes.shape(ingredientsTypes).isRequired,
-}
+export default IngredientCard;

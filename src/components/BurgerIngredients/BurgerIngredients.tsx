@@ -1,24 +1,24 @@
-import React, {useEffect, useRef} from 'react';
+import React, {FC, useEffect, useRef} from 'react';
 import styles from './BurgerIngredients.module.css';
 import Tabs from '../Tabs/Tabs';
 import IngredientList from '../IngredientList/IngredientList';
-import {useDispatch} from 'react-redux';
 import {getIngredients} from '../../services/ingredientsSlice';
+import {useAppDispatch} from '../../hooks';
 
-export default function BurgerIngredients() {
-  const dispatch = useDispatch();
+const BurgerIngredients: FC = () => {
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getIngredients())
   },[dispatch])
 
   const tabsRef = {
-    bun: useRef(),
-    sauce: useRef(),
-    main: useRef(),
+    bun: useRef<HTMLDivElement>(null),
+    sauce: useRef<HTMLDivElement>(null),
+    main: useRef<HTMLDivElement>(null),
   }
 
-  const scrollBoxRef = useRef();
+  const scrollBoxRef = useRef<HTMLDivElement>(null);
 
   return(
     <>
@@ -42,3 +42,5 @@ export default function BurgerIngredients() {
     </>
   )
 }
+
+export default BurgerIngredients;

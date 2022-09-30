@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from './Spinner.module.css';
-import PropTypes from 'prop-types';
 
-function Spinner( { className = '' } ) {
+interface ISpinnerProps {
+  className?: string;
+}
+
+const Spinner: FC<ISpinnerProps> = ( { className = '' } ) => {
   return (
     <div className={`${styles.spinner} ${className}`}>
       <div></div>
@@ -12,7 +15,3 @@ function Spinner( { className = '' } ) {
 }
 
 export default Spinner;
-
-Spinner.propTypes = {
-  className: PropTypes.string,
-}

@@ -14,7 +14,7 @@ import {
 import {BrowserRouter, Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {authUser} from '../../services/usersSlice';
-import {ProtectedRoute} from '../ProtectedRoute/ProtectedRoute';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import {getIngredients, resetIngredientDetails} from '../../services/ingredientsSlice';

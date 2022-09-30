@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from './ProfileContent.module.css';
 import {NavLink} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import {useDispatch} from 'react-redux';
 import {signOut} from '../../services/usersSlice';
+import {useAppDispatch} from '../../hooks';
 
-function ProfileContent({children, className}) {
-  const dispatch = useDispatch();
+interface IProfileContentProps {
+  className: string;
+}
+
+const ProfileContent: FC<IProfileContentProps> = ({children, className}) => {
+  const dispatch = useAppDispatch();
 
   const handleLogout = () => {
     dispatch(signOut());
@@ -59,10 +62,3 @@ function ProfileContent({children, className}) {
 }
 
 export default ProfileContent;
-
-ProfileContent.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array
-  ]).isRequired,
-}

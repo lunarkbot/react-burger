@@ -1,16 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, RefObject, useEffect} from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './Tabs.module.css';
-import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
 import {setCurrentTab, setVisibility} from '../../services/tabsSlice';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 
-export default function Tabs({tabsRef, scrollBoxRef }) {
-  const dispatch = useDispatch();
-  const current = useSelector(state => state.tabs.currentTab);
-  const isTabVisible = useSelector(state => state.tabs.isVisible);
+interface ITabsProps {
+  tabsRef: any;
+  scrollBoxRef: RefObject<HTMLDivElement>;
+}
 
-  const handleClick = (tabName) => {
+type TIsTabVisible = {
+  [key: string]: boolean;
+}
+
+const Tabs: FC<ITabsProps> = ({tabsRef, scrollBoxRef }) => {
+  const dispatch = useAppDispatch();
+  const current = useAppSelector(state => state.tabs.currentTab);
+  const isTabVisible: TIsTabVisible = useAppSelector(state => state.tabs.isVisible);
+
+  const handleClick = (tabName: string) => {
     tabsRef[tabName].current.scrollIntoView({block: "start", behavior: "smooth"});
   }
 
@@ -24,7 +32,7 @@ export default function Tabs({tabsRef, scrollBoxRef }) {
   }, [isTabVisible])
 
   useEffect(() => {
-    const observerCallback = (entries) => {
+    const observerCallback = (entries: any) => {
       for (let entry of entries) {
         const { target, boundingClientRect, rootBounds } = entry;
 
@@ -72,7 +80,4 @@ export default function Tabs({tabsRef, scrollBoxRef }) {
   )
 }
 
-Tabs.propTypes = {
-  tabsRef: PropTypes.object.isRequired,
-  scrollBoxRef: PropTypes.object.isRequired,
-}
+export default Tabs;

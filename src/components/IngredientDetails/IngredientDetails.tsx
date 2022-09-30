@@ -1,15 +1,29 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import styles from './IngredientDetails.module.css';
 import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {getIngredientsDetails} from '../../services/ingredientsSlice';
 import BigSpinner from '../BigSpinner/BigSpinner';
 import PropTypes from 'prop-types';
+import {useAppSelector} from '../../hooks';
 
-export default function IngredientDetails({ isModal }) {
+type TIngredientDetailsProps = {
+  isModal: boolean;
+}
+
+type TIngredientParams = {
+  ingredientId: string;
+}
+
+type TIngredientDetails = {
+  ingredientDetails: IIngredient;
+  items: IIngredientsItem[];
+}
+
+const IngredientDetails: FC<TIngredientDetailsProps> = ({ isModal }) => {
   const dispatch = useDispatch();
-  const { ingredientDetails, items } = useSelector(state => state.ingredients);
-  const { ingredientId } = useParams();
+  const { ingredientDetails, items } = useAppSelector<TIngredientDetails>((state: any) => state.ingredients);
+  const { ingredientId } = useParams<TIngredientParams>();
 
   useEffect(() => {
     dispatch(getIngredientsDetails(ingredientId))
@@ -52,6 +66,4 @@ export default function IngredientDetails({ isModal }) {
   );
 }
 
-IngredientDetails.propTypes = {
-  isModal: PropTypes.bool.isRequired
-}
+export default IngredientDetails;

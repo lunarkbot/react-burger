@@ -1,4 +1,6 @@
 import React from 'react';
+// @ts-ignore
+import { NavLink } from 'react-router-dom';
 import styles from './AppHeader.module.css';
 import {
   BurgerIcon,
@@ -6,7 +8,6 @@ import {
   Logo,
   ProfileIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import {Link, NavLink} from 'react-router-dom';
 
 export default function AppHeader() {
   return (

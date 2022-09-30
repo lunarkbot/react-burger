@@ -1,8 +1,15 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from './OrderDetails.module.css';
-import PropTypes from 'prop-types';
 
-export default function OrderDetails({ details }) {
+interface IOrderDetailsProps {
+  details: {
+    order: {
+      number: number;
+    }
+  } | null;
+}
+
+const OrderDetails: FC<IOrderDetailsProps> = ({ details }) => {
   return (
     <div className={styles.content}>
       <p className="text text_type_digits-large mb-8">
@@ -22,9 +29,4 @@ export default function OrderDetails({ details }) {
   );
 }
 
-OrderDetails.propTypes = {
-  details: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    order: PropTypes.object.isRequired,
-  }).isRequired,
-}
+export default OrderDetails;

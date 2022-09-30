@@ -1,15 +1,19 @@
 import styles from './ConstructorItem.module.css';
-import React, {useRef} from 'react';
+import React, {FC, useRef} from 'react';
 import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import {ingredientsTypes} from '../../utils/constants';
-import {useDispatch, useSelector} from 'react-redux';
 import {decreaseQuantity, deleteSelectedItem} from '../../services/ingredientsSlice';
 import {useDrag, useDrop} from 'react-dnd';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 
-function ConstructorItem({ item, index, moveCard }) {
-  const dispatch = useDispatch();
-  const selectedIngredients = useSelector(state => state.ingredients.selectedItems.items);
+type TConstructorItemProps = {
+  item: IIngredientsItem;
+  index: number;
+  moveCard: Function;
+}
+
+const ConstructorItem: FC<TConstructorItemProps> = ({ item, index, moveCard }) => {
+  const dispatch = useAppDispatch();
+  const selectedIngredients = useAppSelector(state => state.ingredients.selectedItems.items);
 
   function handleClose() {
     dispatch(deleteSelectedItem({
@@ -19,7 +23,7 @@ function ConstructorItem({ item, index, moveCard }) {
     dispatch(decreaseQuantity(item._id));
   }
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLLIElement>(null);
 
   const [{ handlerId }, drop] = useDrop({
     accept: 'component',
@@ -28,7 +32,7 @@ function ConstructorItem({ item, index, moveCard }) {
         handlerId: monitor.getHandlerId()
       }
     },
-    hover(item, monitor) {
+    hover(item: any, monitor) {
       if (!ref.current) {
         return;
       }
@@ -42,7 +46,7 @@ function ConstructorItem({ item, index, moveCard }) {
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = clientOffset?.y ? clientOffset.y - hoverBoundingRect.top : 0;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
@@ -66,7 +70,7 @@ function ConstructorItem({ item, index, moveCard }) {
   });
 
   if (item.type !== 'bun') drag(drop(ref));
-  const preventDefault = (e) => e.preventDefault();
+  const preventDefault = (e: any) => e.preventDefault();
 
   return (
     <li
@@ -88,9 +92,3 @@ function ConstructorItem({ item, index, moveCard }) {
 }
 
 export default ConstructorItem;
-
-ConstructorItem.propTypes = {
-  item: PropTypes.shape(ingredientsTypes).isRequired,
-  index: PropTypes.number.isRequired,
-  moveCard: PropTypes.func.isRequired
-}

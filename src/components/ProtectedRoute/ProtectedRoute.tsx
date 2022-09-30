@@ -1,11 +1,11 @@
 import {Redirect, Route} from 'react-router-dom';
-import {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {FC, useEffect} from 'react';
 import {authUser} from '../../services/usersSlice';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 
-export function ProtectedRoute({ children, ...rest }) {
-  const dispatch = useDispatch();
-  const { isAuth, isPendingAuth } = useSelector(state => state.users.user);
+const ProtectedRoute: FC = ({ children, ...rest }) => {
+  const dispatch = useAppDispatch();
+  const { isAuth, isPendingAuth } = useAppSelector(state => state.users.user);
 
   const init = () => {
     dispatch(authUser());
@@ -34,3 +34,5 @@ export function ProtectedRoute({ children, ...rest }) {
     />
   );
 }
+
+export default ProtectedRoute;

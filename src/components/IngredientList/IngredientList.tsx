@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {FC} from 'react';
 import IngredientCard from '../IngredientCard/IngredientCard';
 import styles from './IngredientList.module.css';
-import PropTypes from 'prop-types';
-import {useSelector} from 'react-redux';
+import {useAppSelector} from '../../hooks';
 
-export default function IngredientList({ type }) {
-  const ingredients = useSelector(state => state.ingredients.items);
+type TIngredientListProps = {
+  type: string;
+}
+
+const IngredientList: FC<TIngredientListProps> = ({ type }) => {
+  const ingredients: IIngredientsItem[] = useAppSelector(state => state.ingredients.items);
 
   return(
      <ul className={`${styles.list} mb-10`}>
@@ -23,6 +26,4 @@ export default function IngredientList({ type }) {
   )
 }
 
-IngredientList.propTypes = {
-  type: PropTypes.string.isRequired,
-}
+export default IngredientList;

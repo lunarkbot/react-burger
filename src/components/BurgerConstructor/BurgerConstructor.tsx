@@ -1,5 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, {FC, useCallback, useEffect} from 'react';
 import {
   addQuantity,
   addSelectedItem,
@@ -20,16 +19,18 @@ import {hideOrderDetails, sendOrder} from '../../services/ordersSlice';
 import {useDrop} from 'react-dnd';
 import ConstructorItem from '../ConstructorItem/ConstructorItem';
 import Spinner from '../Spinner/Spinner';
-import {Redirect, useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {object} from 'prop-types';
 
-export default function BurgerConstructor() {
+const BurgerConstructor: FC = () => {
   const {
     totalPrice,
     selectedIngredients,
     orderDetail,
     isOrderDetailsShow,
     orderDetailRequest,
-  } = useSelector(state => ({
+  } = useAppSelector(state => ({
     totalPrice: state.ingredients.totalPrice,
     selectedIngredients: state.ingredients.selectedItems,
     orderDetail: state.orders.orderDetail,
@@ -37,18 +38,18 @@ export default function BurgerConstructor() {
     orderDetailRequest: state.orders.orderDetailRequest,
   }));
 
-  const { isAuth } = useSelector(state => state.users.user)
+  const { isAuth } = useAppSelector(state => state.users.user)
   const history = useHistory();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     dispatch(resetTotalPrice());
     dispatch(setTotalPrice());
   }, [selectedIngredients]);
 
-
   const handleClickOrderButton = () => {
     if (isAuth) {
+      // @ts-ignore
       dispatch(sendOrder({
         ingredients: selectedIngredients,
       }))
@@ -67,9 +68,12 @@ export default function BurgerConstructor() {
       isHover: monitor.isOver(),
     }),
     drop(source) {
+      // @ts-ignore
       dispatch(addSelectedItem(source.item));
       dispatch(addQuantity({
+        // @ts-ignore
         type: source.type,
+        // @ts-ignore
         id: source.id
       }))
     }
@@ -90,6 +94,11 @@ export default function BurgerConstructor() {
     dispatch(updateSelectedList(newCards));
   }, [selectedIngredients, dispatch]);
 
+  type Test = {
+    type: string,
+    uid: string
+  }
+
   return(
     <>
       <section>
@@ -97,10 +106,11 @@ export default function BurgerConstructor() {
           {selectedIngredients.bun && <Bun item={selectedIngredients.bun} type="top" />}
           {(selectedIngredients.bun || Boolean(selectedIngredients.items.length)) &&
             <ul className={`${styles.list} ${styles.scrollBox}`}>
-            {selectedIngredients.items.map((item, index) => {
+            {selectedIngredients.items.map((item: Test, index) => {
               if (item && item.type !== 'bun') {
                 return (
                   <ConstructorItem
+                    // @ts-ignore
                     item={item}
                     index={index}
                     key={item.uid}
@@ -137,8 +147,9 @@ export default function BurgerConstructor() {
           <OrderDetails details={orderDetail} />
         </Modal>
       }
-
     </>
 
   )
 }
+
+export default BurgerConstructor;
