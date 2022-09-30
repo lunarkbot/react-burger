@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import AppHeader from '../AppHeader/AppHeader';
 import {
   ForgotPasswordPage,
@@ -12,21 +12,22 @@ import {
   OrderDetailsPage
 } from '../../pages';
 import {BrowserRouter, Route, Switch, useHistory, useLocation} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
 import {authUser} from '../../services/usersSlice';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 import {getIngredients, resetIngredientDetails} from '../../services/ingredientsSlice';
+import {useAppDispatch} from '../../hooks';
 
-function App() {
-  const dispatch = useDispatch();
+const App: FC = () => {
+  const dispatch = useAppDispatch();
   useEffect(() => {
+    // @ts-ignore
     dispatch(authUser(dispatch));
   }, [dispatch, authUser])
 
   const ModalSwitch = () => {
-    const location = useLocation();
+    const location = useLocation<any>();
     const history = useHistory();
     let background = location?.state?.background;
 

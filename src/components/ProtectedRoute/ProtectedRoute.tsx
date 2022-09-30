@@ -3,7 +3,11 @@ import {FC, useEffect} from 'react';
 import {authUser} from '../../services/usersSlice';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 
-const ProtectedRoute: FC = ({ children, ...rest }) => {
+type ProtectedRoute = {
+  [key: string]: any;
+}
+
+const ProtectedRoute: FC<ProtectedRoute> = ({ children, ...rest }) => {
   const dispatch = useAppDispatch();
   const { isAuth, isPendingAuth } = useAppSelector(state => state.users.user);
 
