@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import indexStyles from './index.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useDispatch, useSelector} from 'react-redux';
 import {Link, Redirect, useHistory, useLocation} from 'react-router-dom';
 import {useInputValue} from '../hooks/useInputValue';
 import PasswordInput from '../components/PasswordInput/PasswordInput';
@@ -9,18 +8,19 @@ import {resetFormInput, signUp} from '../services/usersSlice';
 import {useCheckInputs} from '../hooks/useCheckInputs';
 import Spinner from '../components/Spinner/Spinner';
 import {resetErrors} from '../services/errorsSlice';
+import {useAppDispatch, useAppSelector} from '../hooks';
 
-export function RegisterPage() {
-  const { email, password, name } = useSelector(state => state.users.form);
-  const { isAuth, isPendingAuth } = useSelector(state => state.users.user);
-  const inputsError = useSelector(state => state.errors);
-  const { isRegistrationSuccess, isSubmitDisabled } = useSelector(state => ({
+export const RegisterPage: FC = () => {
+  const { email, password, name } = useAppSelector(state => state.users.form);
+  const { isAuth, isPendingAuth } = useAppSelector(state => state.users.user);
+  const inputsError = useAppSelector(state => state.errors);
+  const { isRegistrationSuccess, isSubmitDisabled } = useAppSelector(state => ({
     isRegistrationSuccess: state.users.registration.isSuccess,
     isSubmitDisabled: state.users.isSubmitDisabled,
   }));
   const history = useHistory();
-  const location = useLocation();
-  const dispatch = useDispatch();
+  const location = useLocation<LocationState>();
+  const dispatch = useAppDispatch();
   const setInputValue = useInputValue();
   const checkInputs = useCheckInputs();
 
@@ -35,12 +35,12 @@ export function RegisterPage() {
     }
   }, [history, dispatch, isRegistrationSuccess])
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     setInputValue(e);
     checkInputs({[e.target.name]: e.target.value});
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     const inputs = {
       email,
@@ -49,7 +49,8 @@ export function RegisterPage() {
     }
 
     const hasError = checkInputs(inputs);
-    if (!hasError) dispatch(signUp(inputs));
+
+    if (!hasError) dispatch(signUp());
   }
 
   if (isAuth) {
@@ -111,7 +112,7 @@ export function RegisterPage() {
         <p className="text text_type_main-default text_color_inactive mb-4">
           Уже зарегистрированы?
           <Link to="/login" className={indexStyles.secondButton}>
-            <Button type="secondary" size="">
+            <Button type="secondary" size="small">
               Войти
             </Button>
           </Link>

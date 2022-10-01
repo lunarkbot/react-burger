@@ -1,7 +1,7 @@
 import {useDispatch} from 'react-redux';
 import { showError, hideError } from '../services/errorsSlice';
 
-function hasInputError(name, value) {
+function hasInputError(name: string, value: string): string | boolean {
   switch (name) {
     case 'email':
         const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -22,7 +22,7 @@ function hasInputError(name, value) {
 export function useCheckInputs() {
   const dispatch = useDispatch();
 
-  return (inputs) => {
+  return (inputs: {[key: string]: string}): boolean => {
     let hasError = false;
 
     for (let name in inputs) {

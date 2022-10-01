@@ -24,3 +24,9 @@ interface IIngredient {
   fat: number;
   carbohydrates: number;
 }
+
+interface LocationState {
+  from: {
+    pathname: string;
+  };
+}

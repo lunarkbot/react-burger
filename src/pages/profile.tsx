@@ -2,19 +2,35 @@ import React, {useState} from 'react';
 import indexStyles from './index.module.css';
 import styles from './profile.module.css';
 import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useDispatch, useSelector} from 'react-redux';
 import ProfileContent from '../components/ProfileContent/ProfileContent';
 import EditableInput from '../components/EditableInput/EditableInput';
 import {resetError} from '../services/errorsSlice';
 import {updateUser} from '../services/usersSlice';
 import Spinner from '../components/Spinner/Spinner';
+import {FC} from 'react';
+import {useAppDispatch, useAppSelector} from '../hooks';
+import {useDispatch} from 'react-redux';
 
-export function ProfilePage() {
-  const { user, profile, isSubmitDisabled} = useSelector(state => state.users);
-  const inputErrors = useSelector(state => state.errors);
-  const dispatch = useDispatch();
+interface IIsDisabledInput {
+  [name: string]: boolean;
+}
 
-  const [isDisabledInput, setIsDisabledInput] = useState({
+interface IUserData {
+  profile: {
+    [key: string]: string;
+  };
+  user: {
+    [key: string]: string | boolean;
+  };
+  isSubmitDisabled: boolean;
+}
+
+export const ProfilePage: FC = () => {
+  const { user, profile, isSubmitDisabled}: IUserData = useAppSelector(state => state.users);
+  const inputErrors = useAppSelector(state => state.errors);
+  const dispatch = useAppDispatch();
+
+  const [isDisabledInput, setIsDisabledInput] = useState<IIsDisabledInput>({
     name: true,
     email: true,
   })
@@ -23,7 +39,7 @@ export function ProfilePage() {
   const isSaveVisible = user.name !== profile.name
                         || user.email !== profile.email;
 
-  const handleIconClick = (name) => {
+  const handleIconClick = (name: string) => {
     setIsDisabledInput({
       ...isDisabledInput,
       [name]: !isDisabledInput[name]
@@ -31,16 +47,16 @@ export function ProfilePage() {
     dispatch(resetError(name));
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    const data = {};
+    const data: {[key: string]: string} = {};
 
     for (let name in isDisabledInput) {
       if (!isDisabledInput[name] && profile[name] !== user[name]) {
         data[name] = profile[name];
       }
     }
-
+    // @ts-ignore
     dispatch(updateUser({
       dispatch,
       data

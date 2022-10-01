@@ -5,7 +5,7 @@ import {signOut} from '../../services/usersSlice';
 import {useAppDispatch} from '../../hooks';
 
 interface IProfileContentProps {
-  className: string;
+  className?: string;
 }
 
 const ProfileContent: FC<IProfileContentProps> = ({children, className}) => {

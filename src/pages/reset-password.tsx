@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
+import React, {FC, FormEvent, useEffect} from 'react';
 import indexStyles from './index.module.css';
-import {useDispatch, useSelector} from 'react-redux';
 import {useInputValue} from '../hooks/useInputValue';
 import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import {Link, Redirect, useHistory } from 'react-router-dom';
@@ -10,17 +9,18 @@ import {resetPassword, resetPasswordData} from '../services/passwordSlice';
 import {resetFormInput} from '../services/usersSlice';
 import Spinner from '../components/Spinner/Spinner';
 import BigSpinner from '../components/BigSpinner/BigSpinner';
+import {useAppDispatch, useAppSelector} from '../hooks';
 
-export function ResetPasswordPage() {
-  const { token, password } = useSelector(state => state.users.form);
-  const { isAuth, isPendingAuth } = useSelector(state => state.users.user);
-  const inputsError = useSelector(state => state.errors);
+export const ResetPasswordPage: FC = () => {
+  const { token, password } = useAppSelector(state => state.users.form);
+  const { isAuth, isPendingAuth } = useAppSelector(state => state.users.user);
+  const inputsError = useAppSelector(state => state.errors);
   const {
     isPasswordReset,
     isButtonDisabled,
     isResetEmailSend
-  } = useSelector(state => state.password);
-  const dispatch = useDispatch();
+  } = useAppSelector(state => state.password);
+  const dispatch = useAppDispatch();
   const setInputValue = useInputValue();
   const checkInputs = useCheckInputs();
   const history = useHistory();
@@ -33,12 +33,12 @@ export function ResetPasswordPage() {
     }
   }, [isPasswordReset, history, dispatch])
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     setInputValue(e);
     checkInputs({[e.target.name]: e.target.value});
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     const inputs = {
@@ -48,6 +48,7 @@ export function ResetPasswordPage() {
 
     const hasError = checkInputs(inputs);
     if (!hasError) {
+      // @ts-ignore
       dispatch(resetPassword(inputs));
     }
   }
@@ -104,7 +105,7 @@ export function ResetPasswordPage() {
         <p className="text text_type_main-default text_color_inactive mb-4">
           Вспомнили пароль?
           <Link to="/login" className={indexStyles.secondButton}>
-            <Button type="secondary" size="">
+            <Button type="secondary">
               Войти
             </Button>
           </Link>

@@ -17,7 +17,7 @@ interface IEditableInputProps {
 type TInputValue = {
   inputValue: string;
   inputDefaultValue: string;
-  [key: string]: string;
+  [key: string]: string | undefined;
 }
 
 const EditableInput: FC<IEditableInputProps> = (
