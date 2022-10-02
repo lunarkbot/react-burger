@@ -1,8 +1,8 @@
-import React, {FC, MouseEventHandler} from 'react';
+import React, {FC} from 'react';
 import styles from './ModalOverlay.module.css'
 
 interface IModalOverlayProps {
-  onClose: Function;
+  onClose: () => void;
 }
 
 const ModalOverlay: FC<IModalOverlayProps> = ({onClose, children}) => {

@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {getIngredientsDetails} from '../../services/ingredientsSlice';
 import BigSpinner from '../BigSpinner/BigSpinner';
-import PropTypes from 'prop-types';
 import {useAppSelector} from '../../hooks';
 
 type TIngredientDetailsProps = {

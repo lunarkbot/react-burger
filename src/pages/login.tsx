@@ -11,7 +11,6 @@ import Spinner from '../components/Spinner/Spinner';
 import {resetErrors} from '../services/errorsSlice';
 import BigSpinner from '../components/BigSpinner/BigSpinner';
 import {useAppDispatch, useAppSelector} from '../hooks';
-import {LocationState} from '../types/types';
 
 export const LoginPage: FC = () => {
   const location = useLocation<LocationState>();

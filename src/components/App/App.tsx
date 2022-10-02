@@ -27,9 +27,9 @@ const App: FC = () => {
   }, [dispatch, authUser])
 
   const ModalSwitch = () => {
-    const location = useLocation<any>();
+    const location = useLocation<Location>();
     const history = useHistory();
-    let background = location?.state?.background;
+    let background = location.state && (location.state as any).background;
 
     useEffect(() => {
       dispatch(getIngredients())

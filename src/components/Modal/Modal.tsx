@@ -8,7 +8,7 @@ const modalRoot = document.getElementById("react-modals") as HTMLElement;
 
 interface IModalProps {
   type?: string;
-  onClose: any;
+  onClose: () => void;
 }
 
 const Modal: FC<IModalProps> = ({type, onClose, children}) => {
