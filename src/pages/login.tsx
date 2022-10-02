@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import indexStyles from './index.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useDispatch, useSelector} from 'react-redux';
@@ -10,14 +10,16 @@ import {signIn} from '../services/usersSlice';
 import Spinner from '../components/Spinner/Spinner';
 import {resetErrors} from '../services/errorsSlice';
 import BigSpinner from '../components/BigSpinner/BigSpinner';
+import {useAppDispatch, useAppSelector} from '../hooks';
+import {LocationState} from '../types/types';
 
-export function LoginPage() {
-  const location = useLocation();
-  const { isAuth, isPendingAuth } = useSelector(state => state.users.user);
-  const { email, password } = useSelector(state => state.users.form);
-  const inputsError = useSelector(state => state.errors);
-  const { isSubmitDisabled } = useSelector(state => state.users);
-  const dispatch = useDispatch();
+export const LoginPage: FC = () => {
+  const location = useLocation<LocationState>();
+  const { isAuth, isPendingAuth } = useAppSelector(state => state.users.user);
+  const { email, password } = useAppSelector(state => state.users.form);
+  const inputsError = useAppSelector(state => state.errors);
+  const { isSubmitDisabled } = useAppSelector(state => state.users);
+  const dispatch = useAppDispatch();
   const setInputValue = useInputValue();
   const checkInputs = useCheckInputs();
 
@@ -25,12 +27,14 @@ export function LoginPage() {
     dispatch(resetErrors());
   }, [dispatch, resetErrors]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent): void => {
     setInputValue(e);
-    checkInputs({[e.target.name]: e.target.value});
+    const target = e.target as HTMLInputElement;
+
+    checkInputs({[target.name]: target.value});
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     const inputs = {
       email,
@@ -38,6 +42,7 @@ export function LoginPage() {
     }
 
     const hasError = checkInputs(inputs);
+    // @ts-ignore
     if (!hasError) dispatch(signIn(inputs));
   }
 
@@ -88,7 +93,7 @@ export function LoginPage() {
         <p className="text text_type_main-default text_color_inactive mb-4">
           Вы &mdash; новый пользователь?
           <Link to="/register" className={indexStyles.secondButton}>
-            <Button type="secondary" size="">
+            <Button type="secondary" size="small">
               Зарегистрироваться
             </Button>
           </Link>
@@ -96,7 +101,7 @@ export function LoginPage() {
         <p className="text text_type_main-default text_color_inactive">
           Забыли пароль?
           <Link to="/forgot-password" className={indexStyles.secondButton}>
-            <Button type="secondary" size="">
+            <Button type="secondary" size="small">
               Восстановить пароль
             </Button>
           </Link>

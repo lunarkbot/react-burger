@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {FC} from 'react';
 import ProfileContent from '../components/ProfileContent/ProfileContent';
 import styles from './orders.module.css';
 import {Link} from 'react-router-dom';
 
-export function OrdersPage() {
+export const OrdersPage: FC = () => {
 
   return (
     <ProfileContent className={styles.content}>

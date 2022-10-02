@@ -9,7 +9,6 @@ import {updateUser} from '../services/usersSlice';
 import Spinner from '../components/Spinner/Spinner';
 import {FC} from 'react';
 import {useAppDispatch, useAppSelector} from '../hooks';
-import {useDispatch} from 'react-redux';
 
 interface IIsDisabledInput {
   [name: string]: boolean;

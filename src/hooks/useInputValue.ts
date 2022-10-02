@@ -1,13 +1,6 @@
 import {useDispatch} from 'react-redux';
 import {updateProfile, updateFormInput} from '../services/usersSlice';
 
-interface IInput {
-  isElement?: boolean;
-  element?: HTMLInputElement | null;
-  target?: EventTarget;
-  value: string;
-}
-
 export function useInputValue(type?: string) {
   const dispatch = useDispatch();
 

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import indexStyles from './index.module.css';
 import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import {Link, Redirect, useHistory} from 'react-router-dom';
@@ -9,14 +9,15 @@ import {forgotPassword, resetPasswordData} from '../services/passwordSlice';
 import {resetFormInput} from '../services/usersSlice';
 import Spinner from '../components/Spinner/Spinner';
 import BigSpinner from '../components/BigSpinner/BigSpinner';
+import {useAppDispatch, useAppSelector} from '../hooks';
 
-export function ForgotPasswordPage() {
-  const { email } = useSelector(state => state.users.form);
-  const inputsError = useSelector(state => state.errors);
-  const { isAuth, isPendingAuth } = useSelector(state => state.users.user);
-  const { isResetEmailSend, isButtonDisabled } = useSelector(state => state.password);
+export const ForgotPasswordPage: FC = () => {
+  const { email } = useAppSelector(state => state.users.form);
+  const inputsError = useAppSelector(state => state.errors);
+  const { isAuth, isPendingAuth } = useAppSelector(state => state.users.user);
+  const { isResetEmailSend, isButtonDisabled } = useAppSelector(state => state.password);
   const history = useHistory();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const setInputValue = useInputValue();
   const checkInputs = useCheckInputs();
 
@@ -27,12 +28,13 @@ export function ForgotPasswordPage() {
     }
   }, [isResetEmailSend, history, dispatch])
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent): void => {
     setInputValue(e);
-    checkInputs({[e.target.name]: e.target.value});
+    const target = e.target as HTMLInputElement;
+    checkInputs({[target.name]: target.value});
   };
 
-  async function handleSubmit (e) {
+  async function handleSubmit (e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const inputs = {
       email,
@@ -41,6 +43,7 @@ export function ForgotPasswordPage() {
     const hasError = checkInputs(inputs);
 
     if (!hasError) {
+      // @ts-ignore
       dispatch(forgotPassword(inputs));
     }
   }
@@ -83,7 +86,7 @@ export function ForgotPasswordPage() {
         <p className="text text_type_main-default text_color_inactive mb-4">
           Вспомнили пароль?
           <Link to="/login" className={indexStyles.secondButton}>
-            <Button type="secondary" size="">
+            <Button type="secondary" size="small">
               Войти
             </Button>
           </Link>

@@ -1,3 +1,5 @@
+import {string} from 'prop-types';
+
 interface IIngredientsItem {
   quantity: number;
   calories: number;
@@ -29,4 +31,15 @@ interface LocationState {
   from: {
     pathname: string;
   };
+}
+
+interface IInput {
+  isElement?: boolean;
+  element?: HTMLInputElement | null;
+  target?: EventTarget;
+  value?: string;
+}
+
+interface IMyObject {
+  [key: string]: string | undefined;
 }
