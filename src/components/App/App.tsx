@@ -10,7 +10,7 @@ import {
   ResetPasswordPage,
   OrdersPage,
   OrderDetailsPage,
-  FeedPage,
+  FeedPage, OrderPage,
 } from '../../pages';
 import {BrowserRouter, Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import {authUser} from '../../services/usersSlice';
@@ -54,8 +54,8 @@ const App: FC = () => {
           <Route path='/feed' exact>
             <FeedPage />
           </Route>
-          <Route path='/feed/:id' exact>
-            <IngredientDetails isModal={false} />
+          <Route path='/feed/id' exact>
+            <OrderPage />
           </Route>
           <Route path='/login'>
             <LoginPage />

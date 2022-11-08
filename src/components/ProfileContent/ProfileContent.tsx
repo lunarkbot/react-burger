@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import styles from './ProfileContent.module.css';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useRouteMatch} from 'react-router-dom';
 import {signOut} from '../../services/usersSlice';
 import {useAppDispatch} from '../../hooks';
 
@@ -10,6 +10,7 @@ interface IProfileContentProps {
 
 const ProfileContent: FC<IProfileContentProps> = ({children, className}) => {
   const dispatch = useAppDispatch();
+  const routeMatch = useRouteMatch('/profile/orders');
 
   const handleLogout = () => {
     dispatch(signOut());
@@ -49,9 +50,11 @@ const ProfileContent: FC<IProfileContentProps> = ({children, className}) => {
             </li>
           </ul>
         </nav>
-        <p className="text text_type_main-default text_color_inactive">
-          В этом разделе вы можете
-          изменить свои персональные данные
+        <p className={`${styles.text} text text_type_main-default text_color_inactive`}>
+          {routeMatch
+            ? 'В этом разделе вы можете просмотреть свою историю заказов'
+            : 'В этом разделе вы можете изменить свои персональные данные'
+          }
         </p>
       </aside>
       <div className={className}>

@@ -1,21 +1,25 @@
 import React, {FC} from 'react';
-import ProfileContent from '../components/ProfileContent/ProfileContent';
 import styles from './orders.module.css';
-import {Link} from 'react-router-dom';
+import ProfileContent from '../components/ProfileContent/ProfileContent';
+import {OrderCard} from '../components/OrderCard/OrderCard';
+import {ScrollBox} from '../components/ScrollBox/ScrollBox';
 
 export const OrdersPage: FC = () => {
 
   return (
     <ProfileContent className={styles.content}>
-      <Link to="/profile/orders/1" className={styles.link}>
-        Первый заказ
-      </Link>
-      <Link to="/profile/orders/2" className={styles.link}>
-        Второй заказ
-      </Link>
-      <Link to="/profile/orders/3" className={styles.link}>
-        Третий заказ
-      </Link>
+      <ScrollBox secondClass={styles.scrollBox}>
+        <ul className={styles.orderCards}>
+          <OrderCard />
+          <OrderCard />
+          <OrderCard />
+          <OrderCard />
+          <OrderCard />
+          <OrderCard />
+          <OrderCard />
+          <OrderCard />
+        </ul>
+      </ScrollBox>
     </ProfileContent>
   );
 }

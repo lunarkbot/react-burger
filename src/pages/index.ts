@@ -9,6 +9,7 @@ import { NotFound404 } from './not-found';
 import { OrdersPage } from './orders';
 import { OrderDetailsPage } from './order-details';
 import { FeedPage } from './feed';
+import { OrderPage } from './order';
 
 export {
   MainPage,
@@ -22,4 +23,5 @@ export {
   OrdersPage,
   OrderDetailsPage,
   FeedPage,
+  OrderPage,
 };
