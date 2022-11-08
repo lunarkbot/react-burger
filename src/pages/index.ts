@@ -8,6 +8,7 @@ import { IngredientsPage } from './ingredients';
 import { NotFound404 } from './not-found';
 import { OrdersPage } from './orders';
 import { OrderDetailsPage } from './order-details';
+import { FeedPage } from './feed';
 
 export {
   MainPage,
@@ -19,5 +20,6 @@ export {
   IngredientsPage,
   NotFound404,
   OrdersPage,
-  OrderDetailsPage
+  OrderDetailsPage,
+  FeedPage,
 };

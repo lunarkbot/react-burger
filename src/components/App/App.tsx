@@ -9,7 +9,8 @@ import {
   RegisterPage,
   ResetPasswordPage,
   OrdersPage,
-  OrderDetailsPage
+  OrderDetailsPage,
+  FeedPage,
 } from '../../pages';
 import {BrowserRouter, Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import {authUser} from '../../services/usersSlice';
@@ -48,6 +49,12 @@ const App: FC = () => {
             <MainPage />
           </Route>
           <Route path='/ingredients/:ingredientId' exact>
+            <IngredientDetails isModal={false} />
+          </Route>
+          <Route path='/feed' exact>
+            <FeedPage />
+          </Route>
+          <Route path='/feed/:id' exact>
             <IngredientDetails isModal={false} />
           </Route>
           <Route path='/login'>
