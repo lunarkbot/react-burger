@@ -2,19 +2,21 @@ import React, {FC} from 'react';
 import styles from './OrderCard.module.css';
 import {CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import {IngredientsGroup} from '../IngredientsGroup/IngredientsGroup';
-import {Link, useRouteMatch} from 'react-router-dom';
+import {Link, useLocation, useRouteMatch} from 'react-router-dom';
 
 export const OrderCard: FC = () => {
   const routeMatch = useRouteMatch('/profile/orders');
+  const location = useLocation();
 
   return (
     <li className={styles.card}>
       <Link
-        to={
-          routeMatch
-            ? `/profile/orders/id`
-            : `/feed/id`
-        }
+        to={{
+          pathname:  routeMatch
+                      ? `/profile/orders/id`
+                      : `/feed/id`,
+          state: { background: location },
+        }}
         className={styles.cardContent}
       >
         <div className={styles.orderInfo}>

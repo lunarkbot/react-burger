@@ -31,7 +31,9 @@ const Modal: FC<IModalProps> = ({type, onClose, children}) => {
     <ModalOverlay onClose={onClose}>
       <div className={`
           ${styles.modal}
-          ${type === 'ingredient' ? 'pt-10 pb-15' : 'pt-30 pb-30'} 
+          ${type === 'ingredient' 
+              ? 'pt-10 pb-15' 
+              : type === 'order' ? 'pt-10 pb-15' : 'pt-30 pb-30'} 
         `}>
         <button className={`${styles.button} mt-15 mr-10`} onClick={onClose}>
           <CloseIcon type="primary" />
