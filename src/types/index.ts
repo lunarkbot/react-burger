@@ -19,6 +19,7 @@ export interface IIngredientsItem {
 }
 
 export interface IIngredient {
+  _id: string,
   image_large: string;
   text: string;
   name: string;

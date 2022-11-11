@@ -14,22 +14,19 @@
   margin-left: -16px;
   background-image: url('../../images/ingredient_preview.svg');
   isolation: isolate;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .list img {
   object-fit: scale-down;
-  width: 120%;
+  width: 155%;
   position: absolute;
 }
 
 .list li:last-child {
   margin-left: 0;
-}
-
-.last {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .last::after {
