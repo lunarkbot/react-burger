@@ -5,6 +5,7 @@ import {useParams} from 'react-router-dom';
 import {getIngredientsDetails} from '../../services/ingredientsSlice';
 import BigSpinner from '../BigSpinner/BigSpinner';
 import {useAppSelector} from '../../hooks';
+import {IIngredient, IIngredientsItem} from '../../types';
 
 type TIngredientDetailsProps = {
   isModal: boolean;

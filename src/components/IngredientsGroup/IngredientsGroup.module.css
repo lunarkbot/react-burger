@@ -16,6 +16,12 @@
   isolation: isolate;
 }
 
+.list img {
+  object-fit: scale-down;
+  width: 120%;
+  position: absolute;
+}
+
 .list li:last-child {
   margin-left: 0;
 }

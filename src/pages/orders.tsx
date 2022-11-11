@@ -10,14 +10,14 @@ export const OrdersPage: FC = () => {
     <ProfileContent className={styles.content}>
       <ScrollBox secondClass={styles.scrollBox}>
         <ul className={styles.orderCards}>
-          <OrderCard />
-          <OrderCard />
-          <OrderCard />
-          <OrderCard />
-          <OrderCard />
-          <OrderCard />
-          <OrderCard />
-          <OrderCard />
+          {/*<OrderCard />*/}
+          {/*<OrderCard />*/}
+          {/*<OrderCard />*/}
+          {/*<OrderCard />*/}
+          {/*<OrderCard />*/}
+          {/*<OrderCard />*/}
+          {/*<OrderCard />*/}
+          {/*<OrderCard />*/}
         </ul>
       </ScrollBox>
     </ProfileContent>

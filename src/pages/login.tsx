@@ -1,7 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import indexStyles from './index.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import {useDispatch, useSelector} from 'react-redux';
 import {Link, Redirect, useLocation} from 'react-router-dom';
 import { useInputValue } from '../hooks/useInputValue';
 import PasswordInput from '../components/PasswordInput/PasswordInput';
@@ -11,6 +10,7 @@ import Spinner from '../components/Spinner/Spinner';
 import {resetErrors} from '../services/errorsSlice';
 import BigSpinner from '../components/BigSpinner/BigSpinner';
 import {useAppDispatch, useAppSelector} from '../hooks';
+import {LocationState} from '../types';
 
 export const LoginPage: FC = () => {
   const location = useLocation<LocationState>();

@@ -9,6 +9,7 @@ import {useCheckInputs} from '../hooks/useCheckInputs';
 import Spinner from '../components/Spinner/Spinner';
 import {resetErrors} from '../services/errorsSlice';
 import {useAppDispatch, useAppSelector} from '../hooks';
+import {LocationState} from '../types';
 
 export const RegisterPage: FC = () => {
   const { email, password, name } = useAppSelector(state => state.users.form);

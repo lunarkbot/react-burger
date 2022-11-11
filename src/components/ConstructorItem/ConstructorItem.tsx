@@ -4,6 +4,7 @@ import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger
 import {decreaseQuantity, deleteSelectedItem} from '../../services/ingredientsSlice';
 import {useDrag, useDrop} from 'react-dnd';
 import {useAppDispatch, useAppSelector} from '../../hooks';
+import {IIngredientsItem} from '../../types';
 
 type TConstructorItemProps = {
   item: IIngredientsItem;

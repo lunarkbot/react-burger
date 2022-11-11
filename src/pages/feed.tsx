@@ -1,23 +1,35 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import styles from './feed.module.css';
 import {OrderCard} from '../components/OrderCard/OrderCard';
 import {ScrollBox} from '../components/ScrollBox/ScrollBox';
+import {useAppDispatch, useAppSelector} from '../hooks';
+import {wsClose, wsInit} from '../services/wsFeedSlice';
 
 export const FeedPage: FC = () => {
+  const { isConnected, orders, total, totalToday } = useAppSelector(state => state.wsFeed);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(wsInit(''));
+
+    return () => {
+      dispatch(wsClose('Соединение закрыто.'));
+    }
+  },[]);
+
+
+
   return (
     <main className={styles.main}>
       <h1 className="mb-5 text text_type_main-large">Лента заказов</h1>
       <div className={styles.twoColumns}>
         <ScrollBox secondClass={styles.scrollBox}>
           <ul className={styles.orderCards}>
-            <OrderCard />
-            <OrderCard />
-            <OrderCard />
-            <OrderCard />
-            <OrderCard />
-            <OrderCard />
-            <OrderCard />
-            <OrderCard />
+            {orders && orders.map((order) => {
+              return (
+                <OrderCard key={order._id} order={order} />
+              );
+            })}
           </ul>
         </ScrollBox>
         <div className={styles.infoTable}>

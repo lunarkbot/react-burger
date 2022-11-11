@@ -5,6 +5,7 @@ import {setIngredientDetails} from '../../services/ingredientsSlice';
 import {useDrag} from 'react-dnd';
 import {Link, useLocation} from 'react-router-dom';
 import {useAppDispatch} from '../../hooks';
+import {IIngredientsItem} from '../../types';
 
 type TIngredientCardProps = {
   item: IIngredientsItem;

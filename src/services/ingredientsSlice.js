@@ -16,6 +16,7 @@ const ingredientsSlice = createSlice({
     items: [],
     itemsRequest: false,
     itemsFailed: false,
+    isItemsLoaded: false,
 
     selectedItems: {
       items: [],
@@ -100,6 +101,7 @@ const ingredientsSlice = createSlice({
   extraReducers: {
     [getIngredients.pending]: (state) => {
       state.itemsRequest = true;
+      state.isItemsLoaded = false;
     },
     [getIngredients.fulfilled]: (state, action) => {
       state.items = action.payload.data.map(item => ({
@@ -109,10 +111,12 @@ const ingredientsSlice = createSlice({
       }));
       state.itemsFailed = false;
       state.itemsRequest = false;
+      state.isItemsLoaded = true;
     },
     [getIngredients.rejected]: (state, action) => {
       state.itemsFailed = true;
       state.itemsRequest = false;
+      state.isItemsLoaded = false;
       consoleError(action.payload)
     },
   }
