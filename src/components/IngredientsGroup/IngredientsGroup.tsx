@@ -1,19 +1,23 @@
 import {FC, useEffect} from 'react';
 import styles from './IngredientsGroup.module.css';
-import {useAppSelector} from '../../hooks';
 import {useIngredientsList} from '../../hooks/useIngredientsList';
+import {TIngredientById} from '../../types';
 
 type TIngredientsGroup = {
   ingredients: string[];
+  ingredientsById: TIngredientById,
 }
 
-export const IngredientsGroup: FC<TIngredientsGroup> = ({ ingredients = [] }) => {
-  const { items, isItemsLoaded } = useAppSelector(state => state.ingredients);
-  const { firstIngredients, lastIngredient, setList } = useIngredientsList();
+export const IngredientsGroup: FC<TIngredientsGroup> = ({
+                                                          ingredients = [],
+                                                          ingredientsById
+                                                        }) => {
+
+  const { firstIngredients, lastIngredient, setList } = useIngredientsList(ingredientsById);
 
   useEffect(() => {
-    isItemsLoaded && setList(items, ingredients);
-  }, [isItemsLoaded])
+    setList(ingredients);
+  }, [])
 
   return (
     <ul className={styles.list}>

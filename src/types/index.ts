@@ -68,3 +68,7 @@ export type TOrdersResult = {
   ingredients: string[],
   [key: string]: any,
 }
+
+export type TIngredientById = {
+  [key: string]: IIngredient;
+};

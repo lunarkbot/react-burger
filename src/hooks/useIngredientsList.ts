@@ -1,9 +1,6 @@
 import {useEffect, useState} from 'react';
-import {IIngredient} from '../types';
-
-type TIngredientById = {
-  [key: string]: IIngredient;
-};
+import {IIngredient, TIngredientById} from '../types';
+import {useIngredientsById} from './useIngredientsById';
 
 type TIngredient = {
   image: string;
@@ -11,25 +8,11 @@ type TIngredient = {
   name: string;
 }
 
-export function useIngredientsList() {
-  const [ingredientsById, setIngredientsListById] = useState<TIngredientById | null>(null);
+export function useIngredientsList(ingredientsById: TIngredientById) {
   const [firstIngredientsId, setFirstIngredientsId] = useState<string[] | null>(null);
   const [lastIngredientsId, setLastIngredientsId] = useState<string[] | null>(null);
   const [firstIngredients, setFirstIngredients] = useState<TIngredient[] | null>(null);
   const [lastIngredient, setLastIngredient] = useState<TIngredient | null>(null);
-
-
-  function setList(items: IIngredient[], ingredientsId: string[]) {
-    setIngredientsIdList(ingredientsId);
-
-    const list: TIngredientById = {} as TIngredientById;
-
-    items.forEach((item: IIngredient) => {
-      list[item._id] = item;
-    })
-
-    setIngredientsListById(list);
-  }
 
   useEffect(() => {
     if (!ingredientsById) return;
@@ -58,7 +41,7 @@ export function useIngredientsList() {
 
   }, [ingredientsById])
 
-  function setIngredientsIdList(items: string[]) {
+  function setList(items: string[]) {
     if (items.length > 6) {
       setFirstIngredientsId(items.slice(0,5));
       setLastIngredientsId(items.slice(5));

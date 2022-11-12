@@ -4,10 +4,18 @@ import {OrderCard} from '../components/OrderCard/OrderCard';
 import {ScrollBox} from '../components/ScrollBox/ScrollBox';
 import {useAppDispatch, useAppSelector} from '../hooks';
 import {wsClose, wsInit} from '../services/wsFeedSlice';
+import {useIngredientsById} from '../hooks/useIngredientsById';
 
 export const FeedPage: FC = () => {
+  const { items, isItemsLoaded } = useAppSelector(state => state.ingredients);
+  const { ingredientsById, setIngredients } = useIngredientsById();
+
   const { isConnected, orders, total, totalToday } = useAppSelector(state => state.wsFeed);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    isItemsLoaded && setIngredients(items);
+  }, [isItemsLoaded])
 
   useEffect(() => {
     dispatch(wsInit(''));
@@ -17,17 +25,15 @@ export const FeedPage: FC = () => {
     }
   },[]);
 
-
-
   return (
     <main className={styles.main}>
       <h1 className="mb-5 text text_type_main-large">Лента заказов</h1>
       <div className={styles.twoColumns}>
         <ScrollBox secondClass={styles.scrollBox}>
           <ul className={styles.orderCards}>
-            {orders && orders.map((order) => {
+            {orders && ingredientsById && orders.map((order) => {
               return (
-                <OrderCard key={order._id} order={order} />
+                <OrderCard key={order._id} order={order} ingredientsById={ingredientsById} />
               );
             })}
           </ul>
@@ -51,11 +57,11 @@ export const FeedPage: FC = () => {
           </div>
           <div>
             <p className="text text_type_main-medium">Выполнено за все время:</p>
-            <p className="text text_type_digits-large">28752</p>
+            <p className="text text_type_digits-large">{total && total.toLocaleString('ru')}</p>
           </div>
           <div>
             <p className="text text_type_main-medium">Выполнено за сегодня:</p>
-            <p className="text text_type_digits-large">138</p>
+            <p className="text text_type_digits-large">{totalToday && totalToday.toLocaleString('ru')}</p>
           </div>
         </div>
       </div>
