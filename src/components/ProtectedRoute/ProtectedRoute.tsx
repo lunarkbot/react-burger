@@ -12,7 +12,7 @@ const ProtectedRoute: FC<ProtectedRoute> = ({ children, ...rest }) => {
   const { isAuth, isPendingAuth } = useAppSelector(state => state.users.user);
 
   const init = () => {
-    dispatch(authUser());
+    dispatch(authUser(dispatch));
   }
 
   useEffect(() => {

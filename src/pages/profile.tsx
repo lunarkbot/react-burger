@@ -24,6 +24,12 @@ interface IUserData {
   isSubmitDisabled: boolean;
 }
 
+type TData = {
+  email: string;
+  password: string;
+  [key: string]: string;
+}
+
 export const ProfilePage: FC = () => {
   const { user, profile, isSubmitDisabled}: IUserData = useAppSelector(state => state.users);
   const inputErrors = useAppSelector(state => state.errors);
@@ -48,14 +54,14 @@ export const ProfilePage: FC = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    const data: {[key: string]: string} = {};
+    const data: TData = {} as TData;
 
     for (let name in isDisabledInput) {
       if (!isDisabledInput[name] && profile[name] !== user[name]) {
         data[name] = profile[name];
       }
     }
-    // @ts-ignore
+
     dispatch(updateUser({
       dispatch,
       data

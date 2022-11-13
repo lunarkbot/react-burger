@@ -1,10 +1,10 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import api from '../utils/api';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import api, {TUserData} from '../utils/api';
 import consoleError from '../utils/consoleError';
 
 export const signUp = createAsyncThunk(
   'users/signUp',
-  async function(data, {rejectWithValue}) {
+  async function(data: TUserData, {rejectWithValue}) {
     try {
       return await api.signUp(data);
     } catch(err) {
@@ -15,7 +15,7 @@ export const signUp = createAsyncThunk(
 
 export const signIn = createAsyncThunk(
   'users/signIn',
-  async function (data, {rejectWithValue}) {
+  async function (data: TUserData, {rejectWithValue}) {
     try {
       return await api.signIn(data)
     } catch (err) {
@@ -26,7 +26,7 @@ export const signIn = createAsyncThunk(
 
 export const authUser = createAsyncThunk(
   'users/authUser',
-  async function (dispatch, {rejectWithValue}) {
+  async function (dispatch: any, {rejectWithValue}) {
     try {
       return await api.authUser();
     } catch (err) {
@@ -36,9 +36,14 @@ export const authUser = createAsyncThunk(
   }
 )
 
+type TUpdateUser = {
+  dispatch: any;
+  data: TUserData;
+}
+
 export const updateUser = createAsyncThunk(
   'users/updateUser',
-  async function ({dispatch, data}, {rejectWithValue}) {
+  async function ({dispatch, data}: TUpdateUser, {rejectWithValue}) {
     try {
       return await api.updateUser(data);
     } catch (err) {
@@ -50,14 +55,14 @@ export const updateUser = createAsyncThunk(
 
 export const getToken = createAsyncThunk(
   'users/getToken',
-  async function (dispatch, {rejectWithValue}) {
+  async function (dispatch: any, {rejectWithValue}) {
     try {
       return await api.refreshToken()
-        .then(data => {
+        .then((data: any) => {
           if (data.success) {
             localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('refreshToken', data.refreshToken);
-            dispatch(authUser());
+            dispatch(authUser(dispatch));
           } else {
             consoleError('Попробуйте повторить попытку позже...');
           }
@@ -80,37 +85,62 @@ export const signOut = createAsyncThunk(
   }
 )
 
+type TString = {
+  [key: string]: string;
+}
+
+type TBoolean = {
+  [key: string]: boolean;
+}
+
+type TUsersSlice = {
+  form: TString;
+  profile: TString;
+  user: {
+    email: string;
+    name: string;
+    isAuth: boolean;
+    isLoaded: boolean;
+    isPendingAuth: boolean;
+  };
+  registration: TBoolean;
+  login: TBoolean;
+  isSubmitDisabled: boolean;
+}
+
+const initialState: TUsersSlice = {
+  form: {
+    email: '',
+    password: '',
+    name: '',
+    token: '',
+  },
+  profile: {
+    email: '',
+    password: '',
+    name: '',
+  },
+  user: {
+    email: '',
+    name: '',
+    isAuth: false,
+    isLoaded: false,
+    isPendingAuth: true,
+  },
+  registration: {
+    isFailed: false,
+    isSuccess: false
+  },
+  login: {
+    isFailed: false,
+    isSuccess: false
+  },
+  isSubmitDisabled: false,
+}
+
 const usersSlice = createSlice({
   name: 'users',
-  initialState: {
-    form: {
-      email: '',
-      password: '',
-      name: '',
-      token: '',
-    },
-    profile: {
-      email: '',
-      password: '',
-      name: '',
-    },
-    user: {
-      email: '',
-      name: '',
-      isAuth: false,
-      isLoaded: false,
-      isPendingAuth: true,
-    },
-    registration: {
-      isFailed: false,
-      isSuccess: false
-    },
-    login: {
-      isFailed: false,
-      isSuccess: false
-    },
-    isSubmitDisabled: false,
-  },
+  initialState,
   reducers: {
     updateFormInput(state, action) {
       state.form[action.payload.name] = action.payload.value;
@@ -151,13 +181,14 @@ const usersSlice = createSlice({
       localStorage.removeItem('refreshToken');
     }
   },
-  extraReducers: {
-    [signUp.pending]: (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(signUp.pending, (state) => {
       state.registration.isFailed = false;
       state.registration.isSuccess = false;
       state.isSubmitDisabled = true;
-    },
-    [signUp.fulfilled]: (state, action) => {
+    })
+
+    builder.addCase(signUp.fulfilled, (state, action: PayloadAction<any>) => {
       if (action.payload.success) {
         state.registration.isSuccess = true;
         state.user.isAuth = true;
@@ -167,19 +198,21 @@ const usersSlice = createSlice({
       }
       state.isSubmitDisabled = false;
       usersSlice.caseReducers.resetFormInput(state);
-    },
-    [signUp.rejected]: (state, action) => {
+    })
+
+    builder.addCase(signUp.rejected, (state, action: PayloadAction<any>) => {
       state.registration.isFailed = true;
       state.isSubmitDisabled = false;
       consoleError(action.payload);
-    },
+    })
 
-    [signIn.pending]: (state) => {
+    builder.addCase(signIn.pending, (state) => {
       state.login.isFailed = false;
       state.login.isSuccess = false;
       state.isSubmitDisabled = true;
-    },
-    [signIn.fulfilled]: (state, action) => {
+    })
+
+    builder.addCase(signIn.fulfilled, (state, action: PayloadAction<any>) => {
       if (action.payload.success) {
         state.login.isSuccess = true;
         state.user.isAuth = true;
@@ -189,17 +222,19 @@ const usersSlice = createSlice({
       }
       state.isSubmitDisabled = false;
       usersSlice.caseReducers.resetFormInput(state);
-    },
-    [signIn.rejected]: (state, action) => {
+    })
+
+    builder.addCase(signIn.rejected, (state, action: PayloadAction<any>) => {
       state.login.isFailed = true;
       state.isSubmitDisabled = false;
       consoleError(action.payload);
-    },
+    })
 
-    [authUser.pending]: (state) => {
+    builder.addCase(authUser.pending, (state) => {
       state.user.isPendingAuth = true;
-    },
-    [authUser.fulfilled]: (state, action) => {
+    })
+
+    builder.addCase(authUser.fulfilled, (state, action: PayloadAction<any>) => {
       if (action.payload.success) {
         state.user.isAuth = true;
         state.user.name = action.payload.user.name;
@@ -213,19 +248,22 @@ const usersSlice = createSlice({
         consoleError('Попробуйте повторить попытку позже...');
       }
       state.user.isPendingAuth = false;
-    },
-    [authUser.rejected]: (state, action) => {
+    })
+
+    builder.addCase(authUser.rejected, (state, action: PayloadAction<any>) => {
       if (state.user.isLoaded) {
         state.user.isAuth = false;
       }
 
       if (action.payload) consoleError(action.payload);
       state.user.isPendingAuth = false;
-    },
-    [updateUser.pending]: (state) => {
+    })
+
+    builder.addCase(updateUser.pending, (state) => {
       state.isSubmitDisabled = true;
-    },
-    [updateUser.fulfilled]: (state, action) => {
+    })
+
+    builder.addCase(updateUser.fulfilled, (state, action: PayloadAction<any>) => {
       if (action.payload.success) {
         state.user.name = action.payload.user.name;
         state.profile.name = action.payload.user.name;
@@ -236,31 +274,34 @@ const usersSlice = createSlice({
         consoleError('Попробуйте повторить попытку позже...');
       }
       state.isSubmitDisabled = false;
-    },
-    [updateUser.rejected]: (state, action) => {
+    })
+
+    builder.addCase(updateUser.rejected, (state, action: PayloadAction<any>) => {
       if (state.user.isLoaded) {
         consoleError(action.payload.error);
       }
       state.isSubmitDisabled = false;
-    },
+    })
 
-    [getToken.pending]: (state) => {
+    builder.addCase(getToken.pending, (state) => {
       state.user.isLoaded = true;
-    },
-    [getToken.rejected]: (state, action) => {
-      consoleError(action.payload);
-    },
+    })
 
-    [signOut.fulfilled]: (state, action) => {
+    builder.addCase(getToken.rejected, (state, action: PayloadAction<any>) => {
+      consoleError(action.payload);
+    })
+
+    builder.addCase(signOut.fulfilled, (state, action: PayloadAction<any>) => {
       if (action.payload.success) {
         usersSlice.caseReducers.resetUserData(state);
       } else {
         consoleError('Попробуйте повторить попытку позже...');
       }
-    },
-    [signOut.rejected]: (state, action) => {
+    })
+
+    builder.addCase(signOut.rejected, (state, action: PayloadAction<any>) => {
       consoleError(action.payload);
-    },
+    })
   }
 })
 

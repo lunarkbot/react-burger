@@ -14,7 +14,7 @@ type TSendOrder = {
   bun: IIngredientsItem;
 }
 
-type TUserData = {
+export type TUserData = {
   email: string;
   password: string;
   name?: string;

@@ -51,7 +51,7 @@ export const RegisterPage: FC = () => {
 
     const hasError = checkInputs(inputs);
 
-    if (!hasError) dispatch(signUp());
+    if (!hasError) dispatch(signUp(inputs));
   }
 
   if (isAuth) {
