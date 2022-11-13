@@ -1,5 +1,6 @@
 import {useDispatch} from 'react-redux';
 import {updateProfile, updateFormInput} from '../services/usersSlice';
+import {IInput} from '../types';
 
 export function useInputValue(type?: string) {
   const dispatch = useDispatch();

@@ -1,4 +1,5 @@
 import { API_URL } from './constants';
+import {IIngredientsItem} from '../types';
 
 interface IApi {
   readonly baseUrl: string;
@@ -49,7 +50,10 @@ class Api {
     orderedIngredients.push(data.bun._id);
 
     return fetch(`${this.baseUrl}/orders`, {
-      headers: this.headers,
+      headers: {
+        authorization: String(localStorage.getItem('accessToken')),
+        ...this.headers
+      },
       method: 'POST',
       body: JSON.stringify({
         "ingredients": orderedIngredients

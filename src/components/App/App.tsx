@@ -9,8 +9,8 @@ import {
   RegisterPage,
   ResetPasswordPage,
   OrdersPage,
-  OrderDetailsPage,
-  FeedPage,
+  FeedOrderDetailsPage,
+  FeedPage, ProfileOrderDetailsPage,
 } from '../../pages';
 import {BrowserRouter, Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import {authUser} from '../../services/usersSlice';
@@ -55,7 +55,7 @@ const App: FC = () => {
             <FeedPage />
           </Route>
           <Route path='/feed/:id' exact>
-            <OrderDetailsPage isModal={false} />
+            <FeedOrderDetailsPage isModal={false} />
           </Route>
           <Route path='/login'>
             <LoginPage />
@@ -76,7 +76,7 @@ const App: FC = () => {
             <OrdersPage />
           </ProtectedRoute>
           <ProtectedRoute path='/profile/orders/:id'>
-            <OrderDetailsPage isModal={false} />
+            <ProfileOrderDetailsPage isModal={false} />
           </ProtectedRoute>
           <Route>
             <NotFound404 />
@@ -97,7 +97,7 @@ const App: FC = () => {
             path='/feed/:id'
             children={
             <Modal type="order" onClose={handleModalClose}>
-              <OrderDetailsPage isModal={true} />
+              <FeedOrderDetailsPage isModal={true} />
             </Modal>
           }
             />
@@ -105,7 +105,7 @@ const App: FC = () => {
               path='/profile/orders/:id'
               children={
                 <Modal type="order" onClose={handleModalClose}>
-                  <OrderDetailsPage isModal={true} />
+                  <ProfileOrderDetailsPage isModal={true} />
                 </Modal>
               }
             />

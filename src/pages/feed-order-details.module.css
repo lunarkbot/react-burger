@@ -1,0 +1,9 @@
+.orderDetail {
+  display: flex;
+  justify-content: center;
+  padding-top: 82px;
+}
+
+.orderDetailModal {
+  padding-top: 22px;
+}

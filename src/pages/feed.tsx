@@ -1,14 +1,24 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import styles from './feed.module.css';
 import {OrderCard} from '../components/OrderCard/OrderCard';
 import {ScrollBox} from '../components/ScrollBox/ScrollBox';
 import {useAppDispatch, useAppSelector} from '../hooks';
 import {wsClose, wsInit} from '../services/wsFeedSlice';
 import {useIngredientsById} from '../hooks/useIngredientsById';
+import {TOrdersResult} from '../types';
+
+type TOrderStatus = {
+  done: number[];
+  pending: number[];
+}
 
 export const FeedPage: FC = () => {
   const { items, isItemsLoaded } = useAppSelector(state => state.ingredients);
   const { ingredientsById, setIngredients } = useIngredientsById();
+  const [ ordersStatus, setOrderStatus ] = useState<TOrderStatus>({
+    done: [],
+    pending: [],
+  });
 
   const { isConnected, orders, total, totalToday } = useAppSelector(state => state.wsFeed);
   const dispatch = useAppDispatch();
@@ -16,6 +26,26 @@ export const FeedPage: FC = () => {
   useEffect(() => {
     isItemsLoaded && setIngredients(items);
   }, [isItemsLoaded])
+
+  useEffect(() => {
+    if (!orders) return;
+
+    const doneStatus: number[] = [];
+    const pendingStatus: number[] = [];
+
+    orders.forEach((order: TOrdersResult) => {
+      if (order.status === 'done' && doneStatus.length < 20) {
+        doneStatus.push(order.number);
+      } else if (order.status === 'pending' && pendingStatus.length < 20) {
+        pendingStatus.push(order.number);
+      }
+    });
+
+    setOrderStatus({
+      done: doneStatus,
+      pending: pendingStatus,
+    })
+  }, [orders]);
 
   useEffect(() => {
     dispatch(wsInit(''));
@@ -42,17 +72,19 @@ export const FeedPage: FC = () => {
           <div className={styles.orders}>
             <p className="text text_type_main-medium">Готовы:</p>
             <ul className={`${styles.list} text text_type_digits-default`}>
-              <li>034533</li>
-              <li>034532</li>
-              <li>034530</li>
-              <li>034527</li>
-              <li>034525</li>
+              {
+                ordersStatus.done.map((orderNumber) => {
+                  return <li key={orderNumber}>{orderNumber}</li>
+                })
+              }
             </ul>
             <p className="text text_type_main-medium">В работе:</p>
             <ul className={`${styles.list} ${styles.listReady} text text_type_digits-default`}>
-              <li>034538</li>
-              <li>034541</li>
-              <li>034542</li>
+              {
+                ordersStatus.pending.map((orderNumber) => {
+                  return <li key={orderNumber}>{orderNumber}</li>
+                })
+              }
             </ul>
           </div>
           <div>

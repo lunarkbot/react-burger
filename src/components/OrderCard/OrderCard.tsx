@@ -20,8 +20,8 @@ export const OrderCard: FC<TOrderCard> = ({ order, ingredientsById }) => {
       <Link
         to={{
           pathname:  routeMatch
-                      ? `/profile/orders/id`
-                      : `/feed/id`,
+                      ? `/profile/orders/${order._id}`
+                      : `/feed/${order._id}`,
           state: { background: location },
         }}
         className={styles.cardContent}

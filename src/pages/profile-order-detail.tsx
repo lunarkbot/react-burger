@@ -1,20 +1,13 @@
 import React, {FC} from 'react';
 import ProfileContent from '../components/ProfileContent/ProfileContent';
-import styles from './order-details.module.css';
+import styles from './profile-order-detail.module.css';
 import {useParams} from 'react-router-dom';
 import {ScrollBox} from '../components/ScrollBox/ScrollBox';
 import {OrderIngredient} from '../components/OrderIngredient/OrderIngredient';
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import {TOrderDetailsPage, TOrderNumber} from '../types';
 
-type TOrderNumber = {
-  id: string;
-}
-
-type TOrderDetailsPage = {
-  isModal: boolean;
-}
-
-export const OrderDetailsPage: FC<TOrderDetailsPage> = ({ isModal }) => {
+export const ProfileOrderDetailsPage: FC<TOrderDetailsPage> = ({ isModal }) => {
   const { id }: TOrderNumber = useParams();
 
   return (
@@ -26,13 +19,7 @@ export const OrderDetailsPage: FC<TOrderDetailsPage> = ({ isModal }) => {
         <p className={`text text_type_main-medium mb-6`}>Состав:</p>
         <ScrollBox secondClass={styles.scrollBox}>
           <ul className={styles.orderIngredients}>
-            <OrderIngredient />
-            <OrderIngredient />
-            <OrderIngredient />
-            <OrderIngredient />
-            <OrderIngredient />
-            <OrderIngredient />
-            <OrderIngredient />
+
           </ul>
         </ScrollBox>
         <div className={styles.orderInfo}>

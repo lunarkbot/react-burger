@@ -72,3 +72,15 @@ export type TOrdersResult = {
 export type TIngredientById = {
   [key: string]: IIngredient;
 };
+
+export type TOrderNumber = {
+  id: string;
+}
+
+export type TOrderDetailsPage = {
+  isModal: boolean;
+}
+
+export interface IOrderIngredientsNum {
+  [key: string]: number;
+}

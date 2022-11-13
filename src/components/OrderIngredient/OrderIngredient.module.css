@@ -7,11 +7,21 @@
 }
 
 .ingredientIco {
+  position: relative;
   width: 64px;
   height: 64px;
   background-image: url('../../images/ingredient_preview.svg');
   background-repeat: no-repeat;
   background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ingredientIco img {
+  object-fit: scale-down;
+  width: 155%;
+  position: absolute;
 }
 
 .ingredientHeading {

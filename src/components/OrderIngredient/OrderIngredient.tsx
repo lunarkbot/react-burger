@@ -2,17 +2,31 @@ import React, {FC} from 'react';
 import styles from './OrderIngredient.module.css';
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 
-export const OrderIngredient: FC = () => {
+type TOrderIngredient = {
+  name: string;
+  num: number;
+  image: string;
+  price: number;
+}
+
+export const OrderIngredient: FC<TOrderIngredient> = ({
+                                                        num,
+                                                        name,
+                                                        price,
+                                                        image
+                                                      }) => {
   return (
     <li className={styles.orderIngredient}>
-      <div className={styles.ingredientIco}></div>
+      <div className={styles.ingredientIco}>
+        <img src={image} alt={name} />
+      </div>
       <div className={styles.ingredientHeading}>
         <p className="text text_type_main-small">
-          Филе Люминесцентного тетраодонтимформа
+          {name}
         </p>
       </div>
       <div className={styles.ingredientCost}>
-        <p className="text text_type_digits-default">1 x 30</p>
+        <p className="text text_type_digits-default">{num} x {price}</p>
         <CurrencyIcon  type="primary" />
       </div>
     </li>
