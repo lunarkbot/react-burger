@@ -34,15 +34,17 @@ export const OrdersPage: FC = () => {
   return (
     <ProfileContent className={styles.content}>
       {orders && ingredientsById
-        ? <ScrollBox secondClass={styles.scrollBox}>
-            <ul className={styles.orderCards}>
-              {orders.map((order) => {
-                return (
-                  <OrderCard key={order._id} order={order} ingredientsById={ingredientsById} />
-                );
-              })}
-            </ul>
-          </ScrollBox>
+        ? (orders.length === 0
+          ? <p className="text text_type_main-default text_color_inactive">У вас пока нет заказов...</p>
+          : <ScrollBox secondClass={styles.scrollBox}>
+              <ul className={styles.orderCards}>
+                {orders.map((order) => {
+                  return (
+                    <OrderCard key={order._id} order={order} ingredientsById={ingredientsById} />
+                  );
+                })}
+              </ul>
+            </ScrollBox>)
       : <BigSpinner />}
     </ProfileContent>
   );
