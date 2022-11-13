@@ -16,6 +16,8 @@ export interface IIngredientsItem {
   _id: string;
   uid?: string;
   id?: string;
+  text: string;
+  [key: string]: any;
 }
 
 export interface IIngredient {
@@ -83,4 +85,9 @@ export type TOrderDetailsPage = {
 
 export interface IOrderIngredientsNum {
   [key: string]: number;
+}
+
+export type TSelectedItems = {
+  items: IIngredientsItem[],
+  bun?: null | IIngredientsItem
 }

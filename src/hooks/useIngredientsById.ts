@@ -1,13 +1,13 @@
 import {useState} from 'react';
-import {IIngredient, TIngredientById} from '../types';
+import {IIngredient, IIngredientsItem, TIngredientById} from '../types';
 
 export function useIngredientsById() {
   const [ingredientsById, setIngredientsListById] = useState<TIngredientById | null>(null);
 
-  function setIngredients(ingredients: IIngredient[]) {
+  function setIngredients(ingredients: IIngredientsItem[]) {
     const list: TIngredientById = {} as TIngredientById;
 
-    ingredients.forEach((item: IIngredient) => {
+    ingredients.forEach((item: IIngredientsItem) => {
       list[item._id] = item;
     })
 
