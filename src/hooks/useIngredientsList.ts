@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react';
-import {IIngredient, TIngredientById} from '../types';
-import {useIngredientsById} from './useIngredientsById';
+import {TIngredientById} from '../types';
 
 type TIngredient = {
   image: string;
@@ -8,11 +7,12 @@ type TIngredient = {
   name: string;
 }
 
-export function useIngredientsList(ingredientsById: TIngredientById) {
+export function useIngredientsList() {
   const [firstIngredientsId, setFirstIngredientsId] = useState<string[] | null>(null);
   const [lastIngredientsId, setLastIngredientsId] = useState<string[] | null>(null);
   const [firstIngredients, setFirstIngredients] = useState<TIngredient[] | null>(null);
   const [lastIngredient, setLastIngredient] = useState<TIngredient | null>(null);
+  const [ingredientsById, setIngredientsById] = useState<TIngredientById | null>(null);
 
   useEffect(() => {
     if (!ingredientsById) return;
@@ -41,7 +41,9 @@ export function useIngredientsList(ingredientsById: TIngredientById) {
 
   }, [ingredientsById])
 
-  function setList(items: string[]) {
+  function setList(items: string[], ingredientsById: TIngredientById) {
+    setIngredientsById(ingredientsById);
+
     if (items.length > 6) {
       setFirstIngredientsId(items.slice(0,5));
       setLastIngredientsId(items.slice(5));

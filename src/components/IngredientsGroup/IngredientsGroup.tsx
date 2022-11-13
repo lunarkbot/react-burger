@@ -13,11 +13,11 @@ export const IngredientsGroup: FC<TIngredientsGroup> = ({
                                                           ingredientsById
                                                         }) => {
 
-  const { firstIngredients, lastIngredient, setList } = useIngredientsList(ingredientsById);
+  const { firstIngredients, lastIngredient, setList } = useIngredientsList();
 
   useEffect(() => {
-    setList(ingredients);
-  }, [])
+    setList(ingredients, ingredientsById);
+  }, [ingredientsById])
 
   return (
     <ul className={styles.list}>
