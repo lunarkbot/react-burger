@@ -1,6 +1,32 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
 import api from '../utils/api';
 import consoleError from '../utils/consoleError';
+import {IIngredient, IIngredientsItem} from '../types';
+
+type TOrder = {
+  number: number;
+  [key: string]: string | number | IIngredient[];
+}
+
+type TIngredientDetails = {
+  order: TOrder;
+  [key: string]: string | number | boolean | TOrder;
+}
+
+type TIngredientsSlice = {
+  items: [] | IIngredientsItem[];
+  itemsRequest: boolean;
+  itemsFailed: boolean;
+  isItemsLoaded: boolean;
+
+  selectedItems: {
+    items: IIngredientsItem[];
+    bun: IIngredientsItem | null;
+  }
+
+  totalPrice: number;
+  ingredientDetails: null | IIngredientsItem;
+}
 
 export const getIngredients = createAsyncThunk(
   'ingredients/getIngredients',
@@ -10,26 +36,29 @@ export const getIngredients = createAsyncThunk(
   }
 );
 
+const initialState: TIngredientsSlice = {
+  items: [],
+  itemsRequest: false,
+  itemsFailed: false,
+  isItemsLoaded: false,
+
+  selectedItems: {
+    items: [],
+    bun: null
+  },
+
+  totalPrice: 0,
+
+  ingredientDetails: null,
+}
+
 const ingredientsSlice = createSlice({
   name: 'ingredients',
-  initialState: {
-    items: [],
-    itemsRequest: false,
-    itemsFailed: false,
-
-    selectedItems: {
-      items: [],
-      bun: null
-    },
-
-    totalPrice: 0,
-
-    ingredientDetails: null,
-  },
+  initialState,
   reducers: {
-    addSelectedItem(state, action) {
+    addSelectedItem(state, action: PayloadAction<IIngredientsItem>) {
       if (!action.payload) return;
-      const item = {
+      const item: IIngredientsItem = {
         ...action.payload,
         uid: action.payload._id + Math.random(),
       };
@@ -51,7 +80,8 @@ const ingredientsSlice = createSlice({
       state.selectedItems.items = action.payload;
     },
     deleteSelectedItem(state, action) {
-      state.selectedItems.items = action.payload.items.filter(item => item.uid !== action.payload.uid);
+      state.selectedItems.items = action.payload.items.filter((item: IIngredientsItem) =>
+        item.uid !== action.payload.uid);
     },
     setTotalPrice(state) {
       let totalPrice = state.totalPrice;
@@ -97,24 +127,29 @@ const ingredientsSlice = createSlice({
       });
     },
   },
-  extraReducers: {
-    [getIngredients.pending]: (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(getIngredients.pending, (state) => {
       state.itemsRequest = true;
-    },
-    [getIngredients.fulfilled]: (state, action) => {
-      state.items = action.payload.data.map(item => ({
+      state.isItemsLoaded = false;
+    })
+
+    builder.addCase(getIngredients.fulfilled, (state, action: PayloadAction<any>) => {
+      state.items = action.payload.data.map((item: IIngredientsItem) => ({
         ...item,
         quantity: 0,
         uid: null,
       }));
       state.itemsFailed = false;
       state.itemsRequest = false;
-    },
-    [getIngredients.rejected]: (state, action) => {
+      state.isItemsLoaded = true;
+    })
+
+    builder.addCase(getIngredients.rejected, (state, action: PayloadAction<any>) => {
       state.itemsFailed = true;
       state.itemsRequest = false;
+      state.isItemsLoaded = false;
       consoleError(action.payload)
-    },
+    })
   }
 })
 

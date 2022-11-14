@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import IngredientCard from '../IngredientCard/IngredientCard';
 import styles from './IngredientList.module.css';
 import {useAppSelector} from '../../hooks';
+import {IIngredientsItem} from '../../types';
 
 type TIngredientListProps = {
   type: string;

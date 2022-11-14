@@ -1,0 +1,58 @@
+.main {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.twoColumns {
+  display: grid;
+  grid-template-columns: 600px 1fr;
+  column-gap: 60px;
+}
+
+.orderCards {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.scrollBox {
+  padding-right: 8px;
+}
+
+.infoTable {
+  display: flex;
+  flex-direction: column;
+  gap: 68px;
+}
+
+.orders {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  grid-column-gap: 36px;
+  grid-row-gap: 24px;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  grid-row: 2/3;
+  grid-column: 1/2;
+  column-count: 2;
+  column-gap: 10px;
+  flex-wrap: wrap;
+  max-height: 320px;
+  overflow: hidden;
+}
+
+.listReady {
+  color: #00CCCC;
+  grid-column: 2/3;
+}

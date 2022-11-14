@@ -1,0 +1,49 @@
+.list {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 0;
+  margin: 0;
+}
+
+.list li {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin-left: -16px;
+  background-image: url('../../images/ingredient_preview.svg');
+  isolation: isolate;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.list img {
+  object-fit: scale-down;
+  width: 155%;
+  position: absolute;
+}
+
+.list li:last-child {
+  margin-left: 0;
+}
+
+.last::after {
+  content: '';
+  display: block;
+  left: 2px;
+  right: 2px;
+  top: 2px;
+  bottom: 2px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #1C1C21;
+  opacity: .6;
+  z-index: 1;
+}
+
+.lastValue {
+  position: relative;
+  z-index: 2;
+}

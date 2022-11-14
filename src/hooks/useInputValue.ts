@@ -1,11 +1,12 @@
-import {useDispatch} from 'react-redux';
 import {updateProfile, updateFormInput} from '../services/usersSlice';
+import {IInput} from '../types';
+import {useAppDispatch} from './index';
 
 export function useInputValue(type?: string) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (e: IInput) => {
-    const element: any = e.isElement ? e.element : e.target;
+    const element: HTMLInputElement = (e.isElement ? e.element : e.target) as HTMLInputElement;
 
     const data = {
       name: element?.name,

@@ -1,8 +1,8 @@
-import React, {useState, FC} from 'react';
+import React, {useState, FC, ChangeEventHandler} from 'react';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 interface IPasswordInputProps {
-  onChange: any;
+  onChange: ChangeEventHandler;
   value: string;
   placeholder: string;
   errorText?: string;

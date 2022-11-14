@@ -28,3 +28,7 @@
 .activeLink {
   color: #fff;
 }
+
+.text {
+  opacity: .4;
+}

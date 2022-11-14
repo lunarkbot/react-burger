@@ -21,7 +21,7 @@ import ConstructorItem from '../ConstructorItem/ConstructorItem';
 import Spinner from '../Spinner/Spinner';
 import {useHistory} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {object} from 'prop-types';
+import {IIngredientsItem} from '../../types';
 
 const BurgerConstructor: FC = () => {
   const {
@@ -106,7 +106,7 @@ const BurgerConstructor: FC = () => {
           {selectedIngredients.bun && <Bun item={selectedIngredients.bun} type="top" />}
           {(selectedIngredients.bun || Boolean(selectedIngredients.items.length)) &&
             <ul className={`${styles.list} ${styles.scrollBox}`}>
-            {selectedIngredients.items.map((item: Test, index) => {
+            {selectedIngredients.items.map((item: IIngredientsItem, index) => {
               if (item && item.type !== 'bun') {
                 return (
                   <ConstructorItem

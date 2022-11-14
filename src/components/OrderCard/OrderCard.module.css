@@ -1,0 +1,20 @@
+.card {
+  border-radius: 40px;
+  background-color: #1C1C21;
+  box-sizing: border-box;
+  padding: 24px;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.orderInfo,
+.total {
+  display: flex;
+  justify-content: space-between;
+}

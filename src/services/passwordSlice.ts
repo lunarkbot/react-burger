@@ -1,10 +1,10 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import api from '../utils/api';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import api, {TUserData} from '../utils/api';
 import consoleError from '../utils/consoleError';
 
 export const forgotPassword = createAsyncThunk(
   'users/forgotPassword',
-  async function (data, {rejectWithValue}) {
+  async function (data: TUserData, {rejectWithValue}) {
     try {
       return await api.forgotPassword(data);
     } catch (err) {
@@ -15,7 +15,7 @@ export const forgotPassword = createAsyncThunk(
 
 export const resetPassword = createAsyncThunk(
   'users/resetPassword',
-  async function (data, {rejectWithValue}) {
+  async function (data: TUserData, {rejectWithValue}) {
     try {
       return await api.resetPassword(data);
     } catch (err) {
@@ -24,13 +24,19 @@ export const resetPassword = createAsyncThunk(
   }
 )
 
+type TPasswordSlice = {
+  [key: string]: boolean;
+}
+
+const initialState: TPasswordSlice = {
+  isResetEmailSend: false,
+  isPasswordReset: false,
+  isButtonDisabled: false,
+}
+
 const passwordSlice = createSlice({
   name: 'password',
-  initialState: {
-    isResetEmailSend: false,
-    isPasswordReset: false,
-    isButtonDisabled: false,
-  },
+  initialState,
   reducers: {
     resetPasswordData(state) {
       state.isReset = false;
@@ -38,39 +44,44 @@ const passwordSlice = createSlice({
       state.isButtonDisabled = false;
     },
   },
-  extraReducers: {
-    [forgotPassword.pending]: (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(forgotPassword.pending, (state) => {
       state.isResetEmailSend = false;
       state.isButtonDisabled = true;
-    },
-    [forgotPassword.fulfilled]: (state, action) => {
+    })
+
+    builder.addCase(forgotPassword.fulfilled, (state, action: PayloadAction<any>) => {
       if (action.payload.success) {
         state.isResetEmailSend = true;
       } else {
         consoleError('Повторите попытку позже.');
       }
       state.isButtonDisabled = false;
-    },
-    [forgotPassword.rejected]: (state) => {
+    })
+
+    builder.addCase(forgotPassword.rejected, (state) => {
       state.isResetEmailSend = false;
       state.isButtonDisabled = false;
-    },
-    [resetPassword.pending]: (state) => {
+    })
+
+    builder.addCase(resetPassword.pending, (state) => {
       state.isPasswordReset = false;
       state.isButtonDisabled = true;
-    },
-    [resetPassword.fulfilled]: (state, action) => {
+    })
+
+    builder.addCase(resetPassword.fulfilled, (state, action: PayloadAction<any>) => {
       if (action.payload.success) {
         state.isPasswordReset = true;
       } else {
         consoleError('Повторите попытку позже.');
       }
       state.isButtonDisabled = false;
-    },
-    [resetPassword.rejected]: (state) => {
+    })
+
+    builder.addCase(resetPassword.rejected, (state) => {
       state.isPasswordReset = false;
       state.isButtonDisabled = false;
-    }
+    })
   }
 });
 

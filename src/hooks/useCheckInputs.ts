@@ -1,26 +1,26 @@
-import {useDispatch} from 'react-redux';
 import { showError, hideError } from '../services/errorsSlice';
+import {useAppDispatch} from './index';
 
-function hasInputError(name: string, value: string): string | boolean {
+function hasInputError(name: string, value: string): string {
   switch (name) {
     case 'email':
         const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         return !reg.test(value)
-          ? 'Введите корректный email' : false;
+          ? 'Введите корректный email' : '';
     case 'password':
         return value.length < 8
-          ? 'Пароль не может быть короче 8 символов' : false;
+          ? 'Пароль не может быть короче 8 символов' : '';
     case 'token':
         return value.length < 36
-          ? 'Код не может быть меньше 36 символов' : false;
+          ? 'Код не может быть меньше 36 символов' : '';
     default:
         return value.length < 2
-          ? 'Значение не может быть короче 2 символов' : false;
+          ? 'Значение не может быть короче 2 символов' : '';
   }
 }
 
 export function useCheckInputs() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (inputs: {[key: string]: string}): boolean => {
     let hasError = false;

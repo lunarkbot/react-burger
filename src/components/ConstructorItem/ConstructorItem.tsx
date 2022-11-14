@@ -1,14 +1,20 @@
 import styles from './ConstructorItem.module.css';
-import React, {FC, useRef} from 'react';
+import React, {FC, SyntheticEvent, useRef} from 'react';
 import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import {decreaseQuantity, deleteSelectedItem} from '../../services/ingredientsSlice';
 import {useDrag, useDrop} from 'react-dnd';
 import {useAppDispatch, useAppSelector} from '../../hooks';
+import {IIngredientsItem} from '../../types';
 
 type TConstructorItemProps = {
   item: IIngredientsItem;
   index: number;
   moveCard: Function;
+}
+
+type TDndItem = {
+  id?: string;
+  index: number;
 }
 
 const ConstructorItem: FC<TConstructorItemProps> = ({ item, index, moveCard }) => {
@@ -70,7 +76,7 @@ const ConstructorItem: FC<TConstructorItemProps> = ({ item, index, moveCard }) =
   });
 
   if (item.type !== 'bun') drag(drop(ref));
-  const preventDefault = (e: any) => e.preventDefault();
+  const preventDefault = (e: SyntheticEvent) => e.preventDefault();
 
   return (
     <li

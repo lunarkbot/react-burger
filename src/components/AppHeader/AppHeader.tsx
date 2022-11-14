@@ -1,6 +1,6 @@
 import React from 'react';
 // @ts-ignore
-import { NavLink } from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import styles from './AppHeader.module.css';
 import {
   BurgerIcon,
@@ -27,13 +27,19 @@ export default function AppHeader() {
               </NavLink>
             </li>
             <li className={styles.listItem}>
-              <ListIcon type="secondary"/>
-              <span className="text text_type_main-default text_color_inactive ml-2">Лента заказов</span>
+              <NavLink
+                to="/feed"
+                activeClassName={styles.activeLink}
+                className={`text text_type_main-default ${styles.link}`}
+              >
+                <ListIcon type="primary" />
+                Лента заказов
+              </NavLink>
             </li>
           </ul>
         </nav>
         <div className={styles.logo}>
-          <Logo />
+          <Link to={'/'}><Logo /></Link>
         </div>
         <div className={styles.loginColumn}>
           <button className={styles.login}>

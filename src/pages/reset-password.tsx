@@ -1,4 +1,4 @@
-import React, {FC, FormEvent, useEffect} from 'react';
+import React, {ChangeEvent, FC, FormEvent, useEffect} from 'react';
 import indexStyles from './index.module.css';
 import {useInputValue} from '../hooks/useInputValue';
 import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components';
@@ -33,9 +33,10 @@ export const ResetPasswordPage: FC = () => {
     }
   }, [isPasswordReset, history, dispatch])
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: ChangeEvent) => {
     setInputValue(e);
-    checkInputs({[e.target.name]: e.target.value});
+    const target = e.target as HTMLInputElement;
+    checkInputs({[target.name]: target.value});
   };
 
   const handleSubmit = (e: FormEvent) => {

@@ -1,19 +1,15 @@
 import { API_URL } from './constants';
+import {IIngredientsItem, TSendOrder} from '../types';
 
 interface IApi {
   readonly baseUrl: string;
   headers: {
     [key: string]: string;
   };
-  readonly checker: any;
+  readonly checker: (value: Response) => Response | PromiseLike<Response>;
 }
 
-type TSendOrder = {
-  items: IIngredientsItem[];
-  bun: IIngredientsItem;
-}
-
-type TUserData = {
+export type TUserData = {
   email: string;
   password: string;
   name?: string;
@@ -24,7 +20,7 @@ class Api {
   private headers: {
     [key: string]: string;
   };
-  private readonly checker: any;
+  private readonly checker: (value: Response) => Response | PromiseLike<Response>;
 
   constructor({ baseUrl, headers, checker }: IApi) {
     this.baseUrl = baseUrl;
@@ -41,15 +37,18 @@ class Api {
   sendOrder(data: TSendOrder) {
     const orderedIngredients = [];
 
-    data.items.forEach(item => {
+    data.ingredients.items.forEach(item => {
       orderedIngredients.push(item._id);
     });
 
-    orderedIngredients.push(data.bun._id);
-    orderedIngredients.push(data.bun._id);
+    orderedIngredients.push(data.ingredients.bun?._id);
+    orderedIngredients.push(data.ingredients.bun?._id);
 
     return fetch(`${this.baseUrl}/orders`, {
-      headers: this.headers,
+      headers: {
+        authorization: String(localStorage.getItem('accessToken')),
+        ...this.headers
+      },
       method: 'POST',
       body: JSON.stringify({
         "ingredients": orderedIngredients

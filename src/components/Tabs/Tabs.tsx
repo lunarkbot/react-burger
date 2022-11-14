@@ -4,8 +4,12 @@ import styles from './Tabs.module.css';
 import {setCurrentTab, setVisibility} from '../../services/tabsSlice';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 
+interface ITabsRef {
+  [key: string]: RefObject<HTMLDivElement>;
+}
+
 interface ITabsProps {
-  tabsRef: any;
+  tabsRef: ITabsRef;
   scrollBoxRef: RefObject<HTMLDivElement>;
 }
 
@@ -19,7 +23,7 @@ const Tabs: FC<ITabsProps> = ({tabsRef, scrollBoxRef }) => {
   const isTabVisible: TIsTabVisible = useAppSelector(state => state.tabs.isVisible);
 
   const handleClick = (tabName: string) => {
-    tabsRef[tabName].current.scrollIntoView({block: "start", behavior: "smooth"});
+    tabsRef[tabName].current?.scrollIntoView({block: "start", behavior: "smooth"});
   }
 
   useEffect(() => {
@@ -32,11 +36,11 @@ const Tabs: FC<ITabsProps> = ({tabsRef, scrollBoxRef }) => {
   }, [isTabVisible])
 
   useEffect(() => {
-    const observerCallback = (entries: any) => {
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
       for (let entry of entries) {
         const { target, boundingClientRect, rootBounds } = entry;
 
-        if (target.id) {
+        if (target.id && rootBounds) {
           const top = boundingClientRect.top-rootBounds.top;
 
           dispatch(setVisibility({
@@ -54,7 +58,7 @@ const Tabs: FC<ITabsProps> = ({tabsRef, scrollBoxRef }) => {
     })
 
     for (let key in tabsRef) {
-      observer.observe(tabsRef[key].current)
+      observer.observe(tabsRef[key].current as HTMLDivElement)
     }
 
   }, [scrollBoxRef, tabsRef])

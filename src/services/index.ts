@@ -5,6 +5,8 @@ import tabsReducer from './tabsSlice';
 import usersSlice from './usersSlice';
 import errorsSlice from './errorsSlice';
 import passwordSlice from './passwordSlice';
+import {socketMiddleware} from '../middleware/socketMiddleware';
+import wsMiddlewareSlice, {wsMiddlewareActions} from './wsMiddlewareSlice';
 
 const store = configureStore({
   reducer: {
@@ -14,10 +16,11 @@ const store = configureStore({
     users: usersSlice,
     errors: errorsSlice,
     password: passwordSlice,
-  }
+    wsMiddleware: wsMiddlewareSlice,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware()
+      .concat(socketMiddleware('wss://norma.nomoreparties.space/orders', wsMiddlewareActions))
 })
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
 
 export default store;

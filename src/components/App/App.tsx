@@ -9,7 +9,8 @@ import {
   RegisterPage,
   ResetPasswordPage,
   OrdersPage,
-  OrderDetailsPage
+  FeedOrderDetailsPage,
+  FeedPage, ProfileOrderDetailsPage,
 } from '../../pages';
 import {BrowserRouter, Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import {authUser} from '../../services/usersSlice';
@@ -50,6 +51,12 @@ const App: FC = () => {
           <Route path='/ingredients/:ingredientId' exact>
             <IngredientDetails isModal={false} />
           </Route>
+          <Route path='/feed' exact>
+            <FeedPage />
+          </Route>
+          <Route path='/feed/:id' exact>
+            <FeedOrderDetailsPage isModal={false} />
+          </Route>
           <Route path='/login'>
             <LoginPage />
           </Route>
@@ -68,8 +75,8 @@ const App: FC = () => {
           <ProtectedRoute path='/profile/orders' exact={true}>
             <OrdersPage />
           </ProtectedRoute>
-          <ProtectedRoute path='/profile/orders/:orderNumber'>
-            <OrderDetailsPage />
+          <ProtectedRoute path='/profile/orders/:id'>
+            <ProfileOrderDetailsPage isModal={false} />
           </ProtectedRoute>
           <Route>
             <NotFound404 />
@@ -77,7 +84,8 @@ const App: FC = () => {
         </Switch>
 
         {background && (
-          <Route
+          <>
+            <Route
             path='/ingredients/:ingredientId'
             children={
               <Modal type="ingredient" onClose={handleModalClose}>
@@ -85,6 +93,23 @@ const App: FC = () => {
               </Modal>
             }
           />
+            <Route
+            path='/feed/:id'
+            children={
+            <Modal type="order" onClose={handleModalClose}>
+              <FeedOrderDetailsPage isModal={true} />
+            </Modal>
+          }
+            />
+            <Route
+              path='/profile/orders/:id'
+              children={
+                <Modal type="order" onClose={handleModalClose}>
+                  <ProfileOrderDetailsPage isModal={true} />
+                </Modal>
+              }
+            />
+          </>
         )}
       </>
     )

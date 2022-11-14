@@ -1,10 +1,9 @@
 import React, {FC, useEffect} from 'react';
 import styles from './IngredientDetails.module.css';
-import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {getIngredientsDetails} from '../../services/ingredientsSlice';
 import BigSpinner from '../BigSpinner/BigSpinner';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 
 type TIngredientDetailsProps = {
   isModal: boolean;
@@ -14,14 +13,9 @@ type TIngredientParams = {
   ingredientId: string;
 }
 
-type TIngredientDetails = {
-  ingredientDetails: IIngredient;
-  items: IIngredientsItem[];
-}
-
 const IngredientDetails: FC<TIngredientDetailsProps> = ({ isModal }) => {
-  const dispatch = useDispatch();
-  const { ingredientDetails, items } = useAppSelector<TIngredientDetails>((state: any) => state.ingredients);
+  const dispatch = useAppDispatch();
+  const { ingredientDetails, items } = useAppSelector(state => state.ingredients);
   const { ingredientId } = useParams<TIngredientParams>();
 
   useEffect(() => {

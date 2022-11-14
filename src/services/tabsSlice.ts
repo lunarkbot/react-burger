@@ -1,15 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+type TTabsSlice = {
+  currentTab: string;
+  isVisible: {
+    [key: string]: boolean;
+  }
+}
+
+const initialState: TTabsSlice = {
+  currentTab: 'bun',
+  isVisible: {
+    bun: true,
+    sauce: false,
+    main: false
+  }
+}
+
 const tabsSlice = createSlice({
   name: 'tabs',
-  initialState: {
-    currentTab: 'bun',
-    isVisible: {
-      bun: true,
-      sauce: false,
-      main: false
-    }
-  },
+  initialState,
   reducers: {
     setCurrentTab(state, action) {
       state.currentTab = action.payload;
