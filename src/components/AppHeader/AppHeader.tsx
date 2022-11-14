@@ -1,6 +1,6 @@
 import React from 'react';
 // @ts-ignore
-import { NavLink } from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import styles from './AppHeader.module.css';
 import {
   BurgerIcon,
@@ -39,7 +39,7 @@ export default function AppHeader() {
           </ul>
         </nav>
         <div className={styles.logo}>
-          <Logo />
+          <Link to={'/'}><Logo /></Link>
         </div>
         <div className={styles.loginColumn}>
           <button className={styles.login}>
