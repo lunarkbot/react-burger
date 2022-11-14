@@ -14,7 +14,7 @@ interface IModalProps {
 const Modal: FC<IModalProps> = ({type, onClose, children}) => {
 
   useEffect(() => {
-    function closeByEscape(evt: {key: string}) {
+    function closeByEscape(evt: KeyboardEvent) {
       if(evt.key === 'Escape') {
         onClose();
       }

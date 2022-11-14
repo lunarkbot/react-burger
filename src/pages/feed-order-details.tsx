@@ -5,14 +5,14 @@ import { TOrderDetailsPage, TOrderNumber, TOrdersResult} from '../types';
 import {OrderFullDetails} from '../components/OrderFullDetails/OrderFullDetails';
 import {useAppDispatch, useAppSelector} from '../hooks';
 import {useIngredientsById} from '../hooks/useIngredientsById';
-import {wsClose, wsInit} from '../services/wsFeedSlice';
+import {wsClose, wsInit} from '../services/wsMiddlewareSlice';
 import BigSpinner from '../components/BigSpinner/BigSpinner';
 
 export const FeedOrderDetailsPage: FC<TOrderDetailsPage> = ({ isModal }) => {
   const { id }: TOrderNumber = useParams();
   const { items, isItemsLoaded } = useAppSelector(state => state.ingredients);
   const { ingredientsById, setIngredients } = useIngredientsById();
-  const { isConnected, orders } = useAppSelector(state => state.wsFeed);
+  const { isConnected, orders } = useAppSelector(state => state.wsMiddleware);
   const [order, setOrder] = useState<TOrdersResult | null>(null);
   const dispatch = useAppDispatch();
 
@@ -23,7 +23,7 @@ export const FeedOrderDetailsPage: FC<TOrderDetailsPage> = ({ isModal }) => {
   useEffect(() => {
     if (isConnected) return;
 
-    dispatch(wsInit(''));
+    dispatch(wsInit('/all'));
 
     return () => {
       dispatch(wsClose('Соединение закрыто.'));

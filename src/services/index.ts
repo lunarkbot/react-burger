@@ -6,8 +6,7 @@ import usersSlice from './usersSlice';
 import errorsSlice from './errorsSlice';
 import passwordSlice from './passwordSlice';
 import {socketMiddleware} from '../middleware/socketMiddleware';
-import wsFeedSlice, {wsFeedActions} from './wsFeedSlice';
-import wsProfileSlice, {wsProfileActions} from './wsProfileSlice';
+import wsMiddlewareSlice, {wsMiddlewareActions} from './wsMiddlewareSlice';
 
 const store = configureStore({
   reducer: {
@@ -17,13 +16,11 @@ const store = configureStore({
     users: usersSlice,
     errors: errorsSlice,
     password: passwordSlice,
-    wsFeed: wsFeedSlice,
-    wsProfile: wsProfileSlice,
+    wsMiddleware: wsMiddlewareSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
-      .concat(socketMiddleware('wss://norma.nomoreparties.space/orders/all', wsFeedActions))
-      .concat(socketMiddleware('wss://norma.nomoreparties.space/orders', wsProfileActions)),
+      .concat(socketMiddleware('wss://norma.nomoreparties.space/orders', wsMiddlewareActions))
 })
 
 export default store;

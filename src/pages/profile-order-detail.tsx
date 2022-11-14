@@ -1,14 +1,10 @@
 import React, {FC, useEffect, useState} from 'react';
-import ProfileContent from '../components/ProfileContent/ProfileContent';
 import styles from './profile-order-detail.module.css';
 import {useParams} from 'react-router-dom';
-import {ScrollBox} from '../components/ScrollBox/ScrollBox';
-import {OrderIngredient} from '../components/OrderIngredient/OrderIngredient';
-import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import {TOrderDetailsPage, TOrderNumber, TOrdersResult} from '../types';
 import {useAppDispatch, useAppSelector} from '../hooks';
 import {useIngredientsById} from '../hooks/useIngredientsById';
-import {wsClose, wsInit} from '../services/wsProfileSlice';
+import {wsClose, wsInit} from '../services/wsMiddlewareSlice';
 import {OrderFullDetails} from '../components/OrderFullDetails/OrderFullDetails';
 import BigSpinner from '../components/BigSpinner/BigSpinner';
 
@@ -16,7 +12,7 @@ export const ProfileOrderDetailsPage: FC<TOrderDetailsPage> = ({ isModal }) => {
   const { id }: TOrderNumber = useParams();
   const { items, isItemsLoaded } = useAppSelector(state => state.ingredients);
   const { ingredientsById, setIngredients } = useIngredientsById();
-  const { isConnected, orders } = useAppSelector(state => state.wsProfile);
+  const { isConnected, orders } = useAppSelector(state => state.wsMiddleware);
   const [order, setOrder] = useState<TOrdersResult | null>(null);
   const dispatch = useAppDispatch();
 

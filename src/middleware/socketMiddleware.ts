@@ -6,7 +6,6 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWsActions): Middlewa
     let socket: WebSocket | null = null;
 
     return next => (action: TAppActions) => {
-      //console.log(action, 'AppActions')
       const { dispatch, getState } = store;
       const { type, payload } = action;
       const { wsInit, wsClose, onOpen, onClose, onError, onMessage } = wsActions;

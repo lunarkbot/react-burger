@@ -3,7 +3,7 @@ import styles from './feed.module.css';
 import {OrderCard} from '../components/OrderCard/OrderCard';
 import {ScrollBox} from '../components/ScrollBox/ScrollBox';
 import {useAppDispatch, useAppSelector} from '../hooks';
-import {wsClose, wsInit} from '../services/wsFeedSlice';
+import {wsClose, wsInit} from '../services/wsMiddlewareSlice';
 import {useIngredientsById} from '../hooks/useIngredientsById';
 import {TOrdersResult} from '../types';
 
@@ -20,7 +20,7 @@ export const FeedPage: FC = () => {
     pending: [],
   });
 
-  const { isConnected, orders, total, totalToday } = useAppSelector(state => state.wsFeed);
+  const { isConnected, orders, total, totalToday } = useAppSelector(state => state.wsMiddleware);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export const FeedPage: FC = () => {
   }, [orders]);
 
   useEffect(() => {
-    dispatch(wsInit(''));
+    dispatch(wsInit('/all'));
 
     return () => {
       dispatch(wsClose('Соединение закрыто.'));

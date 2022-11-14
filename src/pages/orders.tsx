@@ -5,13 +5,13 @@ import {OrderCard} from '../components/OrderCard/OrderCard';
 import {ScrollBox} from '../components/ScrollBox/ScrollBox';
 import {useAppDispatch, useAppSelector} from '../hooks';
 import {useIngredientsById} from '../hooks/useIngredientsById';
-import {wsClose, wsInit} from '../services/wsProfileSlice';
+import {wsClose, wsInit} from '../services/wsMiddlewareSlice';
 import BigSpinner from '../components/BigSpinner/BigSpinner';
 
 export const OrdersPage: FC = () => {
   const { items, isItemsLoaded } = useAppSelector(state => state.ingredients);
   const { ingredientsById, setIngredients } = useIngredientsById();
-  const { isConnected, orders } = useAppSelector(state => state.wsProfile);
+  const { isConnected, orders } = useAppSelector(state => state.wsMiddleware);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
