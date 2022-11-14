@@ -1,6 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import api, {TUserData} from '../utils/api';
 import consoleError from '../utils/consoleError';
+import store from './index';
+import {TDispatch} from '../types';
 
 export const signUp = createAsyncThunk(
   'users/signUp',
@@ -26,7 +28,7 @@ export const signIn = createAsyncThunk(
 
 export const authUser = createAsyncThunk(
   'users/authUser',
-  async function (dispatch: any, {rejectWithValue}) {
+  async function (dispatch: TDispatch, {rejectWithValue}) {
     try {
       return await api.authUser();
     } catch (err) {
@@ -37,7 +39,7 @@ export const authUser = createAsyncThunk(
 )
 
 type TUpdateUser = {
-  dispatch: any;
+  dispatch: TDispatch;
   data: TUserData;
 }
 
@@ -55,7 +57,7 @@ export const updateUser = createAsyncThunk(
 
 export const getToken = createAsyncThunk(
   'users/getToken',
-  async function (dispatch: any, {rejectWithValue}) {
+  async function (dispatch: TDispatch, {rejectWithValue}) {
     try {
       return await api.refreshToken()
         .then((data: any) => {

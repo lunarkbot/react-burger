@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, SyntheticEvent} from 'react';
 import styles from './ModalOverlay.module.css'
 
 interface IModalOverlayProps {
@@ -6,8 +6,9 @@ interface IModalOverlayProps {
 }
 
 const ModalOverlay: FC<IModalOverlayProps> = ({onClose, children}) => {
-  const handleClick = (e: any) => {
-    if (e.target.id === 'popup') onClose();
+  const handleClick = (e: SyntheticEvent) => {
+    const target = e.target as HTMLDivElement;
+    if (target.id === 'popup') onClose();
   }
 
   return (

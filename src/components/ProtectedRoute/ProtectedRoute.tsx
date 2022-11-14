@@ -1,11 +1,9 @@
-import {Redirect, Route} from 'react-router-dom';
-import {FC, useEffect} from 'react';
+import {Redirect, Route, RouteProps} from 'react-router-dom';
+import React, {FC, useEffect} from 'react';
 import {authUser} from '../../services/usersSlice';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 
-type ProtectedRoute = {
-  [key: string]: any;
-}
+type ProtectedRoute = RouteProps & {children?: React.ReactNode}
 
 const ProtectedRoute: FC<ProtectedRoute> = ({ children, ...rest }) => {
   const dispatch = useAppDispatch();

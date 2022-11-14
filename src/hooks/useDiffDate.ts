@@ -4,9 +4,9 @@ export function useDiffDate() {
   const [diffDate, setDiffDate] = useState<string | null>(null)
 
   function setDate(date: string) {
-    const orderDate: any = new Date(date);
-    const now: any = new Date();
-    const today: any = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const orderDate: number = new Date(date).getTime();
+    const now: Date = new Date();
+    const today: number = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
 
     if (today - orderDate < 0) {
       setDiffDate('Сегодня');

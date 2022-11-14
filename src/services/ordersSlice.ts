@@ -1,7 +1,7 @@
 import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
 import api from '../utils/api';
 import consoleError from '../utils/consoleError';
-import {IIngredient} from '../types';
+import {IIngredient, IIngredientsItem, TSendOrder} from '../types';
 
 type TOrder = {
   number: number;
@@ -20,23 +20,12 @@ type TOrdersSlice = {
   isOrderDetailsShow: boolean;
 }
 
-type TSendOrder = {
-  ingredients: any;
-}
-
-// type TSendOrder = {
-//   ingredients: {
-//     bun: IIngredient;
-//     items: IIngredient[];
-//   }
-// }
-
 export const sendOrder = createAsyncThunk(
   'orders/sendOrder',
   async function (data: TSendOrder, {rejectWithValue}) {
      try {
        console.log(data)
-       return await api.sendOrder(data.ingredients)
+       return await api.sendOrder(data)
      } catch(err) {
        return rejectWithValue(err);
      }

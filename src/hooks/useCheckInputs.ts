@@ -1,5 +1,5 @@
-import {useDispatch} from 'react-redux';
 import { showError, hideError } from '../services/errorsSlice';
+import {useAppDispatch} from './index';
 
 function hasInputError(name: string, value: string): string {
   switch (name) {
@@ -20,7 +20,7 @@ function hasInputError(name: string, value: string): string {
 }
 
 export function useCheckInputs() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (inputs: {[key: string]: string}): boolean => {
     let hasError = false;

@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {ChangeEvent, FC, FormEvent, useEffect} from 'react';
 import indexStyles from './index.module.css';
 import {Input, Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {Link, Redirect, useHistory, useLocation} from 'react-router-dom';
@@ -36,12 +36,13 @@ export const RegisterPage: FC = () => {
     }
   }, [history, dispatch, isRegistrationSuccess])
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: ChangeEvent) => {
     setInputValue(e);
-    checkInputs({[e.target.name]: e.target.value});
+    const target = e.target as HTMLInputElement;
+    checkInputs({[target.name]: target.value});
   }
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const inputs = {
       email,

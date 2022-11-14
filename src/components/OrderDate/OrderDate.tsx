@@ -18,11 +18,11 @@ export const OrderDate: FC<TOrderDate> = ({ date }) => {
   }, []);
 
   useEffect(() => {
-    const orderDate: any = new Date(date);
+    const orderDate: Date = new Date(date);
 
     const hours: string = setLeadingZero(orderDate.getHours());
     const minutes: string = setLeadingZero(orderDate.getMinutes());
-    const timeZone: any = (orderDate.getTimezoneOffset() * -1 / 60);
+    const timeZone: number = (orderDate.getTimezoneOffset() * -1 / 60);
 
     setOrderDate(`${diffDate}, ${hours}:${minutes} i-GMT${timeZone > 0 ? '+' + timeZone : timeZone}`);
   }, [diffDate]);

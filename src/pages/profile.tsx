@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {FormEvent, useState} from 'react';
 import indexStyles from './index.module.css';
 import styles from './profile.module.css';
 import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
@@ -52,7 +52,7 @@ export const ProfilePage: FC = () => {
     dispatch(resetError(name));
   }
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const data: TData = {} as TData;
 

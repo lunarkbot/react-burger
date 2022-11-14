@@ -17,7 +17,6 @@ export interface IIngredientsItem {
   uid?: string;
   id?: string;
   text: string;
-  [key: string]: any;
 }
 
 export interface IIngredient {
@@ -29,7 +28,8 @@ export interface IIngredient {
   proteins: number;
   fat: number;
   carbohydrates: number;
-  [key: string]: any;
+  price: number;
+  image_mobile: string;
 }
 
 export interface LocationState {
@@ -57,7 +57,6 @@ export type TWsActions = {
 export type TAppActions = {
   type: string;
   payload?: string;
-  [key: string]: any;
 }
 
 export type TOrdersResult = {
@@ -68,7 +67,6 @@ export type TOrdersResult = {
   number: number,
   name: string,
   ingredients: string[],
-  [key: string]: any,
 }
 
 export type TIngredientById = {
@@ -91,3 +89,12 @@ export type TSelectedItems = {
   items: IIngredientsItem[],
   bun?: null | IIngredientsItem
 }
+
+export type TSendOrder = {
+  ingredients: {
+    items: IIngredientsItem[];
+    bun: IIngredientsItem | null;
+  }
+}
+
+export type TDispatch = typeof store.dispatch;
