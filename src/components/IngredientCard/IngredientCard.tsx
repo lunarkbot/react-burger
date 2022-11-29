@@ -33,7 +33,7 @@ const IngredientCard: FC<TIngredientCardProps> = ({ item }) => {
   })
 
   return(
-    <li onClick={handleClick} ref={dragRef} style={{opacity}}>
+    <li onClick={handleClick} ref={dragRef} style={{opacity}} data-testid={item._id}>
       <Link
         key={ingredientId}
         to={{
