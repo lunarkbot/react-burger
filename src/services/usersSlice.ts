@@ -313,6 +313,7 @@ export const {
   updateProfile,
   resetProfile,
   resetUserData,
+  setUserData,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;
