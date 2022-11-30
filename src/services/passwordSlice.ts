@@ -39,7 +39,7 @@ const passwordSlice = createSlice({
   initialState,
   reducers: {
     resetPasswordData(state) {
-      state.isReset = false;
+      state.isPasswordReset = false;
       state.isResetEmailSend = false;
       state.isButtonDisabled = false;
     },
