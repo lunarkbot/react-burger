@@ -85,8 +85,6 @@ describe('wsMiddlewareSlice', () => {
 
     const result = wsMiddlewareReducer(undefined, action);
 
-    console.log(result)
-
     expect(result.orders).toEqual(payload.orders);
     expect(result.totalToday).toBe(100);
     expect(result.total).toBe(100);

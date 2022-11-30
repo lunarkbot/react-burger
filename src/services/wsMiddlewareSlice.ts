@@ -30,19 +30,15 @@ const wsMiddlewareSlice = createSlice({
     },
     wsClose(state, action: PayloadAction<string>) {
       state.isConnected = false;
-      console.log('Подключение закрыто браузером.');
     },
     onOpen(state) {
       state.isConnected = true;
-      console.log('Подключение установлено.');
     },
     onClose(state) {
       state.isConnected = false;
-      console.log('Подключение завершено сервером.');
     },
     onError() {
       wsMiddlewareSlice.actions.resetState();
-      console.log('Произошла ошибка подключения.')
     },
     onMessage(state, action: PayloadAction<TWsMiddlewarePayload>) {
       state.orders = action.payload.orders;
