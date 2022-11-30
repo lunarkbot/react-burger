@@ -49,7 +49,7 @@ const state = {
 
 
 describe('ingredientsSlice', () => {
-  it('Should return default state when passed an ampty action', () => {
+  it('Should return default state when passed an empty action', () => {
     const result = ingredientsSliceReducer(undefined, { type: '' });
 
     expect(result).toEqual(state);
