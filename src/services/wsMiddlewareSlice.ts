@@ -63,6 +63,10 @@ const wsMiddlewareSlice = createSlice({
 export const {
   wsInit,
   wsClose,
+  onOpen,
+  onClose,
+  onMessage,
+  resetState
 } = wsMiddlewareSlice.actions;
 
 export const wsMiddlewareActions = wsMiddlewareSlice.actions;
