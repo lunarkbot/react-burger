@@ -49,17 +49,15 @@ describe('ordersSlice', () => {
         ],
         bun: mockIngredient
       }
-    }
+    };
 
     const mockResponse = {
       order: {
         number: 1,
       }
-    }
+    };
 
-    // что-то не понял как сделать так, чтобы TS не ругался в этом месте :(
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockResponse)
     });
@@ -86,10 +84,9 @@ describe('ordersSlice', () => {
         ],
         bun: mockIngredient
       }
-    }
+    };
 
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: false,
     });
 

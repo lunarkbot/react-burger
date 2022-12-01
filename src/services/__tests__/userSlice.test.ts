@@ -127,10 +127,9 @@ describe('userSlice', () => {
     const mockResponse = {
       success: true,
       user: mockUser
-    }
+    };
 
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockResponse)
     })
@@ -150,8 +149,7 @@ describe('userSlice', () => {
   });
 
   it('Should fetch "signUp" with rejected response', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: false,
     })
 
@@ -172,10 +170,9 @@ describe('userSlice', () => {
     const mockResponse = {
       success: true,
       user: mockUser
-    }
+    };
 
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockResponse)
     })
@@ -195,8 +192,7 @@ describe('userSlice', () => {
   });
 
   it('Should fetch "signIn" with rejected response', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: false,
     })
 
@@ -217,10 +213,9 @@ describe('userSlice', () => {
     const mockResponse = {
       success: true,
       user: mockUser
-    }
+    };
 
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockResponse)
     })
@@ -240,8 +235,7 @@ describe('userSlice', () => {
   });
 
   it('Should fetch "authUser" with rejected response', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: false,
     })
 
@@ -262,10 +256,9 @@ describe('userSlice', () => {
     const mockResponse = {
       success: true,
       user: mockUser
-    }
+    };
 
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockResponse)
     })
@@ -289,8 +282,7 @@ describe('userSlice', () => {
   });
 
   it('Should fetch "updateUser" with rejected response', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: false,
     })
 
@@ -316,10 +308,9 @@ describe('userSlice', () => {
       success: true,
       accessToken: 'accessToken',
       refreshToken: 'refreshToken'
-    }
+    };
 
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockResponse)
     })
@@ -336,8 +327,7 @@ describe('userSlice', () => {
   });
 
   it('Should fetch "getToken" with rejected response', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: false,
     })
 
@@ -357,10 +347,9 @@ describe('userSlice', () => {
   it('Should fetch "signOut" with resolved response', async () => {
     const mockResponse = {
       success: true,
-    }
+    };
 
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockResponse)
     })
@@ -380,8 +369,7 @@ describe('userSlice', () => {
   });
 
   it('Should fetch "signOut" with rejected response', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: false,
     })
 

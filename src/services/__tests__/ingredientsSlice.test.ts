@@ -176,10 +176,9 @@ describe('ingredientsSlice', () => {
     const mockResponse = {
       success: true,
       data: [ingredient]
-    }
+    };
 
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockResponse)
     })
@@ -199,8 +198,7 @@ describe('ingredientsSlice', () => {
   });
 
   it('Should fetch "getIngredients" with rejected response', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: false,
     })
 

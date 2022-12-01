@@ -34,10 +34,9 @@ describe('passwordSlice', () => {
   it('Should fetch "forgotPassword" with resolved response', async () => {
     const mockResponse = {
       success: true,
-    }
+    };
 
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockResponse)
     })
@@ -57,8 +56,7 @@ describe('passwordSlice', () => {
   });
 
   it('Should fetch "forgotPassword" with rejected response', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: false,
     })
 
@@ -77,14 +75,13 @@ describe('passwordSlice', () => {
 
   it('Should fetch "resetPassword" with resolved response', async () => {
     const mockResponse = {
-      success: true,
-    }
+      success: true
+    };
 
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockResponse)
-    })
+    });
 
     const dispatch = jest.fn();
     const thunk = resetPassword(mockUser);
@@ -101,8 +98,7 @@ describe('passwordSlice', () => {
   });
 
   it('Should fetch "resetPassword" with rejected response', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    (fetch as jest.Mock).mockResolvedValue({
       ok: false,
     })
 
