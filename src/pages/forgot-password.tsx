@@ -76,7 +76,7 @@ export const ForgotPasswordPage: FC = () => {
           </div>
 
           <div className="mb-20">
-            <Button type="primary" disabled={isButtonDisabled} size="medium">
+            <Button htmlType="submit" type="primary" disabled={isButtonDisabled} size="medium">
               Восстановить {isButtonDisabled && <Spinner />}
             </Button>
           </div>
@@ -85,7 +85,7 @@ export const ForgotPasswordPage: FC = () => {
         <p className="text text_type_main-default text_color_inactive mb-4">
           Вспомнили пароль?
           <Link to="/login" className={indexStyles.secondButton}>
-            <Button type="secondary" size="small">
+            <Button htmlType="button" type="secondary" size="small">
               Войти
             </Button>
           </Link>

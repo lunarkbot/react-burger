@@ -97,7 +97,7 @@ export const ResetPasswordPage: FC = () => {
           </div>
 
           <div className="mb-20">
-            <Button type="primary" disabled={isButtonDisabled} size="medium">
+            <Button htmlType="submit" type="primary" disabled={isButtonDisabled} size="medium">
               Сохранить {isButtonDisabled && <Spinner />}
             </Button>
           </div>
@@ -106,7 +106,7 @@ export const ResetPasswordPage: FC = () => {
         <p className="text text_type_main-default text_color_inactive mb-4">
           Вспомнили пароль?
           <Link to="/login" className={indexStyles.secondButton}>
-            <Button type="secondary">
+            <Button htmlType="button" type="secondary">
               Войти
             </Button>
           </Link>

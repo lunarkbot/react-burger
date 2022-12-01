@@ -128,7 +128,7 @@ const BurgerConstructor: FC = () => {
             <CurrencyIcon type="primary" />
           </div>
           <div className={`${styles.submitButton} ${!selectedIngredients.bun ? styles.submitButtonDisabled : ''}`}>
-            <Button type="primary" size="large" onClick={handleClickOrderButton}>
+            <Button htmlType="button" type="primary" size="large" onClick={handleClickOrderButton}>
               {!orderDetailRequest ? (
                   <>Оформить заказ</>
                 )
