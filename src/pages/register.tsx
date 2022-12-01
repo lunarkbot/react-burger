@@ -27,7 +27,7 @@ export const RegisterPage: FC = () => {
 
   useEffect(() => {
     dispatch(resetErrors());
-  }, [dispatch, resetErrors]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (isRegistrationSuccess) {

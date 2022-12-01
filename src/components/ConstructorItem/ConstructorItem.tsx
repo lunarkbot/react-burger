@@ -12,11 +12,6 @@ type TConstructorItemProps = {
   moveCard: Function;
 }
 
-type TDndItem = {
-  id?: string;
-  index: number;
-}
-
 const ConstructorItem: FC<TConstructorItemProps> = ({ item, index, moveCard }) => {
   const dispatch = useAppDispatch();
   const selectedIngredients = useAppSelector(state => state.ingredients.selectedItems.items);

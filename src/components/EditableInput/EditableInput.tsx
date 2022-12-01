@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, SyntheticEvent, useRef} from 'react';
+import React, {ChangeEvent, FC, useRef} from 'react';
 import {Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import {useInputValue} from '../../hooks/useInputValue';
 import {useCheckInputs} from '../../hooks/useCheckInputs';

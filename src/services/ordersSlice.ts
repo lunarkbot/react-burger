@@ -52,7 +52,6 @@ const ordersSlice = createSlice({
     })
     builder.addCase(sendOrder.fulfilled, (state, action: PayloadAction<any>) => {
       state.orderDetail = action.payload;
-      console.log(action.payload)
       state.orderDetailFailed = false;
       state.orderDetailRequest = false;
       state.isOrderDetailsShow = true;

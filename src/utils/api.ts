@@ -1,5 +1,5 @@
 import { API_URL } from './constants';
-import {IIngredientsItem, TSendOrder} from '../types';
+import { TSendOrder } from '../types';
 
 interface IApi {
   readonly baseUrl: string;

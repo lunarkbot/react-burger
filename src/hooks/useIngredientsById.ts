@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {IIngredient, IIngredientsItem, TIngredientById} from '../types';
+import { IIngredientsItem, TIngredientById} from '../types';
 
 export function useIngredientsById() {
   const [ingredientsById, setIngredientsListById] = useState<TIngredientById | null>(null);

@@ -1,20 +1,13 @@
-import React, {FC, RefObject, useEffect, useRef} from 'react';
+import React, {FC, RefObject, useRef} from 'react';
 import styles from './BurgerIngredients.module.css';
 import Tabs from '../Tabs/Tabs';
 import IngredientList from '../IngredientList/IngredientList';
-import {getIngredients} from '../../services/ingredientsSlice';
-import {useAppDispatch} from '../../hooks';
 
 interface ITabsRef {
   [key: string]: RefObject<HTMLDivElement>;
 }
 
 const BurgerIngredients: FC = () => {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getIngredients())
-  },[dispatch])
 
   const tabsRef: ITabsRef = {
     bun: useRef<HTMLDivElement>(null),

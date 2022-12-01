@@ -11,7 +11,7 @@ import BigSpinner from '../components/BigSpinner/BigSpinner';
 export const OrdersPage: FC = () => {
   const { items, isItemsLoaded } = useAppSelector(state => state.ingredients);
   const { ingredientsById, setIngredients } = useIngredientsById();
-  const { isConnected, orders } = useAppSelector(state => state.wsMiddleware);
+  const { orders } = useAppSelector(state => state.wsMiddleware);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
