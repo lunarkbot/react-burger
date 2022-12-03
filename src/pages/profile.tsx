@@ -108,6 +108,7 @@ export const ProfilePage: FC = () => {
         {(isSaveEnable
           && <div className={`${styles.submit} ${isSaveVisible ? styles.submitVisible : ''}`}>
                 <Button
+                  htmlType="submit"
                   type={'primary'}
                   disabled={isSubmitDisabled}
                 >Сохранить {isSubmitDisabled && <Spinner />}</Button>

@@ -1,17 +1,7 @@
 import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
 import api from '../utils/api';
 import consoleError from '../utils/consoleError';
-import {IIngredient, IIngredientsItem} from '../types';
-
-type TOrder = {
-  number: number;
-  [key: string]: string | number | IIngredient[];
-}
-
-type TIngredientDetails = {
-  order: TOrder;
-  [key: string]: string | number | boolean | TOrder;
-}
+import { IIngredientsItem } from '../types';
 
 type TIngredientsSlice = {
   items: [] | IIngredientsItem[];
@@ -100,7 +90,7 @@ const ingredientsSlice = createSlice({
     },
     getIngredientsDetails(state, action) {
       const filteredItem = state.items.filter(item => {
-        if (item._id === action.payload) return item;
+        return item._id === action.payload;
       });
 
       state.ingredientDetails = filteredItem.length > 0 ? filteredItem[0] : null;

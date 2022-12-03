@@ -83,7 +83,7 @@ export const LoginPage: FC = () => {
           </div>
 
           <div className="mb-20">
-            <Button type="primary" disabled={isSubmitDisabled} size="medium">
+            <Button htmlType="submit" type="primary" disabled={isSubmitDisabled} size="medium">
               Войти {isSubmitDisabled && <Spinner />}
             </Button>
           </div>
@@ -92,7 +92,7 @@ export const LoginPage: FC = () => {
         <p className="text text_type_main-default text_color_inactive mb-4">
           Вы &mdash; новый пользователь?
           <Link to="/register" className={indexStyles.secondButton}>
-            <Button type="secondary" size="small">
+            <Button htmlType="button" type="secondary" size="small">
               Зарегистрироваться
             </Button>
           </Link>
@@ -100,7 +100,7 @@ export const LoginPage: FC = () => {
         <p className="text text_type_main-default text_color_inactive">
           Забыли пароль?
           <Link to="/forgot-password" className={indexStyles.secondButton}>
-            <Button type="secondary" size="small">
+            <Button htmlType="button" type="secondary" size="small">
               Восстановить пароль
             </Button>
           </Link>

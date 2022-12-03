@@ -94,15 +94,14 @@ const BurgerConstructor: FC = () => {
     dispatch(updateSelectedList(newCards));
   }, [selectedIngredients, dispatch]);
 
-  type Test = {
-    type: string,
-    uid: string
-  }
-
   return(
     <>
       <section>
-        <div className={`${styles.listWrap} ${isHover && styles.onHover} mb-10`} ref={dropTarget}>
+        <div
+          className={`${styles.listWrap} ${isHover && styles.onHover} mb-10`}
+          ref={dropTarget}
+          data-testid="dropTarget"
+        >
           {selectedIngredients.bun && <Bun item={selectedIngredients.bun} type="top" />}
           {(selectedIngredients.bun || Boolean(selectedIngredients.items.length)) &&
             <ul className={`${styles.list} ${styles.scrollBox}`}>
@@ -129,7 +128,7 @@ const BurgerConstructor: FC = () => {
             <CurrencyIcon type="primary" />
           </div>
           <div className={`${styles.submitButton} ${!selectedIngredients.bun ? styles.submitButtonDisabled : ''}`}>
-            <Button type="primary" size="large" onClick={handleClickOrderButton}>
+            <Button htmlType="button" type="primary" size="large" onClick={handleClickOrderButton}>
               {!orderDetailRequest ? (
                   <>Оформить заказ</>
                 )

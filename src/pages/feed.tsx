@@ -20,7 +20,7 @@ export const FeedPage: FC = () => {
     pending: [],
   });
 
-  const { isConnected, orders, total, totalToday } = useAppSelector(state => state.wsMiddleware);
+  const { orders, total, totalToday } = useAppSelector(state => state.wsMiddleware);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

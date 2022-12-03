@@ -27,7 +27,7 @@ export const RegisterPage: FC = () => {
 
   useEffect(() => {
     dispatch(resetErrors());
-  }, [dispatch, resetErrors]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (isRegistrationSuccess) {
@@ -105,7 +105,7 @@ export const RegisterPage: FC = () => {
           </div>
 
           <div className="mb-20">
-            <Button type="primary" disabled={isSubmitDisabled} size="medium">
+            <Button htmlType="submit" type="primary" disabled={isSubmitDisabled} size="medium">
               Зарегистрироваться {isSubmitDisabled && <Spinner />}
             </Button>
           </div>
@@ -114,7 +114,7 @@ export const RegisterPage: FC = () => {
         <p className="text text_type_main-default text_color_inactive mb-4">
           Уже зарегистрированы?
           <Link to="/login" className={indexStyles.secondButton}>
-            <Button type="secondary" size="small">
+            <Button htmlType="button" type="secondary" size="small">
               Войти
             </Button>
           </Link>

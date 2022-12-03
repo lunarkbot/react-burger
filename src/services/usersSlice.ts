@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import api, {TUserData} from '../utils/api';
 import consoleError from '../utils/consoleError';
-import store from './index';
 import {TDispatch} from '../types';
 
 export const signUp = createAsyncThunk(
@@ -313,6 +312,7 @@ export const {
   updateProfile,
   resetProfile,
   resetUserData,
+  setUserData,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

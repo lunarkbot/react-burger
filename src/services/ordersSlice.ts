@@ -1,7 +1,7 @@
 import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
 import api from '../utils/api';
 import consoleError from '../utils/consoleError';
-import {IIngredient, IIngredientsItem, TSendOrder} from '../types';
+import {IIngredient, TSendOrder} from '../types';
 
 type TOrder = {
   number: number;
@@ -24,7 +24,6 @@ export const sendOrder = createAsyncThunk(
   'orders/sendOrder',
   async function (data: TSendOrder, {rejectWithValue}) {
      try {
-       console.log(data)
        return await api.sendOrder(data)
      } catch(err) {
        return rejectWithValue(err);
@@ -53,7 +52,6 @@ const ordersSlice = createSlice({
     })
     builder.addCase(sendOrder.fulfilled, (state, action: PayloadAction<any>) => {
       state.orderDetail = action.payload;
-      console.log(action.payload)
       state.orderDetailFailed = false;
       state.orderDetailRequest = false;
       state.isOrderDetailsShow = true;

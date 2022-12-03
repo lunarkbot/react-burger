@@ -1,5 +1,5 @@
-## Gh-Pages
-The demo version of the project is available on Gh-Pages at the URL: https://react-burger.lunarkbot.net/
+## Demo
+The demo version of the project is available at the URL: https://react-burger.kbot.page/
 
 ## Available Scripts
 
